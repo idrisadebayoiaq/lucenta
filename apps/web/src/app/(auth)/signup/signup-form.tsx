@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useActionState, useState } from "react";
 import { MailCheck } from "lucide-react";
+import { DeviceIdInput } from "@/components/device-id-input";
+import { latestAllowedBirthDate, MIN_AGE } from "@/lib/age";
 import { Button } from "@/components/ui/button";
 import { FieldError, Input, Label } from "@/components/ui/input";
 import { Alert } from "@/components/ui/misc";
@@ -33,6 +35,7 @@ export function SignupForm() {
 
   return (
     <form action={action} className="space-y-4" noValidate>
+      <DeviceIdInput />
       {state.error && <Alert tone="danger" title={state.error} />}
       <div className="space-y-2">
         <Label htmlFor="fullName">Full name</Label>
@@ -60,6 +63,21 @@ export function SignupForm() {
           required
         />
         <FieldError message={state.fieldErrors?.email} />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="birthDate">Date of birth</Label>
+        <Input
+          id="birthDate"
+          name="birthDate"
+          type="date"
+          autoComplete="bday"
+          max={latestAllowedBirthDate()}
+          defaultValue={state.values?.birthDate}
+          aria-invalid={!!state.fieldErrors?.birthDate}
+          required
+        />
+        <p className="text-xs text-muted-foreground">You must be at least {MIN_AGE} years old. We never show your age publicly.</p>
+        <FieldError message={state.fieldErrors?.birthDate} />
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>

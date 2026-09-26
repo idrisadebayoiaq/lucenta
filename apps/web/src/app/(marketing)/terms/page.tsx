@@ -45,7 +45,11 @@ const sections: LegalSection[] = [
       <ul>
         <li>Give accurate information and keep it up to date.</li>
         <li>Keep your password secure and don&apos;t share your account. You are responsible for activity on it.</li>
-        <li>One person, one account. Creating extra accounts to get around daily limits is not allowed.</li>
+        <li>
+          One person, one account. Only one account can be created per device, and we limit new accounts per network. Creating
+          extra accounts to get around daily limits is not allowed.
+        </li>
+        <li>The date of birth you give must be accurate. Accounts belonging to anyone under 16 will be closed.</li>
         <li>
           Tell us straight away at <a href={`mailto:${LEGAL_CONTACT}`}>{LEGAL_CONTACT}</a> if you think your account has been
           accessed without permission.

@@ -13,6 +13,7 @@ type Upd<T> = Partial<T>
 type ProfileRow = {
   avatar_url: string | null
   bio: string | null
+  birth_date: string | null
   company: string | null
   created_at: string
   email: string | null
@@ -154,6 +155,15 @@ type DeveloperRow = {
   x_handle: string | null
 }
 
+type AccountDeviceRow = {
+  created_at: string
+  device_hash: string | null
+  id: number
+  ip_hash: string | null
+  source: "signup" | "google" | "login"
+  user_id: string | null
+}
+
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 export type Database = {
@@ -224,6 +234,12 @@ export type Database = {
         Row: Row<DeveloperRow>
         Insert: Ins<Optional<DeveloperRow, Exclude<keyof DeveloperRow, "bio" | "headline" | "name" | "slug">>>
         Update: Upd<DeveloperRow>
+        Relationships: []
+      }
+      account_devices: {
+        Row: Row<AccountDeviceRow>
+        Insert: Ins<Optional<Omit<AccountDeviceRow, "id">, "created_at" | "device_hash" | "ip_hash" | "user_id">>
+        Update: Upd<Omit<AccountDeviceRow, "id">>
         Relationships: []
       }
     }

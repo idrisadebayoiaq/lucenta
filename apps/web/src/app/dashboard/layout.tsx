@@ -6,6 +6,7 @@ export default async function DashboardLayout({ children }: LayoutProps<"/dashbo
   const user = await getCurrentUser();
   if (!user) redirect("/login");
   const profile = await getCurrentProfile();
+  if (profile && !profile.birth_date) redirect("/complete-profile");
 
   const navUser: NavUser = {
     name: profile?.full_name ?? null,

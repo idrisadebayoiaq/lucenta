@@ -198,6 +198,14 @@ Migration `supabase/migrations/0001_initial_schema.sql`:
 - No founder section on About, no "Built by" footer credit, no Founder badge. The seeded developer stays listed as a regular developer (migration `0008_developer_not_founder.sql`: headline "Full Stack Developer", `is_owner = false`).
 - Coming soon: Social Profile Analyzer and Developer accounts (developers sign up with their details and get suggested on website reports, ranked by the report's performance, results and issues).
 
+## Stage 11f — Age check & one account per device ✅
+- Date of birth at signup (`src/lib/age.ts`, minimum age 16), stored in `profiles.birth_date` (migration 0009). Google users and older accounts without it are sent to `/complete-profile` before the dashboard.
+- `account_devices` table (service-role only) stores HMAC hashes of a device ID (httpOnly cookie `lc_did` + localStorage copy) and the client IP. `src/lib/account-guard.ts`:
+  - Signup is refused if the device already has an account (forever, even after the account is deleted).
+  - Signup is refused if the IP created `SIGNUP_MAX_ACCOUNTS_PER_IP` accounts (default 1) in the last `SIGNUP_IP_WINDOW_DAYS` (default 30). Private/localhost IPs are skipped.
+  - New Google accounts from a blocked device/IP are deleted in `/auth/callback`. Logins record the device too.
+- Env: `SIGNUP_HASH_SECRET` (keep it stable — changing it invalidates existing hashes).
+
 ## Stage 12 — Hardening & launch ⬜
 - Rate limiting (Upstash), captcha on anonymous usage, Sentry, PostHog, E2E tests (Playwright), load test, SEO metadata/sitemap for our own site, deploy to Vercel, point domain.
 

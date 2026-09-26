@@ -26,8 +26,17 @@ const sections: LegalSection[] = [
       <>
         <h3>Account information</h3>
         <p>
-          Your name, email address and password when you sign up. Passwords are hashed by our authentication provider — we never
-          see them. If you choose Google sign-in, we receive your name, email and profile picture from Google.
+          Your name, email address, date of birth and password when you sign up. Passwords are hashed by our authentication
+          provider — we never see them. If you choose Google sign-in, we receive your name, email and profile picture from
+          Google, and ask for your date of birth separately. We use your date of birth only to confirm you meet the minimum age
+          of 16; it&apos;s never shown publicly.
+        </p>
+        <h3>Device and network records</h3>
+        <p>
+          Each person may have one Lucenta account. To enforce this, when you sign up or log in we record a random device
+          identifier stored in your browser and your IP address. We store both only as keyed one-way hashes, not in readable
+          form, and use them solely to prevent duplicate accounts and abuse. These records are kept after an account is deleted
+          so the limit can&apos;t be bypassed by deleting and re-creating accounts.
         </p>
         <h3>Profile information (optional)</h3>
         <p>Username, bio, company, job title, website, location and profile photo, if you add them.</p>
@@ -64,11 +73,12 @@ const sections: LegalSection[] = [
         <p>We keep this minimal:</p>
         <ul>
           <li>
-            <strong>Essential cookies</strong> keep you signed in securely. The Service can&apos;t work without them.
+            <strong>Essential cookies</strong> keep you signed in securely and hold a random device identifier used to enforce one
+            account per person. The Service can&apos;t work without them.
           </li>
           <li>
-            <strong>Browser storage</strong> remembers your theme (dark/light) and briefly holds text you send
-            from the Detector to the Humanizer.
+            <strong>Browser storage</strong> remembers your theme (dark/light), keeps a copy of the device identifier, and
+            briefly holds text you send from the Detector to the Humanizer.
           </li>
         </ul>
         <p>We don&apos;t use advertising cookies, and we don&apos;t currently use third-party analytics or tracking pixels.</p>
@@ -176,6 +186,10 @@ const sections: LegalSection[] = [
         </li>
         <li>
           <strong>Text with history off:</strong> not stored after processing — only the usage fingerprint described above.
+        </li>
+        <li>
+          <strong>Hashed device and network records:</strong> for as long as the Service runs, so the one-account rule keeps
+          working. They can&apos;t be used to identify you on their own.
         </li>
         <li>
           <strong>Usage records and security logs:</strong> only as long as needed to enforce limits, prevent abuse and keep the

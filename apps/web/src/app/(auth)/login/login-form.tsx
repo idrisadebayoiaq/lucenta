@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState } from "react";
+import { DeviceIdInput } from "@/components/device-id-input";
 import { Button } from "@/components/ui/button";
 import { FieldError, Input, Label } from "@/components/ui/input";
 import { Alert } from "@/components/ui/misc";
@@ -14,6 +15,7 @@ export function LoginForm({ next }: { next?: string }) {
   return (
     <form action={action} className="space-y-4" noValidate>
       <input type="hidden" name="next" value={next ?? "/dashboard"} />
+      <DeviceIdInput />
       {state.error && <Alert tone="danger" title={state.error} />}
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
