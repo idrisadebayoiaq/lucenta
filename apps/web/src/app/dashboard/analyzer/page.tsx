@@ -24,7 +24,7 @@ export default async function AnalyzerPage({ searchParams }: PageProps<"/dashboa
     <div className="space-y-8">
       <PageHeader
         title="Website Analyzer"
-        description="Check performance, SEO, accessibility, security and more — then get a prioritized list of fixes."
+        description="Check performance, SEO, accessibility, security and more, then get a prioritized list of fixes."
       />
       <ScanForm initialUrl={initialUrl} autoStart={!!initialUrl} />
 

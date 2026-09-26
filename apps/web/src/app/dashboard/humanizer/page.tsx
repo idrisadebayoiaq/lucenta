@@ -16,7 +16,7 @@ export default async function HumanizerPage() {
 
   return (
     <div>
-      <PageHeader title="Humanizer" description="Rewrite robotic text so it sounds natural — while keeping your meaning, names and numbers." />
+      <PageHeader title="Humanizer" description="Rewrite robotic text so it sounds natural, while keeping your meaning, names and numbers." />
       <ResponsibleUseNote tool="humanizer" />
       <HumanizerTool usage={contents} configured={isLLMConfigured()} />
     </div>

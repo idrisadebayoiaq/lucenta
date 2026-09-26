@@ -160,7 +160,7 @@ export function HireDeveloperCard({ developers, siteUrl, issueCount }: { develop
           <div>
             <p className="text-lg font-bold">Want an expert to fix {issueCount > 0 ? `these ${issueCount} issues` : "and improve your site"}?</p>
             <p className="text-sm text-muted-foreground">
-              Reach out to an available developer — they&apos;ll get your report context so you can skip the back-and-forth.
+              Reach out to an available developer. They&apos;ll get your report context, so you can skip the back and forth.
             </p>
           </div>
         </div>

@@ -27,7 +27,7 @@ const sections: LegalSection[] = [
         <h3>Account information</h3>
         <p>
           Your name, email address, date of birth and password when you sign up. Passwords are hashed by our authentication
-          provider — we never see them. If you choose Google sign-in, we receive your name, email and profile picture from
+          provider, so we never see them. If you choose Google sign-in, we receive your name, email and profile picture from
           Google, and ask for your date of birth separately. We use your date of birth only to confirm you meet the minimum age
           of 16; it&apos;s never shown publicly.
         </p>
@@ -59,7 +59,7 @@ const sections: LegalSection[] = [
         <h3>Usage records</h3>
         <p>
           To enforce the free daily limits we record how many audits and texts you&apos;ve used each day. For texts we store a
-          one-way fingerprint (a SHA-256 hash) rather than the text itself — it can&apos;t be turned back into your words.
+          one-way fingerprint (a SHA-256 hash) rather than the text itself. It can&apos;t be turned back into your words.
         </p>
         <h3>Technical information</h3>
         <p>
@@ -95,22 +95,22 @@ const sections: LegalSection[] = [
     content: (
       <ul>
         <li>
-          <strong>To provide the Service</strong> — run audits, detect and rewrite text, show your history and manage your
+          <strong>To provide the Service:</strong> run audits, detect and rewrite text, show your history and manage your
           account (performance of our contract with you).
         </li>
         <li>
-          <strong>To keep Lucenta safe and fair</strong> — enforce daily limits, prevent abuse and misuse described in our{" "}
+          <strong>To keep Lucenta safe and fair:</strong> enforce daily limits, prevent abuse and misuse described in our{" "}
           <Link href="/responsible-use">Responsible Use Policy</Link>, and secure accounts (our legitimate interests).
         </li>
         <li>
-          <strong>To communicate with you</strong> — service emails such as sign-up confirmation and password resets, and
+          <strong>To communicate with you:</strong> service emails such as sign-up confirmation and password resets, and
           important changes to our terms. Optional emails only if you&apos;ve turned them on in Settings (consent).
         </li>
         <li>
-          <strong>To improve Lucenta</strong> — using aggregated, non-identifying statistics such as how many scans run each day.
+          <strong>To improve Lucenta:</strong> using aggregated, non-identifying statistics such as how many scans run each day.
         </li>
         <li>
-          <strong>To meet legal obligations</strong> — for example responding to lawful requests from authorities.
+          <strong>To meet legal obligations:</strong> for example responding to lawful requests from authorities.
         </li>
       </ul>
     ),
@@ -144,23 +144,23 @@ const sections: LegalSection[] = [
         </p>
         <ul>
           <li>
-            <strong>Supabase</strong> — database, authentication and file storage.
+            <strong>Supabase:</strong> database, authentication and file storage.
           </li>
           <li>
-            <strong>OpenRouter and its AI model providers</strong> — to generate humanized text, meaning checks and website
+            <strong>OpenRouter and its AI model providers:</strong> to generate humanized text, meaning checks and website
             reviews.
           </li>
           <li>
-            <strong>Our hosting provider</strong> — to serve the website and run the Service.
+            <strong>Our hosting provider:</strong> to serve the website and run the Service.
           </li>
           <li>
-            <strong>Google</strong> — only if you choose to sign in with Google.
+            <strong>Google:</strong> only if you choose to sign in with Google.
           </li>
         </ul>
         <p>
           We may also disclose information if required by law, to protect people&apos;s safety or rights, or as part of a merger
           or sale of the business (in which case this policy would continue to protect your data). When you contact a developer
-          via WhatsApp, phone or email, that conversation happens in those apps — we don&apos;t see it.
+          via WhatsApp, phone or email, that conversation happens in those apps, and we don&apos;t see it.
         </p>
       </>
     ),
@@ -189,7 +189,7 @@ const sections: LegalSection[] = [
           delete your account.
         </li>
         <li>
-          <strong>Text with history off:</strong> not stored after processing — only the usage fingerprint described above.
+          <strong>Text with history off:</strong> not stored after processing. We keep only the usage fingerprint described above.
         </li>
         <li>
           <strong>Hashed device and network records:</strong> for as long as the Service runs, so the one-account rule keeps
@@ -269,7 +269,7 @@ const sections: LegalSection[] = [
     title: "Changes to this policy",
     content: (
       <p>
-        We&apos;ll update this policy when our practices change — for example if we add analytics or paid plans. For significant
+        We&apos;ll update this policy when our practices change, for example if we add analytics or paid plans. For significant
         changes we&apos;ll notify you by email or in the app, and the date at the top will always show the latest version.
       </p>
     ),

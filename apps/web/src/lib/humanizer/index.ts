@@ -72,7 +72,7 @@ export function postProcess(text: string) {
       return replacement;
     });
   }
-  out = out.replace(/\s*—\s*/g, (_, i: number) => (i % 3 === 0 ? " — " : ", "));
+  out = out.replace(/\s*—\s*/g, ", ");
   out = out.replace(/(^|[.!?]\s+)([a-z])/g, (_, p, c: string) => p + c.toUpperCase());
   return out.replace(/ {2,}/g, " ").trim();
 }
@@ -134,7 +134,7 @@ function systemPrompt(tone: Tone, strength: Strength, keepWords: string[], prote
       ? "- Use contractions sparingly. Prefer concrete, specific words over vague abstractions."
       : "- Use contractions naturally (it's, don't, they're, that's) in most sentences. Prefer concrete, specific words over vague abstractions like 'growth', 'success' or 'innovation'.",
     "- Sound like a person with a point of view explaining this to a reader, not a brochure. Plain verbs beat fancy ones.",
-    "- Use em dashes rarely. Don't add headings, bullet points or emojis unless the original had them.",
+    "- Never use em dashes or en dashes. Use commas, periods, colons or parentheses instead. Don't add headings, bullet points or emojis unless the original had them.",
     "- Keep paragraph breaks roughly where they are. Keep the length within about 15% of the original.",
     "- Never add new claims, opinions, or information that isn't in the original. Don't add typos on purpose.",
     keepWords.length ? `- Keep these words exactly as written: ${keepWords.join(", ")}.` : "",

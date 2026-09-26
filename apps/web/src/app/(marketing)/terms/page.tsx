@@ -83,7 +83,7 @@ const sections: LegalSection[] = [
         <p>You agree not to use the Service to:</p>
         <ul>
           <li>
-            engage in <strong>academic dishonesty</strong> — including submitting AI-generated or rewritten work for assessment
+            engage in <strong>academic dishonesty</strong>, including submitting AI-generated or rewritten work for assessment
             where that isn&apos;t allowed, or without the disclosure your institution requires;
           </li>
           <li>hide the use of AI where an employer, client, publisher, platform, competition or law requires you to disclose it;</li>
@@ -112,7 +112,7 @@ const sections: LegalSection[] = [
         <p>
           The AI Text Detector gives a <strong>probability based on writing patterns, not proof</strong> of how a text was
           written. It can be wrong in both directions. You agree not to use a Lucenta result as the only basis for any decision
-          that affects another person — such as grading, disciplinary action, hiring, firing or publishing an accusation.
+          that affects another person, such as grading, disciplinary action, hiring, firing or publishing an accusation.
         </p>
         <h3>You are responsible for Humanizer output</h3>
         <p>
@@ -135,7 +135,7 @@ const sections: LegalSection[] = [
       <p>
         The analyzer fetches publicly available pages and files (such as robots.txt, sitemaps, images and scripts) of the URL you
         enter, the same way a browser would, and asks an AI model to review the page content. Reports are automated estimates
-        and suggestions — they are not a security penetration test, legal compliance review or guarantee of search rankings. AI
+        and suggestions. They are not a security penetration test, legal compliance review or guarantee of search rankings. AI
         suggestions can be inaccurate, so check them before making changes.
       </p>
     ),
@@ -148,7 +148,7 @@ const sections: LegalSection[] = [
         <p>
           You keep all rights to the text, URLs and other content you submit (&quot;Your Content&quot;) and to the results we
           generate for you. You give us a limited licence to store and process Your Content only to provide and secure the
-          Service — including sending it to our AI providers to generate your results, as described in the{" "}
+          Service, including sending it to our AI providers to generate your results, as described in the{" "}
           <Link href="/privacy">Privacy Policy</Link>. We don&apos;t use Your Content to train AI models.
         </p>
         <p>You confirm you have the right to submit Your Content and that doing so doesn&apos;t break any law or agreement.</p>
@@ -162,8 +162,7 @@ const sections: LegalSection[] = [
       <p>
         Lucenta lists independent developers who can help fix issues in your reports. Any project, price, payment or agreement is
         strictly between you and the developer. Lucenta is not a party to it and isn&apos;t responsible for work carried out.
-        Contacting a developer through
-        WhatsApp, phone or email happens directly in those apps.
+        Contacting a developer through WhatsApp, phone or email happens directly in those apps.
       </p>
     ),
   },
@@ -172,7 +171,7 @@ const sections: LegalSection[] = [
     title: "Our intellectual property",
     content: (
       <p>
-        The Service — including its software, design, text, logos and the Lucenta name — belongs to us and is protected by law.
+        The Service, including its software, design, text, logos and the Lucenta name, belongs to us and is protected by law.
         These Terms don&apos;t give you any right to use our brand or code except to use the Service as intended.
       </p>
     ),
@@ -217,8 +216,8 @@ const sections: LegalSection[] = [
     title: "Indemnity",
     content: (
       <p>
-        If you misuse the Service or break these Terms — for example by using the Humanizer for academic dishonesty or the
-        analyzer against a site without permission — and someone makes a claim against us as a result, you agree to cover the
+        If you misuse the Service or break these Terms (for example by using the Humanizer for academic dishonesty or the
+        analyzer against a site without permission) and someone makes a claim against us as a result, you agree to cover the
         reasonable costs we incur because of it.
       </p>
     ),
@@ -229,7 +228,7 @@ const sections: LegalSection[] = [
     content: (
       <p>
         These Terms are governed by the laws of the Federal Republic of Nigeria. We&apos;ll always try to resolve problems
-        informally first — please email us. If that doesn&apos;t work, disputes will be handled by the courts of Nigeria, unless
+        informally first, so please email us. If that doesn&apos;t work, disputes will be handled by the courts of Nigeria, unless
         the consumer law where you live gives you the right to bring a claim locally.
       </p>
     ),
@@ -263,7 +262,7 @@ export default function TermsPage() {
       intro={
         <p>
           Thanks for using Lucenta. These Terms explain your rights and responsibilities when you use our Website Analyzer, AI Text
-          Detector and Humanizer. We&apos;ve tried to keep them readable — please take a few minutes to go through them.
+          Detector and Humanizer. We&apos;ve tried to keep them readable, so please take a few minutes to go through them.
         </p>
       }
       sections={sections}

@@ -282,7 +282,7 @@ export async function analyzeWebsite(input: string, device: "mobile" | "desktop"
     add({
       id: "title-length",
       category: "seo",
-      title: "Title length (30–60 chars)",
+      title: "Title length (30 to 60 chars)",
       status: title.length >= 30 && title.length <= 60 ? "pass" : title.length >= 15 && title.length <= 70 ? "warn" : "fail",
       weight: 1,
       value: `${title.length} characters`,
@@ -294,7 +294,7 @@ export async function analyzeWebsite(input: string, device: "mobile" | "desktop"
     add({
       id: "meta-description-length",
       category: "seo",
-      title: "Meta description length (70–160 chars)",
+      title: "Meta description length (70 to 160 chars)",
       status: description.length >= 70 && description.length <= 160 ? "pass" : "warn",
       weight: 1,
       value: `${description.length} characters`,

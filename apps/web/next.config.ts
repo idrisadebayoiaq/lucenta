@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
       { source: "/legal/acceptable-use", destination: "/responsible-use", permanent: true },
     ];
   },
+  async rewrites() {
+    return [{ source: "/favicon.ico", destination: "/icon.svg" }];
+  },
 };
 
 export default nextConfig;

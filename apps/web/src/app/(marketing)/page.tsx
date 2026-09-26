@@ -63,7 +63,7 @@ const CHECKS = [
 const STEPS = [
   { title: "Paste a URL or text", body: "Drop in your website address or the content you want to check." },
   { title: "Get a clear report", body: "Scores, metrics, and highlights that explain exactly what's going on." },
-  { title: "Fix it — or get help", body: "Follow the prioritized fixes, humanize text in one click, or hand the report to a developer." },
+  { title: "Fix it or get help", body: "Follow the prioritized fixes, humanize text in one click, or hand the report to a developer." },
 ];
 
 const FAQ = [
@@ -77,7 +77,7 @@ const FAQ = [
   },
   {
     q: "How accurate is the AI detector?",
-    a: "AI detection is probabilistic. We show a confidence level and highlight the sentences driving the score. Human writing can be flagged and AI writing can be missed, so treat the score as a starting point for a conversation — never as the only evidence that someone cheated.",
+    a: "AI detection is probabilistic. We show a confidence level and highlight the sentences driving the score. Human writing can be flagged and AI writing can be missed, so treat the score as a starting point for a conversation, never as the only evidence that someone cheated.",
   },
   {
     q: "Will the humanizer change my meaning?",
@@ -85,11 +85,11 @@ const FAQ = [
   },
   {
     q: "Can I use Lucenta for school work?",
-    a: "You can use the detector to review your own drafts and the humanizer to improve writing you're allowed to polish. Lucenta is not a cheating tool: don't use it to submit AI-written work where your school forbids it, to hide AI use you're required to disclose, or to pass off someone else's work as yours. Always follow your institution's rules — see our Responsible Use Policy.",
+    a: "You can use the detector to review your own drafts and the humanizer to improve writing you're allowed to polish. Lucenta is not a cheating tool: don't use it to submit AI-written work where your school forbids it, to hide AI use you're required to disclose, or to pass off someone else's work as yours. Always follow your institution's rules, and see our Responsible Use Policy for details.",
   },
   {
     q: "Can someone fix my website for me?",
-    a: "Yes. Every report links to available developers you can contact directly on WhatsApp, by phone or email — with your report context already filled in.",
+    a: "Yes. Every report links to available developers you can contact directly on WhatsApp, by phone or email, with your report context already filled in.",
   },
   {
     q: "Do you store my text?",
@@ -228,7 +228,7 @@ export default async function HomePage() {
           <div>
             <h2 className="text-3xl font-extrabold tracking-tight">Free for everyone</h2>
             <p className="mt-3 text-muted-foreground">
-              No plans, no credit card. Create an account and start auditing and writing today — your limits reset every day.
+              No plans, no credit card. Create an account and start auditing and writing today. Your limits reset every day.
             </p>
             <AuthCta className="mt-8" signedInLabel="Open your dashboard" />
           </div>

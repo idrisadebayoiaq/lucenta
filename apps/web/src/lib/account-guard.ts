@@ -18,7 +18,7 @@ const MAX_ACCOUNTS_PER_IP = Math.max(1, Number(process.env.SIGNUP_MAX_ACCOUNTS_P
 const IP_WINDOW_DAYS = Math.max(1, Number(process.env.SIGNUP_IP_WINDOW_DAYS) || 1);
 
 export const DEVICE_BLOCKED_MESSAGE =
-  "An account has already been created on this device. Each person can have one Lucenta account — please log in instead.";
+  "An account has already been created on this device. Each person can have one Lucenta account, so please log in instead.";
 export const IP_BLOCKED_MESSAGE = "Too many accounts have been created from your network today. Please try again tomorrow.";
 
 export type DeviceContext = { deviceIds: string[]; fingerprint: string | null; ip: string | null };

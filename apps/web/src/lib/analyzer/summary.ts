@@ -65,10 +65,11 @@ You receive automated check results plus the page's own content. Return ONLY a J
 }
 Rules for "issues" (3-6 items):
 - Focus ONLY on what automated checks cannot see: unclear value proposition, weak or missing calls to action, confusing navigation, thin or generic copy, missing trust signals (testimonials, contact details, pricing, about), poor SEO copy (title/description/headings not matching the offer), and conversion blockers.
-- Never suggest speed, image optimization, security headers, HTTPS or other technical fixes, and do NOT repeat anything in "alreadyFlagged" — those are already in the report. Mention the most important of them in the summary instead.
+- Never suggest speed, image optimization, security headers, HTTPS or other technical fixes, and do NOT repeat anything in "alreadyFlagged"; those are already in the report. Mention the most important of them in the summary instead.
 - Only claim something is missing if it is absent from the provided headings, navigation, calls to action and text.
 - Be specific: quote the page's real headings, button text or copy when pointing out a problem.
-- Only use the numbers provided; never invent metrics, traffic or rankings. Plain text, no markdown.`;
+- Only use the numbers provided; never invent metrics, traffic or rankings. Plain text, no markdown.
+- Never use em dashes or en dashes. Use commas, periods, colons or parentheses instead, and write number ranges as "10 to 20".`;
 
 function truncate(text: string, max: number) {
   return text.length > max ? `${text.slice(0, max)}…` : text;

@@ -25,7 +25,7 @@ const profileSchema = z.object({
     .trim()
     .toLowerCase()
     .transform((v) => v || null)
-    .refine((v) => v === null || /^[a-z0-9_]{3,30}$/.test(v), "3–30 characters: lowercase letters, numbers, underscores"),
+    .refine((v) => v === null || /^[a-z0-9_]{3,30}$/.test(v), "Use 3 to 30 characters: lowercase letters, numbers and underscores"),
   bio: optionalText(500),
   company: optionalText(80),
   jobTitle: optionalText(80),

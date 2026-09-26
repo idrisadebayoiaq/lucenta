@@ -12,7 +12,7 @@ export const revalidate = 3600;
 
 const VALUES = [
   { icon: Eye, title: "Clear, not clever", body: "Every score comes with the reasons behind it and plain-English steps to fix it." },
-  { icon: HeartHandshake, title: "Free to start", body: "Everyone gets daily audits and text checks at no cost — no card, no trial timer." },
+  { icon: HeartHandshake, title: "Free to start", body: "Everyone gets daily audits and text checks at no cost. No card, no trial timer." },
   { icon: ShieldCheck, title: "Private by default", body: "Your text is only stored if you keep history on, and you can delete everything at any time." },
   { icon: Gauge, title: "Fast and practical", body: "Reports in under a minute, fixes ordered by impact so you know what to do first." },
 ];
@@ -25,13 +25,13 @@ export default function AboutPage() {
           <h1 className="text-4xl font-extrabold tracking-tight md:text-5xl">About Lucenta</h1>
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
             Lucenta helps business owners, creators, students and marketers check what they publish before the world sees it. Most
-            people can&apos;t tell why their website isn&apos;t getting customers, or whether their writing sounds like a robot — and
-            the tools that tell you are usually expensive, technical, or both.
+            people can&apos;t tell why their website isn&apos;t getting customers, or whether their writing sounds like a robot. The
+            tools that tell you are usually expensive, technical, or both.
           </p>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
             So we built one place that audits your website&apos;s speed, SEO, security, accessibility and content with the help of
-            AI, detects AI-written text sentence by sentence, and rewrites it so it sounds naturally human — and made it free to
-            start.
+            AI, detects AI-written text sentence by sentence, and rewrites it so it sounds naturally human. And we made it free
+            to start.
           </p>
         </div>
       </section>

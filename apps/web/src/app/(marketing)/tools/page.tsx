@@ -9,7 +9,7 @@ import { AVAILABLE_TOOLS, COMING_SOON_TOOLS } from "@/lib/tools";
 
 export const metadata: Metadata = {
   title: "Tools",
-  description: "Website Analyzer, AI Text Detector, Humanizer and more — everything Lucenta can do today and what's coming next.",
+  description: "Website Analyzer, AI Text Detector, Humanizer and more: everything Lucenta can do today and what's coming next.",
 };
 
 export default function ToolsPage() {
@@ -20,7 +20,7 @@ export default function ToolsPage() {
           <Badge className="mb-5">Free for everyone</Badge>
           <h1 className="text-4xl font-extrabold tracking-tight md:text-5xl">Everything you need to check what you publish</h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
-            Audit your website, detect AI-written text and make your writing sound human — all in one dashboard.
+            Audit your website, detect AI-written text and make your writing sound human, all in one dashboard.
           </p>
           <nav className="mt-8 flex flex-wrap justify-center gap-2">
             {AVAILABLE_TOOLS.map((t) => (

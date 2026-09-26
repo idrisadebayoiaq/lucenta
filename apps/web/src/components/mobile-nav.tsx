@@ -36,7 +36,7 @@ export function MobileNav({ items }: { items: { href: string; label: string }[] 
               </Link>
             ))}
             <div className="mt-4 flex flex-col gap-2">
-              <AuthCta signedOutLabel="Sign up — it's free" className="w-full" />
+              <AuthCta signedOutLabel="Sign up free" className="w-full" />
               {status === "signed-out" && (
                 <Link href="/login" onClick={close} className={buttonVariants({ variant: "outline", size: "lg", className: "w-full" })}>
                   Log in

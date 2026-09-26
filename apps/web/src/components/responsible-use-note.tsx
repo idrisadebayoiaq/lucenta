@@ -3,7 +3,7 @@ import { ShieldCheck } from "lucide-react";
 
 const NOTES = {
   detector:
-    "Scores are estimates based on writing patterns, not proof of who wrote something. Human writing — especially formal text or writing by non-native speakers — can be flagged. Never use a score as the only evidence against anyone.",
+    "Scores are estimates based on writing patterns, not proof of who wrote something. Human writing, especially formal text or writing by non-native speakers, can be flagged. Never use a score as the only evidence against anyone.",
   humanizer:
     "Use the Humanizer to polish writing you're allowed to improve. Don't use it to submit work where AI help isn't permitted, to hide AI use where disclosure is required, or to pass off someone else's work as your own.",
 };

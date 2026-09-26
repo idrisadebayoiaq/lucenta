@@ -29,7 +29,7 @@ export const AVAILABLE_TOOLS: Tool[] = [
     slug: "website-analyzer",
     icon: Globe,
     title: "Website Analyzer",
-    tagline: "See what your website is missing — and how to fix it.",
+    tagline: "See what your website is missing and how to fix it.",
     description:
       "Paste any URL and Lucenta runs 50+ checks across performance, SEO, accessibility, security, mobile and content. An AI review then reads your page like a visitor would and adds suggestions about your message, calls to action and trust signals.",
     features: [
@@ -48,7 +48,7 @@ export const AVAILABLE_TOOLS: Tool[] = [
     title: "AI Text Detector",
     tagline: "Find out how likely text is to be AI-generated.",
     description:
-      "Paste an article, email, post or your own draft and get an AI-likelihood score with the sentences that read as machine-written — and the reasons why. Scores are estimates, not proof, so use them to start a conversation, never as the only evidence against someone.",
+      "Paste an article, email, post or your own draft and get an AI-likelihood score with the sentences that read as machine-written, along with the reasons why. Scores are estimates, not proof, so use them to start a conversation, never as the only evidence against someone.",
     features: [
       "AI-likelihood score with a clear label",
       "Sentence-by-sentence highlights",
@@ -64,7 +64,7 @@ export const AVAILABLE_TOOLS: Tool[] = [
     title: "Humanizer",
     tagline: "Turn stiff, robotic drafts into clear, natural writing.",
     description:
-      "Polish emails, posts, product copy and your own drafts so they read naturally — while keeping your meaning, names, numbers and quotes intact. Every rewrite is checked for meaning. Built for better writing, not for cheating: always follow your school's, employer's or publisher's rules on AI use.",
+      "Polish emails, posts, product copy and your own drafts so they read naturally, while keeping your meaning, names, numbers and quotes intact. Every rewrite is checked for meaning. Built for better writing, not for cheating: always follow your school's, employer's or publisher's rules on AI use.",
     features: [
       "6 tones: Standard, Casual, Professional, Academic, Creative, Simple",
       "3 strengths: Light, Balanced, Aggressive",
@@ -82,7 +82,7 @@ export const AVAILABLE_TOOLS: Tool[] = [
     title: "Hire a developer",
     tagline: "Get an expert to fix the issues in your report.",
     description:
-      "Don't want to fix everything yourself? Every website report links to available developers you can reach on WhatsApp, by phone or email — with your report context already filled in.",
+      "Don't want to fix everything yourself? Every website report links to available developers you can reach on WhatsApp, by phone or email, with your report context already filled in.",
     features: ["Verified developers with real portfolios", "WhatsApp, call or email in one tap", "Your audited site is included in the message"],
     href: "/developers",
   },
@@ -103,7 +103,7 @@ export const COMING_SOON_TOOLS: Tool[] = [
     title: "Developer accounts",
     tagline: "Sign up as a developer and get hired from reports.",
     description:
-      "Create a developer account, fill in your skills, portfolio and contact details, and get suggested to people when they analyze their website. Developers are ranked by how well they match each report — the site's performance, results and the issues found in the analytics.",
+      "Create a developer account, fill in your skills, portfolio and contact details, and get suggested to people when they analyze their website. Developers are ranked by how well they match each report: the site's performance, results and the issues found in the analytics.",
     features: [
       "Developer sign-up with skills, portfolio and contact details",
       "Suggested on website reports that match your skills",

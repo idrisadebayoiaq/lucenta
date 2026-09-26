@@ -172,7 +172,7 @@ export function ReportView({ report }: { report: Report }) {
             <CardTitle>Fix these first</CardTitle>
             <CardDescription>
               {report.recommendations.length} recommendations, ordered by impact and effort
-              {report.recommendations.some((r) => r.source === "ai") ? " — including issues spotted by the AI review." : "."}
+              {report.recommendations.some((r) => r.source === "ai") ? ", including issues spotted by the AI review." : "."}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">

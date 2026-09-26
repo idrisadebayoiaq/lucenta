@@ -114,7 +114,7 @@ export function ScanForm({ initialUrl = "", autoStart = false }: { initialUrl?: 
             <div className="space-y-2 rounded-lg bg-muted/50 p-4">
               <div className="flex justify-between text-sm">
                 <span className="font-medium">{STAGES[stage]}…</span>
-                <span className="text-muted-foreground">This usually takes 10–60 seconds</span>
+                <span className="text-muted-foreground">This usually takes 10 to 60 seconds</span>
               </div>
               <Progress value={((stage + 1) / STAGES.length) * 95} />
             </div>

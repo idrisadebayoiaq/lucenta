@@ -4,7 +4,7 @@ import { LEGAL_CONTACT, LegalDocument, type LegalSection } from "@/components/le
 
 export const metadata: Metadata = {
   title: "Responsible Use",
-  description: "How Lucenta's AI Detector and Humanizer should — and shouldn't — be used. Lucenta does not support academic dishonesty or deception.",
+  description: "How Lucenta's AI Detector and Humanizer should and shouldn't be used. Lucenta does not support academic dishonesty or deception.",
 };
 
 const sections: LegalSection[] = [
@@ -21,7 +21,7 @@ const sections: LegalSection[] = [
         <p>
           We will never advertise Lucenta as a way to &quot;bypass&quot;, &quot;beat&quot; or &quot;fool&quot; AI detectors or
           plagiarism checkers, and we don&apos;t promise any particular score on any third-party tool. If the rules you write
-          under forbid AI assistance or require you to disclose it, those rules come first — this policy and our{" "}
+          under forbid AI assistance or require you to disclose it, those rules come first. This policy and our{" "}
           <Link href="/terms">Terms of Use</Link> require you to follow them.
         </p>
       </>
@@ -34,17 +34,17 @@ const sections: LegalSection[] = [
       <>
         <h3>What it&apos;s for</h3>
         <ul>
-          <li>Checking whether content you received — a guest post, a supplier&apos;s copy, a job application — may be AI-written, so you can ask better questions.</li>
+          <li>Checking whether content you received (a guest post, a supplier&apos;s copy, a job application) may be AI-written, so you can ask better questions.</li>
           <li>Reviewing your own writing before you publish or submit it, to spot passages that read as generic or machine-like.</li>
           <li>Editors, teachers and moderators who want a starting point for a conversation, not a verdict.</li>
           <li>Learning what makes writing sound robotic (repetitive sentence lengths, stock phrases, flat vocabulary) so you can avoid it.</li>
         </ul>
 
-        <h3>How it works — and its limits</h3>
+        <h3>How it works and its limits</h3>
         <p>
           The detector looks at statistical patterns such as how much sentence length varies, how varied the vocabulary is, and
-          how often common AI phrases appear. It produces a <strong>probability, not proof</strong>. No AI detector — ours or
-          anyone else&apos;s — can tell with certainty who or what wrote a piece of text.
+          how often common AI phrases appear. It produces a <strong>probability, not proof</strong>. No AI detector, ours or
+          anyone else&apos;s, can tell with certainty who or what wrote a piece of text.
         </p>
         <ul>
           <li>
@@ -60,7 +60,7 @@ const sections: LegalSection[] = [
         <h3>Never use a score as the only evidence</h3>
         <p>
           Do not use a Lucenta score as the sole basis for accusing, grading, failing, disciplining, rejecting or firing anyone.
-          If a result concerns you, look at other evidence — drafts, version history, notes, sources — and talk to the person.
+          If a result concerns you, look at other evidence (drafts, version history, notes, sources) and talk to the person.
           Treat the highlighted sentences as a reason to ask questions, not as an answer.
         </p>
       </>
@@ -77,7 +77,7 @@ const sections: LegalSection[] = [
           names and numbers. Good uses include:
         </p>
         <ul>
-          <li>Polishing your own drafts — emails, blog posts, product descriptions, social posts, reports and website copy.</li>
+          <li>Polishing your own drafts: emails, blog posts, product descriptions, social posts, reports and website copy.</li>
           <li>Making AI-assisted drafts sound like your brand or your voice, where using AI assistance is allowed.</li>
           <li>Helping people who write in a second language express their own ideas more fluently.</li>
           <li>Simplifying complex text so more people can understand it.</li>
@@ -90,7 +90,7 @@ const sections: LegalSection[] = [
             university, exam board or course doesn&apos;t allow it, or without the disclosure it requires.
           </li>
           <li>
-            <strong>Hiding AI use where disclosure is required</strong> — for example by an employer, client contract, journal,
+            <strong>Hiding AI use where disclosure is required:</strong> for example by an employer, client contract, journal,
             competition, grant body, publisher or platform.
           </li>
           <li>
@@ -105,7 +105,7 @@ const sections: LegalSection[] = [
 
         <h3>You remain the author</h3>
         <p>
-          You are responsible for anything you publish or submit. Always read the output before using it — rewrites can contain
+          You are responsible for anything you publish or submit. Always read the output before using it, because rewrites can contain
           mistakes or shift nuance, even with our meaning check. The free &quot;Check AI score&quot; button is there to help you
           judge whether a rewrite reads naturally; it is not a guarantee about any other tool, and it is not a licence to use
           the text somewhere AI help isn&apos;t allowed.
@@ -120,7 +120,7 @@ const sections: LegalSection[] = [
       <>
         <p>
           <strong>Students:</strong> your institution&apos;s academic integrity policy always applies. If you aren&apos;t sure
-          whether AI tools are allowed on an assignment, ask your teacher or lecturer first — and if they&apos;re allowed,
+          whether AI tools are allowed on an assignment, ask your teacher or lecturer first. If they&apos;re allowed,
           disclose how you used them. Please don&apos;t use the Humanizer on work you&apos;ll submit for a grade unless
           you&apos;ve been told it&apos;s permitted. The AI Detector is a good way to check that your own writing doesn&apos;t
           read as generic before you hand it in.
@@ -138,7 +138,7 @@ const sections: LegalSection[] = [
     title: "Work, clients and publishing",
     content: (
       <p>
-        Many employers, clients, publishers and platforms have rules about AI-generated content — and some laws and advertising
+        Many employers, clients, publishers and platforms have rules about AI-generated content, and some laws and advertising
         codes require disclosure in certain situations (for example sponsored content or reviews). Check the rules that apply to
         you and follow them. Never use Lucenta to create fake reviews, endorsements or testimonials.
       </p>
@@ -181,7 +181,7 @@ export default function ResponsibleUsePage() {
         <>
           <p>
             This policy explains how the AI Text Detector and Humanizer are meant to be used. It&apos;s written in plain
-            language on purpose — we want everyone to understand where we stand. It forms part of our{" "}
+            language on purpose, because we want everyone to understand where we stand. It forms part of our{" "}
             <Link href="/terms" className="text-primary hover:underline">
               Terms of Use
             </Link>
@@ -189,7 +189,7 @@ export default function ResponsibleUsePage() {
           </p>
           <p className="rounded-2xl border border-primary/40 bg-primary/5 p-4">
             <strong>In short:</strong> use the Detector as a guide, never as proof. Use the Humanizer to improve writing
-            you&apos;re allowed to improve — not to cheat, plagiarise or hide AI use where honesty is required.
+            you&apos;re allowed to improve, not to cheat, plagiarise or hide AI use where honesty is required.
           </p>
         </>
       }

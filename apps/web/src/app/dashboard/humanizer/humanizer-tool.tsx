@@ -234,7 +234,7 @@ export function HumanizerTool({ usage, configured }: { usage: { used: number; li
                       <Button size="sm" onClick={onCheck} loading={checking}>
                         {!checking && <Bot className="h-4 w-4" />} Check AI score
                       </Button>
-                      <span className="text-xs text-muted-foreground">Free — doesn&apos;t use a daily text</span>
+                      <span className="text-xs text-muted-foreground">Free. Doesn&apos;t use a daily text.</span>
                     </div>
                   )}
                 </div>
