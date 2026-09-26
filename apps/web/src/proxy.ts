@@ -7,5 +7,5 @@ export async function proxy(request: NextRequest) {
 
 // Marketing pages are static and read auth state in the browser, so the proxy only runs where a session matters.
 export const config = {
-  matcher: ["/dashboard/:path*", "/login", "/signup", "/forgot-password", "/reset-password", "/complete-profile", "/auth/:path*", "/api/:path*"],
+  matcher: ["/dashboard/:path*", "/login", "/signup", "/forgot-password", "/reset-password", "/onboarding", "/auth/:path*", "/api/:path*"],
 };

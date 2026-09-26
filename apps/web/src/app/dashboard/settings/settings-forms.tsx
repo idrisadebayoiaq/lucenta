@@ -3,11 +3,12 @@
 import { useActionState, useEffect, useState } from "react";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { toast } from "sonner";
+import { AboutYouFields, type AboutYouValues } from "@/components/about-you-fields";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/misc";
 import { cn } from "@/lib/utils";
-import { updatePreferences, type SettingsState } from "./actions";
+import { updateAboutYou, updatePreferences, type SettingsState } from "./actions";
 
 type Theme = "light" | "dark" | "system";
 
@@ -53,6 +54,34 @@ export function ThemeCard() {
           </button>
         ))}
       </CardContent>
+    </Card>
+  );
+}
+
+export function AboutYouForm({ defaults, lockedUntil }: { defaults: AboutYouValues; lockedUntil: string | null }) {
+  const [state, action, pending] = useActionState<SettingsState, FormData>(updateAboutYou, {});
+
+  useEffect(() => {
+    if (state.success) toast.success(state.success);
+    if (state.error) toast.error(state.error);
+  }, [state]);
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>About you</CardTitle>
+        <CardDescription>Your occupation decides which tools are available. Keep it accurate.</CardDescription>
+      </CardHeader>
+      <form action={action}>
+        <CardContent>
+          <AboutYouFields defaults={defaults} errors={state.fieldErrors} occupationLockedUntil={lockedUntil} />
+        </CardContent>
+        <CardFooter className="justify-end">
+          <Button type="submit" loading={pending}>
+            Save details
+          </Button>
+        </CardFooter>
+      </form>
     </Card>
   );
 }

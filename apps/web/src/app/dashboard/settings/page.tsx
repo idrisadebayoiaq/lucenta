@@ -4,14 +4,17 @@ import { CheckCircle2 } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FREE_FEATURES } from "@/lib/limits";
+import { occupationUnlockDate } from "@/lib/onboarding";
+import { formatDate } from "@/lib/utils";
 import { getCurrentProfile } from "@/lib/supabase/server";
-import { PreferencesForm, ThemeCard } from "./settings-forms";
+import { AboutYouForm, PreferencesForm, ThemeCard } from "./settings-forms";
 
 export const metadata: Metadata = { title: "Settings" };
 
 export default async function SettingsPage() {
   const profile = await getCurrentProfile();
   if (!profile) redirect("/login");
+  const lockedUntil = occupationUnlockDate(profile.occupation, profile.occupation_updated_at);
 
   return (
     <div>
@@ -32,6 +35,14 @@ export default async function SettingsPage() {
             </ul>
           </CardContent>
         </Card>
+        <AboutYouForm
+          defaults={{
+            occupation: profile.occupation ?? "",
+            referralSource: profile.referral_source ?? "",
+            referralOther: profile.referral_other ?? "",
+          }}
+          lockedUntil={lockedUntil ? formatDate(lockedUntil) : null}
+        />
         <ThemeCard />
         <PreferencesForm saveHistory={profile.save_history} emailNotifications={profile.email_notifications} />
       </div>

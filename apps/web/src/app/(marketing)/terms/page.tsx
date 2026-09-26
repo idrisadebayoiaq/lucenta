@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LEGAL_CONTACT, LegalDocument, type LegalSection } from "@/components/legal-document";
 import { DAILY_CONTENT_LIMIT, DAILY_SCAN_LIMIT, MAX_TEXT_CHARS } from "@/lib/limits";
+import { STUDENT_OCCUPATION_LOCK_DAYS } from "@/lib/onboarding";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
@@ -49,7 +50,14 @@ const sections: LegalSection[] = [
           One person, one account. Only one account can be created per device, and we limit new accounts per network. Creating
           extra accounts to get around daily limits is not allowed.
         </li>
-        <li>The date of birth you give must be accurate. Accounts belonging to anyone under 16 will be closed.</li>
+        <li>
+          The date of birth you give must be accurate. It can&apos;t be changed once saved, sign-ups under 16 are rejected, and
+          accounts belonging to anyone under 16 will be closed.
+        </li>
+        <li>
+          The occupation you choose during onboarding must be accurate and kept up to date in Settings. Choosing a different
+          occupation to unlock tools that aren&apos;t available to you is a breach of these Terms.
+        </li>
         <li>
           Tell us straight away at <a href={`mailto:${LEGAL_CONTACT}`}>{LEGAL_CONTACT}</a> if you think your account has been
           accessed without permission.
@@ -108,6 +116,14 @@ const sections: LegalSection[] = [
     title: "AI Text Detector and Humanizer",
     content: (
       <>
+        <h3>Students and the Humanizer</h3>
+        <p>
+          To support academic integrity, the Humanizer isn&apos;t available on student accounts. Students can still use the AI
+          Text Detector and the Website Analyzer. Once you choose Student as your occupation, you can&apos;t change it for{" "}
+          {STUDENT_OCCUPATION_LOCK_DAYS} days. If your situation genuinely changes (for example you graduate or start working),
+          update your occupation in Settings after that period. We may restrict accounts that appear to misrepresent their
+          occupation.
+        </p>
         <h3>Detection results are estimates</h3>
         <p>
           The AI Text Detector gives a <strong>probability based on writing patterns, not proof</strong> of how a text was

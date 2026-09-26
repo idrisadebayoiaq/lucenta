@@ -15,7 +15,7 @@ import { MIN_DETECT_WORDS, type DetectionResult } from "@/lib/detector/types";
 import { MAX_TEXT_CHARS } from "@/lib/limits";
 import { cn, countWords } from "@/lib/utils";
 
-export function DetectorTool({ usage }: { usage: { used: number; limit: number } }) {
+export function DetectorTool({ usage, canHumanize }: { usage: { used: number; limit: number }; canHumanize: boolean }) {
   const router = useRouter();
   const [text, setText] = useState("");
   const [result, setResult] = useState<DetectionResult | null>(null);
@@ -121,9 +121,11 @@ export function DetectorTool({ usage }: { usage: { used: number; limit: number }
                 <p className="text-xs text-muted-foreground">
                   Confidence: <span className="font-medium capitalize text-foreground">{result.confidence}</span> · {result.wordCount} words
                 </p>
-                <Button className="w-full" onClick={sendToHumanizer}>
-                  <Wand2 className="h-4 w-4" /> Humanize this text
-                </Button>
+                {canHumanize && (
+                  <Button className="w-full" onClick={sendToHumanizer}>
+                    <Wand2 className="h-4 w-4" /> Humanize this text
+                  </Button>
+                )}
               </CardContent>
             </Card>
             <Card>
@@ -146,9 +148,11 @@ export function DetectorTool({ usage }: { usage: { used: number; limit: number }
             title="Paste text to begin"
             description="You'll see the AI probability, highlighted sentences and the reasons behind the score."
             action={
-              <Link href="/dashboard/humanizer" className={buttonVariants({ variant: "outline", size: "sm" })}>
-                Go to Humanizer
-              </Link>
+              canHumanize ? (
+                <Link href="/dashboard/humanizer" className={buttonVariants({ variant: "outline", size: "sm" })}>
+                  Go to Humanizer
+                </Link>
+              ) : undefined
             }
           />
         )}

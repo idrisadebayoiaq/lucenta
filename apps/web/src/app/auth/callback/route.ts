@@ -42,9 +42,13 @@ export async function GET(request: NextRequest) {
       }
 
       if (next !== "/reset-password") {
-        const { data: profile } = await supabase.from("profiles").select("birth_date").eq("id", user.id).single();
-        if (!profile?.birth_date) {
-          return NextResponse.redirect(`${origin}/complete-profile?next=${encodeURIComponent(next)}`);
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("birth_date, occupation, referral_source")
+          .eq("id", user.id)
+          .single();
+        if (!profile?.birth_date || !profile.occupation || !profile.referral_source) {
+          return NextResponse.redirect(`${origin}/onboarding?next=${encodeURIComponent(next)}`);
         }
       }
 

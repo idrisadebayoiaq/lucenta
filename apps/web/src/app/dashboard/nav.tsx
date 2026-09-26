@@ -25,7 +25,7 @@ const ACCOUNT_NAV = [
 
 export type NavUser = { name: string | null; email: string | null; avatarUrl: string | null };
 
-function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
+function NavLinks({ onNavigate, canHumanize }: { onNavigate?: () => void; canHumanize: boolean }) {
   const pathname = usePathname();
   const isActive = (href: string, exact?: boolean) => (exact ? pathname === href : pathname.startsWith(href));
 
@@ -58,7 +58,7 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
         <Home className="h-6 w-6" />
         Home
       </Link>
-      {NAV.map(renderLink)}
+      {NAV.filter((item) => canHumanize || item.href !== "/dashboard/humanizer").map(renderLink)}
       {ACCOUNT_NAV.map(renderLink)}
       <Link
         href="/developers"
@@ -90,11 +90,11 @@ export function Avatar({ user, size = 32 }: { user: Pick<NavUser, "name" | "emai
   );
 }
 
-export function Sidebar() {
+export function Sidebar({ canHumanize }: { canHumanize: boolean }) {
   return (
     <aside className="sticky top-0 hidden h-screen w-72 shrink-0 flex-col border-r px-4 py-3 lg:flex">
       <Logo href="/dashboard" className="mb-6 px-3 py-2" />
-      <NavLinks />
+      <NavLinks canHumanize={canHumanize} />
       <div className="rounded-2xl border p-4">
         <p className="font-bold">Need help fixing your site?</p>
         <p className="mt-1 text-sm text-muted-foreground">Hand your report to a developer who can fix the issues for you.</p>
@@ -106,7 +106,7 @@ export function Sidebar() {
   );
 }
 
-export function Topbar({ user }: { user: NavUser }) {
+export function Topbar({ user, canHumanize }: { user: NavUser; canHumanize: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -184,7 +184,7 @@ export function Topbar({ user }: { user: NavUser }) {
                 <X className="h-5 w-5" />
               </Button>
             </div>
-            <NavLinks onNavigate={() => setMobileOpen(false)} />
+            <NavLinks onNavigate={() => setMobileOpen(false)} canHumanize={canHumanize} />
           </div>
         </div>
       )}

@@ -29,7 +29,14 @@ const sections: LegalSection[] = [
           Your name, email address, date of birth and password when you sign up. Passwords are hashed by our authentication
           provider, so we never see them. If you choose Google sign-in, we receive your name, email and profile picture from
           Google, and ask for your date of birth separately. We use your date of birth only to confirm you meet the minimum age
-          of 16; it&apos;s never shown publicly.
+          of 16; it&apos;s never shown publicly and can&apos;t be changed once saved.
+        </p>
+        <h3>Onboarding answers</h3>
+        <p>
+          After you sign up we ask for your <strong>occupation</strong> (for example student, teacher, writer or developer) and{" "}
+          <strong>how you heard about Lucenta</strong> (for example Cursor, X, Instagram, Facebook, ChatGPT, Claude, an ad, or a
+          source you describe yourself). Your occupation decides which tools are available to you. Your answers are never shown
+          publicly, and you can update them at any time in <Link href="/dashboard/settings">Settings</Link>.
         </p>
         <h3>Device and network records</h3>
         <p>
@@ -97,6 +104,15 @@ const sections: LegalSection[] = [
         <li>
           <strong>To provide the Service:</strong> run audits, detect and rewrite text, show your history and manage your
           account (performance of our contract with you).
+        </li>
+        <li>
+          <strong>To tailor tool access:</strong> we use your occupation to decide which tools you can use. To support academic
+          integrity, the Humanizer isn&apos;t available on student accounts, while the AI Detector and Website Analyzer are
+          (performance of our contract with you).
+        </li>
+        <li>
+          <strong>To understand how people find us:</strong> we look at how-you-heard answers in aggregate to decide where to
+          share Lucenta. We don&apos;t pass them to the platforms you name (our legitimate interests).
         </li>
         <li>
           <strong>To keep Lucenta safe and fair:</strong> enforce daily limits, prevent abuse and misuse described in our{" "}
@@ -221,7 +237,9 @@ const sections: LegalSection[] = [
         <p>You can:</p>
         <ul>
           <li>
-            <strong>Access and correct</strong> your information on your <Link href="/dashboard/profile">Profile</Link> page.
+            <strong>Access and correct</strong> your information on your <Link href="/dashboard/profile">Profile</Link> page, and
+            your occupation and how-you-heard answer in <Link href="/dashboard/settings">Settings</Link>. Your date of birth
+            can&apos;t be edited; if it&apos;s wrong, email us.
           </li>
           <li>
             <strong>Turn off history</strong> or <strong>delete all history</strong> in <Link href="/dashboard/settings">Settings</Link>.
@@ -249,8 +267,9 @@ const sections: LegalSection[] = [
     title: "Children",
     content: (
       <p>
-        Lucenta is not intended for children under 16. We don&apos;t knowingly collect their personal data; if you believe a
-        child has created an account, contact us and we&apos;ll delete it.
+        Lucenta is not intended for children under 16. Sign-ups with a date of birth under 16 are rejected and we don&apos;t
+        knowingly collect their personal data. If you believe a child has created an account, contact us and we&apos;ll delete
+        it.
       </p>
     ),
   },

@@ -22,7 +22,12 @@ type ProfileRow = {
   id: string
   job_title: string | null
   location: string | null
+  occupation: string | null
+  occupation_updated_at: string | null
+  onboarded_at: string | null
   plan: string
+  referral_other: string | null
+  referral_source: string | null
   save_history: boolean
   stripe_customer_id: string | null
   updated_at: string
@@ -261,7 +266,7 @@ export type Database = {
       claim_content: { Args: { p_hash: string }; Returns: boolean }
       consume_daily_scan: { Args: never; Returns: boolean }
       delete_current_user: { Args: never; Returns: undefined }
-      email_in_use: { Args: { p_email: string }; Returns: boolean }
+      email_in_use: { Args: { p_email: string; p_exclude?: string }; Returns: boolean }
       get_daily_usage: { Args: never; Returns: { contents_used: number; scans_used: number; shared: boolean }[] }
       increment_usage: { Args: { p_amount: number; p_field: string }; Returns: boolean }
       plan_limit: { Args: { p_field: string; p_plan: string }; Returns: number }

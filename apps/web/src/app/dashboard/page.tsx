@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, Badge, EmptyState, Progress } from "@/components/ui/misc";
 import { getCurrentProfile, createClient } from "@/lib/supabase/server";
 import { MAX_TEXT_CHARS } from "@/lib/limits";
+import { canUseHumanizer } from "@/lib/onboarding";
 import { getDailyUsage } from "@/lib/usage";
 import { aiScoreColor, cn, formatDateTime, scoreColor } from "@/lib/utils";
 
@@ -42,7 +43,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
       {params.passwordReset && <Alert tone="success" title="Your password has been updated." />}
 
       <div className="grid gap-4 md:grid-cols-3">
-        {QUICK_ACTIONS.map(({ href, icon: Icon, title, body }) => (
+        {QUICK_ACTIONS.filter((a) => canUseHumanizer(profile?.occupation) || a.href !== "/dashboard/humanizer").map(({ href, icon: Icon, title, body }) => (
           <Link key={href} href={href} className="group rounded-2xl border bg-card p-5 transition-colors hover:bg-muted/50">
             <div className="mb-4 grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
               <Icon className="h-5 w-5" />

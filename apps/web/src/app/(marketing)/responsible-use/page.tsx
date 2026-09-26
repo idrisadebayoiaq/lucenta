@@ -121,9 +121,8 @@ const sections: LegalSection[] = [
         <p>
           <strong>Students:</strong> your institution&apos;s academic integrity policy always applies. If you aren&apos;t sure
           whether AI tools are allowed on an assignment, ask your teacher or lecturer first. If they&apos;re allowed,
-          disclose how you used them. Please don&apos;t use the Humanizer on work you&apos;ll submit for a grade unless
-          you&apos;ve been told it&apos;s permitted. The AI Detector is a good way to check that your own writing doesn&apos;t
-          read as generic before you hand it in.
+          disclose how you used them. To support academic integrity, the Humanizer isn&apos;t available on student accounts.
+          The AI Detector is a good way to check that your own writing doesn&apos;t read as generic before you hand it in.
         </p>
         <p>
           <strong>Educators:</strong> we encourage you to use the detector as one input among many. Because false positives

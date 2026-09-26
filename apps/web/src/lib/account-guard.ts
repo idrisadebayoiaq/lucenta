@@ -117,14 +117,20 @@ export async function checkSignupAllowed(ctx: DeviceContext, ignoreUserId?: stri
 }
 
 /** Rejects disposable inboxes and addresses that are variations (dots, +tags) of an existing account's email. */
-export async function checkEmailAllowed(email: string): Promise<{ allowed: true } | { allowed: false; message: string }> {
+export async function checkEmailAllowed(
+  email: string,
+  excludeUserId?: string,
+): Promise<{ allowed: true } | { allowed: false; message: string }> {
   const domain = email.split("@")[1]?.toLowerCase() ?? "";
   disposableSet ??= new Set(disposableDomains);
   if (disposableSet.has(domain)) {
     return { allowed: false, message: "Temporary or disposable email addresses can't be used. Please use your real email." };
   }
 
-  const { data, error } = await createAdminClient().rpc("email_in_use", { p_email: email });
+  const { data, error } = await createAdminClient().rpc("email_in_use", {
+    p_email: email,
+    ...(excludeUserId ? { p_exclude: excludeUserId } : {}),
+  });
   if (error) throw error;
   if (data) return { allowed: false, message: "An account already exists for this email address. Please log in instead." };
   return { allowed: true };

@@ -8,11 +8,14 @@ import {
   checkSignupAllowed,
   findQuotaOwner,
   getDeviceContext,
+  hasRecordedDevice,
   linkQuota,
   recordDevice,
 } from "@/lib/account-guard";
 import { birthDateSchema } from "@/lib/age";
-import { createClient, getCurrentUser } from "@/lib/supabase/server";
+import { aboutYouSchema } from "@/lib/onboarding";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient, getCurrentProfile, getCurrentUser } from "@/lib/supabase/server";
 
 export type AuthState = {
   error?: string;
@@ -165,17 +168,60 @@ export async function resetPassword(_: AuthState, formData: FormData): Promise<A
   redirect("/dashboard?passwordReset=1");
 }
 
-export async function saveBirthDate(_: AuthState, formData: FormData): Promise<AuthState> {
+const RECENT_ACCOUNT_MS = 24 * 60 * 60 * 1000;
+
+export async function completeOnboarding(_: AuthState, formData: FormData): Promise<AuthState> {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
+  const profile = await getCurrentProfile();
 
-  const parsed = z.object({ birthDate: birthDateSchema }).safeParse(Object.fromEntries(formData));
-  const values = { birthDate: String(formData.get("birthDate") ?? "") };
+  const raw = Object.fromEntries(formData) as Record<string, string>;
+  const values = {
+    birthDate: raw.birthDate ?? "",
+    occupation: raw.occupation ?? "",
+    referralSource: raw.referralSource ?? "",
+    referralOther: raw.referralOther ?? "",
+  };
+  const needsBirthDate = !profile?.birth_date;
+  const schema = needsBirthDate ? aboutYouSchema.and(z.object({ birthDate: birthDateSchema })) : aboutYouSchema;
+  const parsed = schema.safeParse(raw);
   if (!parsed.success) return { fieldErrors: z.flattenError(parsed.error).fieldErrors, values };
 
+  // Accounts created outside the signup form (e.g. directly through the auth API) haven't been checked yet.
+  if (!(await hasRecordedDevice(user.id))) {
+    const device = await getDeviceContext(formData.get("deviceId"), formData.get("fp"));
+    const isRecent = Date.now() - new Date(user.created_at).getTime() < RECENT_ACCOUNT_MS;
+    if (isRecent) {
+      const guard = await checkSignupAllowed(device, user.id);
+      const emailCheck = user.email ? await checkEmailAllowed(user.email, user.id) : ({ allowed: true } as const);
+      const blocked = !guard.allowed ? guard.message : !emailCheck.allowed ? emailCheck.message : null;
+      if (blocked) {
+        const supabase = await createClient();
+        await supabase.auth.signOut();
+        await createAdminClient().auth.admin.deleteUser(user.id);
+        redirect(`/login?error=${encodeURIComponent(blocked)}`);
+      }
+      const quotaOwner = await findQuotaOwner(device, user.id);
+      await recordDevice(device, user.id, "signup");
+      if (quotaOwner) await linkQuota(user.id, quotaOwner);
+    } else {
+      await recordDevice(device, user.id, "login");
+    }
+  }
+
+  const data = parsed.data;
   const supabase = await createClient();
-  const { error } = await supabase.from("profiles").update({ birth_date: parsed.data.birthDate }).eq("id", user.id);
-  if (error) return { error: "We couldn't save your date of birth. Please try again.", values };
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      ...("birthDate" in data ? { birth_date: data.birthDate as string } : {}),
+      occupation: data.occupation,
+      referral_source: data.referralSource,
+      referral_other: data.referralSource === "other" ? data.referralOther : null,
+      onboarded_at: new Date().toISOString(),
+    })
+    .eq("id", user.id);
+  if (error) return { error: error.message === "occupation_locked" ? "You can't change your occupation yet." : error.message, values };
 
   redirect(safeNext(formData.get("next")));
 }

@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
       { source: "/legal/terms", destination: "/terms", permanent: true },
       { source: "/legal/privacy", destination: "/privacy", permanent: true },
       { source: "/legal/acceptable-use", destination: "/responsible-use", permanent: true },
+      { source: "/complete-profile", destination: "/onboarding", permanent: true },
     ];
   },
   async rewrites() {

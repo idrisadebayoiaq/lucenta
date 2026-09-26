@@ -209,6 +209,14 @@ Migration `supabase/migrations/0001_initial_schema.sql`:
 - Signup rejects disposable email domains (`disposable-email-domains`) and variations of an existing email (`normalize_email`: lower-case, strip `+tag`, ignore Gmail dots).
 - Email provider still to choose (Brevo / Resend / Gmail SMTP) — Supabase's built-in sender only sends ~2 emails/hour, so production signup and password-reset emails need custom SMTP.
 
+## Stage 11g — Onboarding: occupation & how you heard about us ✅
+- `/onboarding` (replaces `/complete-profile`, which now redirects) asks for date of birth (if missing), occupation (10 options) and how the user heard about Lucenta (Cursor, X, Instagram, Facebook, ChatGPT, Claude, Ads, Other with a required description). Options live in `src/lib/onboarding.ts`; the shared UI is `src/components/about-you-fields.tsx`.
+- Migration 0011 adds `profiles.occupation`, `occupation_updated_at`, `referral_source`, `referral_other`, `onboarded_at`, plus the `enforce_profile_rules` trigger: birth date must be 16+ and can't be changed once set; a student can't switch occupation for 30 days (`occupation_locked`).
+- Students can't use the Humanizer: hidden from nav, dashboard quick actions and the Detector's "Humanize" buttons, the page shows an explanation, and `/api/humanize` returns 403 `NOT_AVAILABLE_FOR_STUDENTS`.
+- Existing users are sent to onboarding before the dashboard and can change their answers in Settings → About you.
+- `completeOnboarding` re-runs the device, network and email guards for brand-new accounts that skipped the signup form (created directly via the Supabase API) and deletes blocked ones.
+- Privacy Policy, Terms and Responsible Use updated.
+
 ## Stage 12 — Hardening & launch ⬜
 - Rate limiting (Upstash), captcha on anonymous usage, Sentry, PostHog, E2E tests (Playwright), load test, SEO metadata/sitemap for our own site, deploy to Vercel, point domain.
 

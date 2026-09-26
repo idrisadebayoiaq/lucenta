@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { humanize, HumanizerNotConfiguredError } from "@/lib/humanizer";
 import { DAILY_CONTENT_LIMIT, MAX_TEXT_CHARS } from "@/lib/limits";
+import { canUseHumanizer } from "@/lib/onboarding";
 import { isLLMConfigured } from "@/lib/openai";
 import { createClient, getCurrentProfile, getCurrentUser } from "@/lib/supabase/server";
 import { claimContent, registerDerivedContent } from "@/lib/usage";
@@ -27,6 +28,10 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   const user = await getCurrentUser();
   if (!user) return error("UNAUTHORIZED", "Please log in to use the humanizer.", 401);
+  const profile = await getCurrentProfile();
+  if (!canUseHumanizer(profile?.occupation)) {
+    return error("NOT_AVAILABLE_FOR_STUDENTS", "The Humanizer isn't available on student accounts.", 403);
+  }
 
   const parsed = bodySchema.safeParse(await request.json().catch(() => ({})));
   if (!parsed.success) return error("INVALID_INPUT", parsed.error.issues[0].message, 400);
@@ -52,7 +57,6 @@ export async function POST(request: NextRequest) {
     await registerDerivedContent(user.id, text, result.text).catch(() => undefined);
 
     let checkId: string | null = null;
-    const profile = await getCurrentProfile();
     if (profile?.save_history !== false) {
       const supabase = await createClient();
       const { data } = await supabase
