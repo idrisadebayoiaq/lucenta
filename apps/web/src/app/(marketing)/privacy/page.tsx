@@ -33,10 +33,14 @@ const sections: LegalSection[] = [
         </p>
         <h3>Device and network records</h3>
         <p>
-          Each person may have one Lucenta account. To enforce this, when you sign up or log in we record a random device
-          identifier stored in your browser and your IP address. We store both only as keyed one-way hashes, not in readable
-          form, and use them solely to prevent duplicate accounts and abuse. These records are kept after an account is deleted
-          so the limit can&apos;t be bypassed by deleting and re-creating accounts.
+          Each person may have one Lucenta account and one set of free daily limits per device. To enforce this, when you sign
+          up or log in we record a random device identifier stored in your browser, a device fingerprint (a summary of
+          technical characteristics such as screen size, graphics hardware, timezone and how your browser draws text), and
+          your IP address. We store all of them only as keyed one-way hashes, not in readable form, and use them solely to
+          prevent duplicate accounts and abuse. If a new account&apos;s fingerprint matches an existing account, the two
+          accounts share one set of daily limits. These records are kept after an account is deleted so the rules can&apos;t be
+          bypassed by deleting and re-creating accounts. We also reject disposable email addresses and variations of an email
+          that already has an account.
         </p>
         <h3>Profile information (optional)</h3>
         <p>Username, bio, company, job title, website, location and profile photo, if you add them.</p>

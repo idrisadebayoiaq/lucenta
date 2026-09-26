@@ -3,7 +3,14 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { checkSignupAllowed, getDeviceContext, recordDevice } from "@/lib/account-guard";
+import {
+  checkEmailAllowed,
+  checkSignupAllowed,
+  findQuotaOwner,
+  getDeviceContext,
+  linkQuota,
+  recordDevice,
+} from "@/lib/account-guard";
 import { birthDateSchema } from "@/lib/age";
 import { createClient, getCurrentUser } from "@/lib/supabase/server";
 
@@ -61,9 +68,12 @@ export async function signup(_: AuthState, formData: FormData): Promise<AuthStat
     return { fieldErrors: z.flattenError(parsed.error).fieldErrors, values };
   }
 
-  const device = await getDeviceContext(formData.get("deviceId"));
+  const device = await getDeviceContext(formData.get("deviceId"), formData.get("fp"));
   const guard = await checkSignupAllowed(device);
   if (!guard.allowed) return { error: guard.message, values };
+  const emailCheck = await checkEmailAllowed(parsed.data.email);
+  if (!emailCheck.allowed) return { fieldErrors: { email: [emailCheck.message] }, values };
+  const quotaOwner = await findQuotaOwner(device);
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signUp({
@@ -80,6 +90,7 @@ export async function signup(_: AuthState, formData: FormData): Promise<AuthStat
   // An existing email comes back as a user with no identities; only record genuinely new accounts.
   if (data.user && (data.user.identities?.length ?? 0) > 0) {
     await recordDevice(device, data.user.id, "signup");
+    if (quotaOwner) await linkQuota(data.user.id, quotaOwner);
   }
 
   if (data.session) redirect("/dashboard");
@@ -108,7 +119,7 @@ export async function login(_: AuthState, formData: FormData): Promise<AuthState
   }
 
   try {
-    await recordDevice(await getDeviceContext(formData.get("deviceId")), data.user.id, "login");
+    await recordDevice(await getDeviceContext(formData.get("deviceId"), formData.get("fp")), data.user.id, "login");
   } catch (e) {
     console.error("Failed to record login device", e);
   }
@@ -117,7 +128,7 @@ export async function login(_: AuthState, formData: FormData): Promise<AuthState
 }
 
 export async function signInWithGoogle(formData: FormData) {
-  await getDeviceContext(formData.get("deviceId"));
+  await getDeviceContext(formData.get("deviceId"), formData.get("fp"));
   const supabase = await createClient();
   const next = safeNext(formData.get("next"));
   const { data, error } = await supabase.auth.signInWithOAuth({

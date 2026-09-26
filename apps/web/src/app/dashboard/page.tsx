@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Bot, Globe, Wand2 } from "lucide-react";
+import { LEGAL_CONTACT } from "@/components/legal-document";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, Badge, EmptyState, Progress } from "@/components/ui/misc";
-import { getCurrentProfile, getCurrentUser, createClient } from "@/lib/supabase/server";
+import { getCurrentProfile, createClient } from "@/lib/supabase/server";
 import { MAX_TEXT_CHARS } from "@/lib/limits";
 import { getDailyUsage } from "@/lib/usage";
 import { aiScoreColor, cn, formatDateTime, scoreColor } from "@/lib/utils";
@@ -19,12 +20,11 @@ const QUICK_ACTIONS = [
 
 export default async function DashboardPage({ searchParams }: PageProps<"/dashboard">) {
   const params = await searchParams;
-  const user = (await getCurrentUser())!;
   const profile = await getCurrentProfile();
   const supabase = await createClient();
 
   const [usage, { data: scans }, { data: checks }] = await Promise.all([
-    getDailyUsage(user.id),
+    getDailyUsage(),
     supabase.from("scans").select("id,url,status,overall_score,grade,created_at").order("created_at", { ascending: false }).limit(5),
     supabase.from("text_checks").select("id,kind,title,word_count,ai_score_before,ai_score_after,created_at").order("created_at", { ascending: false }).limit(5),
   ]);
@@ -60,6 +60,17 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
           <CardTitle>Today&apos;s free usage</CardTitle>
           <CardDescription>Lucenta is free for everyone. Limits reset every day at midnight UTC.</CardDescription>
         </CardHeader>
+        {usage.shared && (
+          <div className="px-6 pb-2">
+            <Alert tone="info" title="Your daily limits are shared with another account on this device.">
+              Each person gets one set of free limits per device. If this isn&apos;t right, email{" "}
+              <a href={`mailto:${LEGAL_CONTACT}`} className="font-bold text-primary hover:underline">
+                {LEGAL_CONTACT}
+              </a>
+              .
+            </Alert>
+          </div>
+        )}
         <CardContent className="grid gap-6 md:grid-cols-2">
           {meters.map((m) => {
             const pct = (m.used / m.limit) * 100;

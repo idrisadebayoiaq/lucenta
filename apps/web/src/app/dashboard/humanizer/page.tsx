@@ -12,7 +12,7 @@ export const metadata: Metadata = { title: "Humanizer" };
 export default async function HumanizerPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
-  const { contents } = await getDailyUsage(user.id);
+  const { contents } = await getDailyUsage();
 
   return (
     <div>

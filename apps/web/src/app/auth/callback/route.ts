@@ -1,5 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { checkSignupAllowed, getDeviceContext, hasRecordedDevice, recordDevice } from "@/lib/account-guard";
+import {
+  checkSignupAllowed,
+  findQuotaOwner,
+  getDeviceContext,
+  hasRecordedDevice,
+  linkQuota,
+  recordDevice,
+} from "@/lib/account-guard";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
@@ -27,7 +34,9 @@ export async function GET(request: NextRequest) {
           await createAdminClient().auth.admin.deleteUser(user.id);
           return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(guard.message)}`);
         }
+        const quotaOwner = await findQuotaOwner(device, user.id);
         await recordDevice(device, user.id, "google");
+        if (quotaOwner) await linkQuota(user.id, quotaOwner);
       } else {
         await recordDevice(device, user.id, "login").catch((e) => console.error("Failed to record login device", e));
       }

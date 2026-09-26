@@ -202,9 +202,12 @@ Migration `supabase/migrations/0001_initial_schema.sql`:
 - Date of birth at signup (`src/lib/age.ts`, minimum age 16), stored in `profiles.birth_date` (migration 0009). Google users and older accounts without it are sent to `/complete-profile` before the dashboard.
 - `account_devices` table (service-role only) stores HMAC hashes of a device ID (httpOnly cookie `lc_did` + localStorage copy) and the client IP. `src/lib/account-guard.ts`:
   - Signup is refused if the device already has an account (forever, even after the account is deleted).
-  - Signup is refused if the IP created `SIGNUP_MAX_ACCOUNTS_PER_IP` accounts (default 1) in the last `SIGNUP_IP_WINDOW_DAYS` (default 30). Private/localhost IPs are skipped.
+  - Loose anti-bot cap per network: `SIGNUP_MAX_ACCOUNTS_PER_IP` (default 20) per `SIGNUP_IP_WINDOW_DAYS` (default 1). An IP is shared by everyone on the same Wi-Fi, so it never enforces one-per-device. Private/localhost IPs are skipped.
   - New Google accounts from a blocked device/IP are deleted in `/auth/callback`. Logins record the device too.
 - Env: `SIGNUP_HASH_SECRET` (keep it stable — changing it invalidates existing hashes).
+- Browser fingerprint (migration 0010): `DeviceIdInput` also sends a SHA-256 fingerprint (screen, GPU, timezone, CPU cores, canvas). If a new account's fingerprint matches an existing account, it's linked in `quota_links` and they share one set of daily limits (`quota_group`, `claim_content`, `consume_daily_scan`, `get_daily_usage`). The dashboard tells linked users. To unlink wrongly matched strangers: `delete from quota_links where user_id = '…'`.
+- Signup rejects disposable email domains (`disposable-email-domains`) and variations of an existing email (`normalize_email`: lower-case, strip `+tag`, ignore Gmail dots).
+- Email provider still to choose (Brevo / Resend / Gmail SMTP) — Supabase's built-in sender only sends ~2 emails/hour, so production signup and password-reset emails need custom SMTP.
 
 ## Stage 12 — Hardening & launch ⬜
 - Rate limiting (Upstash), captcha on anonymous usage, Sentry, PostHog, E2E tests (Playwright), load test, SEO metadata/sitemap for our own site, deploy to Vercel, point domain.

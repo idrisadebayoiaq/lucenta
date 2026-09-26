@@ -13,21 +13,16 @@ export function contentHash(text: string) {
   return createHash("sha256").update(text.replace(/\s+/g, " ").trim()).digest("hex");
 }
 
-export async function getDailyUsage(userId: string) {
+/** Today's usage for the signed-in user, counted across any accounts that share limits with it (same device). */
+export async function getDailyUsage() {
   const supabase = await createClient();
-  const today = utcToday();
-  const [contents, scans] = await Promise.all([
-    supabase
-      .from("daily_contents")
-      .select("id", { count: "exact", head: true })
-      .eq("user_id", userId)
-      .eq("day", today)
-      .is("parent_hash", null),
-    supabase.from("daily_scans").select("count").eq("user_id", userId).eq("day", today).maybeSingle(),
-  ]);
+  const { data, error } = await supabase.rpc("get_daily_usage");
+  if (error) throw error;
+  const row = data?.[0];
   return {
-    contents: { used: contents.count ?? 0, limit: DAILY_CONTENT_LIMIT },
-    scans: { used: scans.data?.count ?? 0, limit: DAILY_SCAN_LIMIT },
+    contents: { used: row?.contents_used ?? 0, limit: DAILY_CONTENT_LIMIT },
+    scans: { used: row?.scans_used ?? 0, limit: DAILY_SCAN_LIMIT },
+    shared: row?.shared ?? false,
   };
 }
 

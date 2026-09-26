@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     return error("INVALID_URL", message, 400);
   }
 
-  const { scans } = await getDailyUsage(user.id);
+  const { scans } = await getDailyUsage();
   if (scans.used >= scans.limit) {
     return error("DAILY_LIMIT", `You've run all ${scans.limit} website audits for today. Your limit resets at midnight UTC.`, 429);
   }

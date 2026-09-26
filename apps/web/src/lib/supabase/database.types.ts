@@ -158,10 +158,17 @@ type DeveloperRow = {
 type AccountDeviceRow = {
   created_at: string
   device_hash: string | null
+  fingerprint_hash: string | null
   id: number
   ip_hash: string | null
   source: "signup" | "google" | "login"
   user_id: string | null
+}
+
+type QuotaLinkRow = {
+  created_at: string
+  owner_id: string
+  user_id: string
 }
 
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
@@ -238,8 +245,14 @@ export type Database = {
       }
       account_devices: {
         Row: Row<AccountDeviceRow>
-        Insert: Ins<Optional<Omit<AccountDeviceRow, "id">, "created_at" | "device_hash" | "ip_hash" | "user_id">>
+        Insert: Ins<Optional<Omit<AccountDeviceRow, "id">, "created_at" | "device_hash" | "fingerprint_hash" | "ip_hash" | "user_id">>
         Update: Upd<Omit<AccountDeviceRow, "id">>
+        Relationships: []
+      }
+      quota_links: {
+        Row: Row<QuotaLinkRow>
+        Insert: Ins<Optional<QuotaLinkRow, "created_at">>
+        Update: Upd<QuotaLinkRow>
         Relationships: []
       }
     }
@@ -248,6 +261,8 @@ export type Database = {
       claim_content: { Args: { p_hash: string }; Returns: boolean }
       consume_daily_scan: { Args: never; Returns: boolean }
       delete_current_user: { Args: never; Returns: undefined }
+      email_in_use: { Args: { p_email: string }; Returns: boolean }
+      get_daily_usage: { Args: never; Returns: { contents_used: number; scans_used: number; shared: boolean }[] }
       increment_usage: { Args: { p_amount: number; p_field: string }; Returns: boolean }
       plan_limit: { Args: { p_field: string; p_plan: string }; Returns: number }
     }

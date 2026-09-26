@@ -1,23 +1,30 @@
 import "server-only";
 import { createHmac, randomUUID } from "node:crypto";
+import disposableDomains from "disposable-email-domains";
 import { cookies, headers } from "next/headers";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export const DEVICE_COOKIE = "lc_did";
-const DEVICE_COOKIE_MAX_AGE = 60 * 60 * 24 * 400;
+const FINGERPRINT_COOKIE = "lc_fp";
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 400;
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const FINGERPRINT_RE = /^[0-9a-f]{64}$/;
 
-/** How many accounts one IP address may create within the window. Shared networks (offices, mobile carriers) share IPs. */
-const MAX_ACCOUNTS_PER_IP = Math.max(1, Number(process.env.SIGNUP_MAX_ACCOUNTS_PER_IP) || 1);
-const IP_WINDOW_DAYS = Math.max(1, Number(process.env.SIGNUP_IP_WINDOW_DAYS) || 30);
+/**
+ * Anti-bot cap only: an IP identifies a network (shared by everyone on the same Wi-Fi or carrier), not a device,
+ * so it must stay loose. One account per device is enforced by the device ID.
+ */
+const MAX_ACCOUNTS_PER_IP = Math.max(1, Number(process.env.SIGNUP_MAX_ACCOUNTS_PER_IP) || 20);
+const IP_WINDOW_DAYS = Math.max(1, Number(process.env.SIGNUP_IP_WINDOW_DAYS) || 1);
 
 export const DEVICE_BLOCKED_MESSAGE =
   "An account has already been created on this device. Each person can have one Lucenta account — please log in instead.";
-export const IP_BLOCKED_MESSAGE =
-  "An account was recently created from your network. Each person can have one Lucenta account — please log in instead.";
+export const IP_BLOCKED_MESSAGE = "Too many accounts have been created from your network today. Please try again tomorrow.";
 
-export type DeviceContext = { deviceIds: string[]; ip: string | null };
+export type DeviceContext = { deviceIds: string[]; fingerprint: string | null; ip: string | null };
 export type GuardResult = { allowed: true } | { allowed: false; reason: "device" | "ip"; message: string };
+
+let disposableSet: Set<string> | null = null;
 
 function hash(value: string) {
   const secret = process.env.SIGNUP_HASH_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY || "lucenta";
@@ -45,27 +52,38 @@ async function clientIp(): Promise<string | null> {
   return ip && !isPrivateIp(ip) ? ip : null;
 }
 
+function setLongCookie(store: Awaited<ReturnType<typeof cookies>>, name: string, value: string) {
+  store.set(name, value, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: COOKIE_MAX_AGE,
+    path: "/",
+  });
+}
+
 /**
- * Collects this browser's device IDs (cookie + the copy kept in localStorage) and makes sure the cookie is set.
- * Only callable where cookies can be written (server actions, route handlers).
+ * Collects this browser's device IDs (cookie + the copy kept in localStorage) and fingerprint, and keeps both in cookies
+ * so they survive the Google sign-in redirect. Only callable where cookies can be written (server actions, route handlers).
  */
-export async function getDeviceContext(clientDeviceId?: FormDataEntryValue | null): Promise<DeviceContext> {
+export async function getDeviceContext(
+  clientDeviceId?: FormDataEntryValue | null,
+  clientFingerprint?: FormDataEntryValue | null,
+): Promise<DeviceContext> {
   const store = await cookies();
   const fromCookie = store.get(DEVICE_COOKIE)?.value;
   const fromClient = typeof clientDeviceId === "string" ? clientDeviceId : undefined;
   const deviceIds = [fromCookie, fromClient].filter((id): id is string => !!id && UUID_RE.test(id));
   const unique = [...new Set(deviceIds.map((id) => id.toLowerCase()))];
   if (unique.length === 0) unique.push(randomUUID());
+  setLongCookie(store, DEVICE_COOKIE, unique[0]);
 
-  store.set(DEVICE_COOKIE, unique[0], {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    maxAge: DEVICE_COOKIE_MAX_AGE,
-    path: "/",
-  });
+  const fpClient = typeof clientFingerprint === "string" && FINGERPRINT_RE.test(clientFingerprint) ? clientFingerprint : null;
+  const fpCookie = store.get(FINGERPRINT_COOKIE)?.value;
+  const fingerprint = fpClient ?? (fpCookie && FINGERPRINT_RE.test(fpCookie) ? fpCookie : null);
+  if (fpClient) setLongCookie(store, FINGERPRINT_COOKIE, fpClient);
 
-  return { deviceIds: unique, ip: await clientIp() };
+  return { deviceIds: unique, fingerprint, ip: await clientIp() };
 }
 
 /** Whether a new account may be created from this device/network. `ignoreUserId` skips rows belonging to that user. */
@@ -98,25 +116,73 @@ export async function checkSignupAllowed(ctx: DeviceContext, ignoreUserId?: stri
   return { allowed: true };
 }
 
+/** Rejects disposable inboxes and addresses that are variations (dots, +tags) of an existing account's email. */
+export async function checkEmailAllowed(email: string): Promise<{ allowed: true } | { allowed: false; message: string }> {
+  const domain = email.split("@")[1]?.toLowerCase() ?? "";
+  disposableSet ??= new Set(disposableDomains);
+  if (disposableSet.has(domain)) {
+    return { allowed: false, message: "Temporary or disposable email addresses can't be used. Please use your real email." };
+  }
+
+  const { data, error } = await createAdminClient().rpc("email_in_use", { p_email: email });
+  if (error) throw error;
+  if (data) return { allowed: false, message: "An account already exists for this email address. Please log in instead." };
+  return { allowed: true };
+}
+
+/** The account whose daily limits a new account on this device should share, if its fingerprint matches one. */
+export async function findQuotaOwner(ctx: DeviceContext, excludeUserId?: string): Promise<string | null> {
+  if (!ctx.fingerprint) return null;
+  const admin = createAdminClient();
+  let query = admin
+    .from("account_devices")
+    .select("user_id")
+    .eq("fingerprint_hash", hash(ctx.fingerprint))
+    .not("user_id", "is", null)
+    .order("created_at", { ascending: true })
+    .limit(1);
+  if (excludeUserId) query = query.neq("user_id", excludeUserId);
+  const { data } = await query;
+  const matched = data?.[0]?.user_id;
+  if (!matched) return null;
+
+  const { data: link } = await admin.from("quota_links").select("owner_id").eq("user_id", matched).maybeSingle();
+  return link?.owner_id ?? matched;
+}
+
+export async function linkQuota(userId: string, ownerId: string) {
+  if (userId === ownerId) return;
+  await createAdminClient()
+    .from("quota_links")
+    .upsert({ user_id: userId, owner_id: ownerId }, { onConflict: "user_id", ignoreDuplicates: true });
+}
+
 export async function recordDevice(ctx: DeviceContext, userId: string, source: "signup" | "google" | "login") {
   const admin = createAdminClient();
+  const fingerprintHash = ctx.fingerprint ? hash(ctx.fingerprint) : null;
   let deviceHashes = ctx.deviceIds.map(hash);
 
   if (source === "login") {
     const { data } = await admin
       .from("account_devices")
-      .select("device_hash")
+      .select("device_hash, fingerprint_hash")
       .eq("user_id", userId)
       .in("device_hash", deviceHashes);
-    const known = new Set((data ?? []).map((row) => row.device_hash));
-    deviceHashes = deviceHashes.filter((h) => !known.has(h));
+    const known = new Set((data ?? []).map((row) => `${row.device_hash}|${row.fingerprint_hash ?? ""}`));
+    deviceHashes = deviceHashes.filter((h) => !known.has(`${h}|${fingerprintHash ?? ""}`));
     if (deviceHashes.length === 0) return;
   }
 
   const ipHash = ctx.ip ? hash(ctx.ip) : null;
-  await admin
-    .from("account_devices")
-    .insert(deviceHashes.map((device_hash) => ({ user_id: userId, device_hash, ip_hash: ipHash, source })));
+  await admin.from("account_devices").insert(
+    deviceHashes.map((device_hash) => ({
+      user_id: userId,
+      device_hash,
+      fingerprint_hash: fingerprintHash,
+      ip_hash: ipHash,
+      source,
+    })),
+  );
 }
 
 /** True if this user has any recorded device, i.e. the account existed before this sign-in. */

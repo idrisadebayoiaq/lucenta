@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "AI Detector" };
 export default async function DetectorPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
-  const { contents } = await getDailyUsage(user.id);
+  const { contents } = await getDailyUsage();
 
   return (
     <div>
