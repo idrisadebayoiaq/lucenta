@@ -36,7 +36,8 @@ const sections: LegalSection[] = [
           After you sign up we ask for your <strong>occupation</strong> (for example student, teacher, writer or developer) and{" "}
           <strong>how you heard about Lucenta</strong> (for example Cursor, X, Instagram, Facebook, ChatGPT, Claude, an ad, or a
           source you describe yourself). Your occupation decides which tools are available to you. Your answers are never shown
-          publicly, and you can update them at any time in <Link href="/dashboard/settings">Settings</Link>.
+          publicly, and you can update them in <Link href="/dashboard/settings">Settings</Link> (occupation at most once every 30
+          days).
         </p>
         <h3>Device and network records</h3>
         <p>

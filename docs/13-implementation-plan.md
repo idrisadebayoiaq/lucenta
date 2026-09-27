@@ -211,7 +211,7 @@ Migration `supabase/migrations/0001_initial_schema.sql`:
 
 ## Stage 11g — Onboarding: occupation & how you heard about us ✅
 - `/onboarding` (replaces `/complete-profile`, which now redirects) asks for date of birth (if missing), occupation (10 options) and how the user heard about Lucenta (Cursor, X, Instagram, Facebook, ChatGPT, Claude, Ads, Other with a required description). Options live in `src/lib/onboarding.ts`; the shared UI is `src/components/about-you-fields.tsx`.
-- Migration 0011 adds `profiles.occupation`, `occupation_updated_at`, `referral_source`, `referral_other`, `onboarded_at`, plus the `enforce_profile_rules` trigger: birth date must be 16+ and can't be changed once set; a student can't switch occupation for 30 days (`occupation_locked`).
+- Migration 0011 adds `profiles.occupation`, `occupation_updated_at`, `referral_source`, `referral_other`, `onboarded_at`, plus the `enforce_profile_rules` trigger: birth date must be 16+ and can't be changed once set; occupation can be changed at most once every 30 days, for everyone (`occupation_locked`; migration 0012 widened this from students only, so picking Student carries no extra penalty).
 - Students can't use the Humanizer: hidden from nav, dashboard quick actions and the Detector's "Humanize" buttons, the page shows an explanation, and `/api/humanize` returns 403 `NOT_AVAILABLE_FOR_STUDENTS`.
 - Existing users are sent to onboarding before the dashboard and can change their answers in Settings → About you.
 - `completeOnboarding` re-runs the device, network and email guards for brand-new accounts that skipped the signup form (created directly via the Supabase API) and deletes blocked ones.

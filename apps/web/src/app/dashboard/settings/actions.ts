@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { aboutYouSchema, STUDENT_OCCUPATION_LOCK_DAYS } from "@/lib/onboarding";
+import { aboutYouSchema, OCCUPATION_LOCK_DAYS } from "@/lib/onboarding";
 import { createClient, getCurrentUser } from "@/lib/supabase/server";
 
 export type SettingsState = {
@@ -31,7 +31,7 @@ export async function updateAboutYou(_: SettingsState, formData: FormData): Prom
   if (error) {
     const message =
       error.message === "occupation_locked"
-        ? `Student accounts can't change occupation within ${STUDENT_OCCUPATION_LOCK_DAYS} days of choosing Student.`
+        ? `You can only change your occupation once every ${OCCUPATION_LOCK_DAYS} days.`
         : error.message;
     return { error: message };
   }

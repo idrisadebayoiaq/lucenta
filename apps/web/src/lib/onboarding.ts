@@ -28,7 +28,8 @@ export const REFERRAL_SOURCES = [
 export type Occupation = (typeof OCCUPATIONS)[number]["id"];
 export type ReferralSource = (typeof REFERRAL_SOURCES)[number]["id"];
 
-export const STUDENT_OCCUPATION_LOCK_DAYS = 30;
+/** Occupation can be changed at most once in this many days (enforced by the enforce_profile_rules trigger). */
+export const OCCUPATION_LOCK_DAYS = 30;
 
 /** Students can use every tool except the Humanizer. */
 export function canUseHumanizer(occupation: string | null | undefined) {
@@ -39,10 +40,10 @@ export function occupationLabel(id: string | null | undefined) {
   return OCCUPATIONS.find((o) => o.id === id)?.label ?? null;
 }
 
-/** When a student may next change occupation, or null if they can change it now. */
+/** When the user may next change occupation, or null if they can change it now. */
 export function occupationUnlockDate(occupation: string | null, updatedAt: string | null): Date | null {
-  if (occupation !== "student" || !updatedAt) return null;
-  const unlock = new Date(new Date(updatedAt).getTime() + STUDENT_OCCUPATION_LOCK_DAYS * 86_400_000);
+  if (!occupation || !updatedAt) return null;
+  const unlock = new Date(new Date(updatedAt).getTime() + OCCUPATION_LOCK_DAYS * 86_400_000);
   return unlock > new Date() ? unlock : null;
 }
 

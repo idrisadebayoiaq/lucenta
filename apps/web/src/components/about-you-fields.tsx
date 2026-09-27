@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FieldError, Input, Label } from "@/components/ui/input";
-import { OCCUPATIONS, REFERRAL_SOURCES } from "@/lib/onboarding";
+import { OCCUPATION_LOCK_DAYS, OCCUPATIONS, REFERRAL_SOURCES } from "@/lib/onboarding";
 import { cn } from "@/lib/utils";
 
 type Option = { id: string; label: string };
@@ -78,14 +78,14 @@ export function AboutYouFields({
           disabled={!!occupationLockedUntil}
         />
         {occupationLockedUntil && <input type="hidden" name="occupation" value={occupation} />}
-        {occupation === "student" && !occupationLockedUntil && (
+        {occupationLockedUntil ? (
+          <p className="text-xs text-muted-foreground">You can change your occupation again after {occupationLockedUntil}.</p>
+        ) : (
           <p className="text-xs text-muted-foreground">
-            Students can use the AI Detector and Website Analyzer. The Humanizer isn&apos;t available for student accounts, to
-            support academic integrity. You can&apos;t switch away from Student for 30 days after choosing it.
+            {occupation === "student" &&
+              "Students can use the AI Detector and Website Analyzer. The Humanizer isn't available for student accounts, to support academic integrity. "}
+            Choose carefully: you can only change your occupation once every {OCCUPATION_LOCK_DAYS} days.
           </p>
-        )}
-        {occupationLockedUntil && (
-          <p className="text-xs text-muted-foreground">You can change your occupation after {occupationLockedUntil}.</p>
         )}
         <FieldError message={errors?.occupation} />
       </div>
