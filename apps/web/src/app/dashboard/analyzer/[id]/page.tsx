@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
-import { HireDeveloperCard } from "@/components/developer-card";
+import { HireDeveloperCard } from "@/components/freelancer-card";
 import { Alert, Badge } from "@/components/ui/misc";
 import type { Report } from "@/lib/analyzer/types";
-import { getDevelopers } from "@/lib/developers";
+import { matchDevelopers } from "@/lib/freelancer-match";
+import { getFreelancers } from "@/lib/freelancer-queries";
 import { createClient } from "@/lib/supabase/server";
 import { formatDateTime } from "@/lib/utils";
 import { ReportView } from "./report-view";
@@ -22,7 +23,7 @@ export default async function ScanReportPage({ params }: PageProps<"/dashboard/a
   const result = Array.isArray(scan.scan_results) ? scan.scan_results[0] : scan.scan_results;
   const report = (result?.report ?? null) as Report | null;
   const displayUrl = scan.url.replace(/^https?:\/\//, "").replace(/\/$/, "");
-  const developers = await getDevelopers();
+  const developers = matchDevelopers(report, await getFreelancers("developer"));
 
   return (
     <div className="space-y-6">
@@ -60,7 +61,7 @@ export default async function ScanReportPage({ params }: PageProps<"/dashboard/a
       {scan.status !== "failed" && !report && <Alert tone="info" title="This scan is still running. Refresh in a moment." />}
       {report && <ReportView report={report} />}
       {(report || scan.status === "failed") && (
-        <HireDeveloperCard developers={developers} siteUrl={displayUrl} issueCount={report?.recommendations.length ?? 0} />
+        <HireDeveloperCard matches={developers} siteUrl={displayUrl} issueCount={report?.recommendations.length ?? 0} />
       )}
     </div>
   );

@@ -149,8 +149,10 @@ export async function deleteAccount(_: FormState, formData: FormData): Promise<F
   if (!user) return { error: "You need to be logged in." };
 
   const supabase = await createClient();
-  const { data: files } = await supabase.storage.from("avatars").list(user.id);
-  if (files?.length) await supabase.storage.from("avatars").remove(files.map((f) => `${user.id}/${f.name}`));
+  for (const bucket of ["avatars", "freelancers"]) {
+    const { data: files } = await supabase.storage.from(bucket).list(user.id, { limit: 100 });
+    if (files?.length) await supabase.storage.from(bucket).remove(files.map((f) => `${user.id}/${f.name}`));
+  }
 
   const { error } = await supabase.rpc("delete_current_user");
   if (error) return { error: error.message };

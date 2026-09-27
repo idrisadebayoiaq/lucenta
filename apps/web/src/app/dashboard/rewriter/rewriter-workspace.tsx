@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { GraduationCap, Lightbulb, Lock, Wand2 } from "lucide-react";
+import type { Freelancer } from "@/lib/freelancers";
 import { cn } from "@/lib/utils";
 import { RewriteTool } from "./rewrite-tool";
 import { SuggestionsTool } from "./suggestions-tool";
@@ -31,11 +32,13 @@ export function RewriterWorkspace({
   canRewrite,
   usage,
   configured,
+  writers,
 }: {
   initialMode: RewriterMode;
   canRewrite: boolean;
   usage: { used: number; limit: number };
   configured: boolean;
+  writers: Freelancer[] | null;
 }) {
   const [mode, setMode] = useState<RewriterMode>(canRewrite ? initialMode : "suggest");
   const [text, setText] = useState("");
@@ -99,9 +102,9 @@ export function RewriterWorkspace({
       </div>
 
       {mode === "suggest" ? (
-        <SuggestionsTool text={text} setText={setText} usage={usage} isStudent={!canRewrite} />
+        <SuggestionsTool text={text} setText={setText} usage={usage} isStudent={!canRewrite} writers={writers} />
       ) : (
-        <RewriteTool text={text} setText={setText} usage={usage} configured={configured} />
+        <RewriteTool text={text} setText={setText} usage={usage} configured={configured} writers={writers} />
       )}
     </div>
   );

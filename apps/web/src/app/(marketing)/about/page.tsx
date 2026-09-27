@@ -51,14 +51,15 @@ export default function AboutPage() {
 
       <section className="border-y">
         <div className="mx-auto max-w-3xl px-4 py-16">
-          <h2 className="text-2xl font-extrabold tracking-tight">Help from real developers</h2>
+          <h2 className="text-2xl font-extrabold tracking-tight">Help from real developers and writers</h2>
           <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
-            Not everyone wants to fix their own website. Every report can be handed to an independent developer listed on
-            Lucenta, who you contact directly on WhatsApp, by phone or email. Soon, developers will be able to create their own
-            profiles and get suggested based on how well they can fix the issues in your report.
+            Not everyone wants to do it all themselves. Developers and content writers can create their own profiles on Lucenta.
+            Website reports suggest the developers whose skills match the issues found, and the writing tools suggest writers who
+            specialise in what you&apos;re working on, from SEO articles and ads to books and scripts. You contact them directly on
+            WhatsApp, by phone or email, and Lucenta doesn&apos;t take a cut.
           </p>
-          <Link href="/developers" className="mt-5 inline-block text-sm font-bold text-primary hover:underline">
-            Browse developers →
+          <Link href="/freelancers" className="mt-5 inline-block text-sm font-bold text-primary hover:underline">
+            Browse freelancers →
           </Link>
         </div>
       </section>

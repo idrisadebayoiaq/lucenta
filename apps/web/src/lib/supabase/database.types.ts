@@ -142,11 +142,17 @@ type DeveloperRow = {
   email: string | null
   experience: string | null
   facebook_handle: string | null
+  gallery: Json
   headline: string
   id: string
   instagram_handle: string | null
   is_available: boolean
   is_owner: boolean
+  is_published: boolean
+  is_verified: boolean
+  kind: string
+  languages: string[]
+  linkedin_url: string | null
   location: string | null
   name: string
   phone: string | null
@@ -155,7 +161,10 @@ type DeveloperRow = {
   skills: string[]
   slug: string
   sort_order: number
+  specialties: string[]
+  starting_rate: string | null
   updated_at: string
+  user_id: string | null
   whatsapp: string | null
   x_handle: string | null
 }

@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
       { source: "/legal/acceptable-use", destination: "/responsible-use", permanent: true },
       { source: "/complete-profile", destination: "/onboarding", permanent: true },
       { source: "/dashboard/humanizer", destination: "/dashboard/rewriter", permanent: true },
+      { source: "/developers", destination: "/freelancers?type=developer", permanent: true },
     ];
   },
   async rewrites() {

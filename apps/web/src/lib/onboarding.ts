@@ -36,6 +36,11 @@ export function canUseRewrite(occupation: string | null | undefined) {
   return occupation !== "student";
 }
 
+/** Students aren't pointed to hired writers, since that could mean paying someone to do graded work. */
+export function canSeeWriterSuggestions(occupation: string | null | undefined) {
+  return occupation !== "student";
+}
+
 export function occupationLabel(id: string | null | undefined) {
   return OCCUPATIONS.find((o) => o.id === id)?.label ?? null;
 }

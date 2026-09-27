@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/input";
 import { Badge } from "@/components/ui/misc";
+import { WriterSuggestions } from "@/components/writer-suggestions";
+import type { Freelancer } from "@/lib/freelancers";
 import { MAX_TEXT_CHARS } from "@/lib/limits";
 import { SUGGESTION_CATEGORIES, type SuggestionResult } from "@/lib/suggestions/types";
 import { cn, countWords } from "@/lib/utils";
@@ -60,11 +62,13 @@ export function SuggestionsTool({
   setText,
   usage,
   isStudent,
+  writers,
 }: {
   text: string;
   setText: (text: string) => void;
   usage: { used: number; limit: number };
   isStudent: boolean;
+  writers: Freelancer[] | null;
 }) {
   const router = useRouter();
   const [result, setResult] = useState<SuggestionResult | null>(null);
@@ -221,6 +225,7 @@ export function SuggestionsTool({
                   ))}
                 </ol>
               )}
+              {writers && <WriterSuggestions key={analyzedText} text={analyzedText} writers={writers} />}
             </>
           )}
         </CardContent>

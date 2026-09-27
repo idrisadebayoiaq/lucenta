@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
 import { ResponsibleUseNote } from "@/components/responsible-use-note";
-import { canUseRewrite } from "@/lib/onboarding";
+import { getFreelancers } from "@/lib/freelancer-queries";
+import { canSeeWriterSuggestions, canUseRewrite } from "@/lib/onboarding";
 import { isLLMConfigured } from "@/lib/openai";
 import { getCurrentProfile, getCurrentUser } from "@/lib/supabase/server";
 import { getDailyUsage } from "@/lib/usage";
@@ -15,6 +16,7 @@ export default async function RewriterPage({ searchParams }: PageProps<"/dashboa
   if (!user) redirect("/login");
   const [{ mode }, profile, { contents }] = await Promise.all([searchParams, getCurrentProfile(), getDailyUsage()]);
   const canRewrite = canUseRewrite(profile?.occupation);
+  const writers = canSeeWriterSuggestions(profile?.occupation) ? await getFreelancers("writer") : null;
 
   return (
     <div>
@@ -25,6 +27,7 @@ export default async function RewriterPage({ searchParams }: PageProps<"/dashboa
         canRewrite={canRewrite}
         usage={contents}
         configured={isLLMConfigured()}
+        writers={writers}
       />
     </div>
   );

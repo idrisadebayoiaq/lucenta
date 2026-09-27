@@ -15,7 +15,8 @@ const COLUMNS = [
     title: "Company",
     links: [
       { href: "/about", label: "About Lucenta" },
-      { href: "/developers", label: "Hire a developer" },
+      { href: "/freelancers", label: "Hire a freelancer" },
+      { href: "/dashboard/freelancer", label: "Become a freelancer" },
       { href: "/#free", label: "Free limits" },
       { href: "/#faq", label: "FAQ" },
     ],

@@ -175,14 +175,43 @@ const sections: LegalSection[] = [
     ),
   },
   {
-    id: "developers",
-    title: "Hiring a developer",
+    id: "freelancers",
+    title: "Freelancers: developers and writers",
     content: (
-      <p>
-        Lucenta lists independent developers who can help fix issues in your reports. Any project, price, payment or agreement is
-        strictly between you and the developer. Lucenta is not a party to it and isn&apos;t responsible for work carried out.
-        Contacting a developer through WhatsApp, phone or email happens directly in those apps.
-      </p>
+      <>
+        <h3>Hiring a freelancer</h3>
+        <p>
+          Lucenta lists independent developers and content writers. Website reports suggest developers whose specialties match
+          the issues found, and the writing tools may suggest writers who specialise in the kind of content you&apos;re working on.
+          Suggestions are automated and aren&apos;t endorsements. A &quot;Verified&quot; badge only means we&apos;ve checked who
+          the person is, not the quality of their work. Any project, price, payment or agreement is strictly between you and the
+          freelancer. Lucenta is not a party to it, doesn&apos;t take a fee, and isn&apos;t responsible for work carried out.
+          Contacting a freelancer through WhatsApp, phone or email happens directly in those apps.
+        </p>
+        <h3>Listing yourself as a freelancer</h3>
+        <p>If you create a freelancer profile, you agree that:</p>
+        <ul>
+          <li>you are at least 18 years old and the profile represents you, not someone else;</li>
+          <li>
+            everything on it (name, photo, experience, portfolio images, services and contact details) is accurate and yours to
+            share, and you have the rights to every image you upload;
+          </li>
+          <li>
+            your profile, including the contact details you add, is <strong>public</strong> and can be seen by anyone, including
+            people who aren&apos;t signed in;
+          </li>
+          <li>
+            you won&apos;t write, rewrite or complete <strong>graded or assessed work for students</strong> (essays, assignments,
+            theses, exam answers and similar), or offer any service meant to help people cheat, hide AI use where disclosure is
+            required, or pass off work as their own;
+          </li>
+          <li>you won&apos;t use your listing for spam, scams, misleading claims or anything illegal.</li>
+        </ul>
+        <p>
+          You can edit, hide or delete your profile at any time from <strong>Freelancer profile</strong> in your dashboard. We may
+          hide or remove profiles that break these rules or that we receive credible complaints about.
+        </p>
+      </>
     ),
   },
   {

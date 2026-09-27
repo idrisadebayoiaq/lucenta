@@ -7,7 +7,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 export const MARKETING_NAV = [
   { href: "/tools", label: "Tools" },
   { href: "/#how-it-works", label: "How it works" },
-  { href: "/developers", label: "Developers" },
+  { href: "/freelancers", label: "Freelancers" },
   { href: "/about", label: "About" },
   { href: "/#faq", label: "FAQ" },
 ];

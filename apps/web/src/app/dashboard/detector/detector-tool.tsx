@@ -10,12 +10,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/input";
 import { Alert, Badge, EmptyState } from "@/components/ui/misc";
+import { WriterSuggestions } from "@/components/writer-suggestions";
 import { MIN_DETECT_WORDS, type DetectionResult } from "@/lib/detector/types";
+import type { Freelancer } from "@/lib/freelancers";
 import { MAX_TEXT_CHARS } from "@/lib/limits";
 import { cn, countWords } from "@/lib/utils";
 import { REWRITER_HANDOFF_KEY } from "../rewriter/rewriter-workspace";
 
-export function DetectorTool({ usage }: { usage: { used: number; limit: number } }) {
+export function DetectorTool({ usage, writers }: { usage: { used: number; limit: number }; writers: Freelancer[] | null }) {
   const router = useRouter();
   const [text, setText] = useState("");
   const [result, setResult] = useState<DetectionResult | null>(null);
@@ -134,6 +136,7 @@ export function DetectorTool({ usage }: { usage: { used: number; limit: number }
                 <DetectionReasons result={result} />
               </CardContent>
             </Card>
+            {writers && <WriterSuggestions key={analyzedText} text={analyzedText} writers={writers} />}
             {result.engine === "heuristic" && (
               <Alert tone="info" title="Preview detector">
                 This result comes from the built-in statistical detector. The trained ML detector will be more accurate once it&apos;s connected.

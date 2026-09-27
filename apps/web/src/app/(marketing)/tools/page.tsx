@@ -51,9 +51,9 @@ export default function ToolsPage() {
                     size="md"
                     className="mt-6"
                     signedOutHref={href.startsWith("/dashboard") ? "/signup" : href}
-                    signedOutLabel={href.startsWith("/dashboard") ? `Sign up to use ${title}` : `Meet the developers`}
+                    signedOutLabel={href.startsWith("/dashboard") ? `Sign up to use ${title}` : `Browse freelancers`}
                     signedInHref={href}
-                    signedInLabel={href.startsWith("/dashboard") ? `Open ${title}` : `Meet the developers`}
+                    signedInLabel={href.startsWith("/dashboard") ? `Open ${title}` : `Browse freelancers`}
                   />
                 )}
               </div>
@@ -78,13 +78,13 @@ export default function ToolsPage() {
             </p>
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {COMING_SOON_TOOLS.map(({ slug, icon: Icon, title, tagline, description, features }) => (
+            {COMING_SOON_TOOLS.map(({ slug, icon: Icon, title, tagline, description, features, status }) => (
               <div key={slug} id={slug} className="scroll-mt-24 rounded-2xl border p-6">
                 <div className="flex items-center justify-between">
                   <span className="grid h-11 w-11 place-items-center rounded-full bg-muted">
                     <Icon className="h-5 w-5" />
                   </span>
-                  <Badge tone="outline">Coming soon</Badge>
+                  {status === "in-development" ? <Badge>In development</Badge> : <Badge tone="outline">Coming soon</Badge>}
                 </div>
                 <h3 className="mt-4 text-lg font-bold">{title}</h3>
                 <p className="text-sm font-medium">{tagline}</p>

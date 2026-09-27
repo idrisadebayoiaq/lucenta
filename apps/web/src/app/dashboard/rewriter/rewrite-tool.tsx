@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input, Label, Textarea } from "@/components/ui/input";
 import { Alert, Badge } from "@/components/ui/misc";
+import { WriterSuggestions } from "@/components/writer-suggestions";
+import type { Freelancer } from "@/lib/freelancers";
 import { STRENGTHS, TONES, type Strength, type Tone } from "@/lib/humanizer/options";
 import { MAX_TEXT_CHARS } from "@/lib/limits";
 import { cn, countWords } from "@/lib/utils";
@@ -28,11 +30,13 @@ export function RewriteTool({
   setText,
   usage,
   configured,
+  writers,
 }: {
   text: string;
   setText: (text: string) => void;
   usage: { used: number; limit: number };
   configured: boolean;
+  writers: Freelancer[] | null;
 }) {
   const router = useRouter();
   const [tone, setTone] = useState<Tone>("standard");
@@ -211,6 +215,7 @@ export function RewriteTool({
                     </Link>
                   </p>
                 </div>
+                {writers && <WriterSuggestions key={result.text} text={rewrittenFrom} writers={writers} />}
               </>
             ) : (
               <div className="flex min-h-96 flex-1 items-center justify-center rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">

@@ -52,6 +52,14 @@ const sections: LegalSection[] = [
         </p>
         <h3>Profile information (optional)</h3>
         <p>Username, bio, company, job title, website, location and profile photo, if you add them.</p>
+        <h3>Freelancer profiles (optional, public)</h3>
+        <p>
+          If you create a developer or writer profile, we store what you put on it: name, headline, photo, bio, location,
+          experience, languages, rates, specialties, skills, services, portfolio images and captions, contact details (email,
+          WhatsApp, phone) and social links. <strong>This profile is public</strong> while it&apos;s switched on, so anyone can
+          see it and contact you. We check your saved date of birth to confirm you&apos;re 18 or older, but it&apos;s never shown.
+          You can hide or delete the profile at any time, and deleting it also deletes the images you uploaded for it.
+        </p>
         <h3>Content you submit</h3>
         <ul>
           <li>
@@ -91,7 +99,8 @@ const sections: LegalSection[] = [
           </li>
           <li>
             <strong>Browser storage</strong> remembers your theme (dark/light), keeps a copy of the device identifier, and
-            briefly holds text you send from the Detector to the Rewriter.
+            briefly holds text you send from the Detector to the Rewriter. It also remembers if you&apos;ve closed an
+            announcement banner.
           </li>
         </ul>
         <p>We don&apos;t use advertising cookies, and we don&apos;t currently use third-party analytics or tracking pixels.</p>
@@ -110,7 +119,13 @@ const sections: LegalSection[] = [
         <li>
           <strong>To tailor tool access:</strong> we use your occupation to decide which tools you can use. To support academic
           integrity, student accounts get the Rewriter&apos;s Suggestions mode but not its Rewrite mode, while the AI
-          Detector and Website Analyzer are fully available (performance of our contract with you).
+          Detector and Website Analyzer are fully available. Student accounts also aren&apos;t shown suggestions to hire writers
+          (performance of our contract with you).
+        </li>
+        <li>
+          <strong>To suggest freelancers:</strong> we match website reports to developers by the issues found, and match text you
+          check or improve to writers by the kind of content it looks like. This matching happens without sending your text to
+          freelancers or storing it for this purpose (our legitimate interests).
         </li>
         <li>
           <strong>To understand how people find us:</strong> we look at how-you-heard answers in aggregate to decide where to
@@ -178,7 +193,7 @@ const sections: LegalSection[] = [
         <p>
           We may also disclose information if required by law, to protect people&apos;s safety or rights, or as part of a merger
           or sale of the business (in which case this policy would continue to protect your data). When you contact a developer
-          via WhatsApp, phone or email, that conversation happens in those apps, and we don&apos;t see it.
+          or writer via WhatsApp, phone or email, that conversation happens in those apps, and we don&apos;t see it.
         </p>
       </>
     ),
@@ -280,7 +295,7 @@ const sections: LegalSection[] = [
     title: "Links to other sites",
     content: (
       <p>
-        Reports, developer profiles and our footer link to other websites and apps (such as the sites you audit, portfolios,
+        Reports, freelancer profiles and our footer link to other websites and apps (such as the sites you audit, portfolios,
         WhatsApp, X, Facebook and Instagram). Their privacy practices are their own, so please review their policies.
       </p>
     ),

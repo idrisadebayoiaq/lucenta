@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Bot, ChevronDown, Globe, History, Home, LayoutDashboard, LogOut, Menu, Settings, User, Users, Wand2, X } from "lucide-react";
+import { BriefcaseBusiness, Bot, ChevronDown, Globe, History, Home, LayoutDashboard, LogOut, Menu, Settings, User, Users, Wand2, X } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -20,6 +20,7 @@ const NAV = [
 
 const ACCOUNT_NAV = [
   { href: "/dashboard/profile", label: "Profile", icon: User },
+  { href: "/dashboard/freelancer", label: "Freelancer profile", icon: BriefcaseBusiness },
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
 ];
 
@@ -61,12 +62,12 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
       {NAV.map(renderLink)}
       {ACCOUNT_NAV.map(renderLink)}
       <Link
-        href="/developers"
+        href="/freelancers"
         onClick={onNavigate}
         className="flex w-fit items-center gap-4 rounded-full py-2.5 pl-3 pr-5 text-[17px] text-foreground/90 transition-colors hover:bg-muted"
       >
         <Users className="h-6 w-6" />
-        Developers
+        Hire a freelancer
       </Link>
       <Link href="/dashboard/analyzer" onClick={onNavigate} className={cn(buttonVariants({ size: "lg" }), "mt-4 w-full")}>
         Audit a website
@@ -96,10 +97,10 @@ export function Sidebar() {
       <Logo href="/dashboard" className="mb-6 px-3 py-2" />
       <NavLinks />
       <div className="rounded-2xl border p-4">
-        <p className="font-bold">Need help fixing your site?</p>
-        <p className="mt-1 text-sm text-muted-foreground">Hand your report to a developer who can fix the issues for you.</p>
-        <Link href="/developers" className={cn(buttonVariants({ size: "sm", variant: "contrast" }), "mt-3")}>
-          Hire a developer
+        <p className="font-bold">Need an expert?</p>
+        <p className="mt-1 text-sm text-muted-foreground">Hire a developer to fix your site, or a writer to polish your content.</p>
+        <Link href="/freelancers" className={cn(buttonVariants({ size: "sm", variant: "contrast" }), "mt-3")}>
+          Browse freelancers
         </Link>
       </div>
     </aside>

@@ -2,7 +2,6 @@ import Link from "next/link";
 import {
   Accessibility,
   ArrowRight,
-  BadgeCheck,
   Bot,
   Check,
   Gauge,
@@ -15,16 +14,16 @@ import {
   Wand2,
 } from "lucide-react";
 import { AuthCta } from "@/components/auth-state";
-import { DeveloperAvatar } from "@/components/developer-card";
+import { FreelancerListCard } from "@/components/freelancer-card";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge, ScoreRing } from "@/components/ui/misc";
-import { getDevelopers } from "@/lib/developers";
+import { getFreelancers } from "@/lib/freelancer-queries";
 import { FREE_FEATURES } from "@/lib/limits";
 import { COMING_SOON_TOOLS } from "@/lib/tools";
 import { HeroForm } from "./hero-form";
 
-// Static page, re-generated at most once an hour (picks up developer profile changes).
+// Static page, re-generated at most once an hour (freelancer saves also revalidate it).
 export const revalidate = 3600;
 
 const TOOLS = [
@@ -104,8 +103,12 @@ const FAQ = [
     a: "No. Each person can have one account, and only one account can be created per device. This keeps the free daily limits fair for everyone.",
   },
   {
-    q: "Can someone fix my website for me?",
-    a: "Yes. Every report links to available developers you can contact directly on WhatsApp, by phone or email, with your report context already filled in.",
+    q: "Can someone fix my website or help with my writing?",
+    a: "Yes. Every website report suggests developers whose skills match the issues found, and if you're not happy with a writing result, Lucenta suggests writers who specialise in that kind of content (SEO articles, copy, books, scripts and more). You contact them directly on WhatsApp, by phone or email. Lucenta doesn't take a cut, so agree on the price and scope with them. Writer suggestions aren't shown on student accounts.",
+  },
+  {
+    q: "How do I get listed as a developer or writer?",
+    a: "Sign in, open Freelancer profile in your dashboard and fill in your details: photo, bio, specialties, services, portfolio gallery and contact details. Your profile goes live straight away, and your specialties decide which reports and writing results suggest you. You need to be 18 or older, and writers must never do graded work for students.",
   },
   {
     q: "Do you store my text?",
@@ -114,8 +117,8 @@ const FAQ = [
 ];
 
 export default async function HomePage() {
-  const developers = await getDevelopers();
-  const featured = developers[0];
+  const all = await getFreelancers();
+  const featured = [...all].sort((a, b) => Number(b.is_verified) - Number(a.is_verified)).slice(0, 3);
 
   return (
     <>
@@ -201,13 +204,13 @@ export default async function HomePage() {
             <p className="mt-3 text-muted-foreground">We&apos;re building more tools to help you grow online. Sign up free to get them first.</p>
           </div>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {COMING_SOON_TOOLS.slice(0, 4).map(({ slug, icon: Icon, title, tagline }) => (
+            {COMING_SOON_TOOLS.slice(0, 4).map(({ slug, icon: Icon, title, tagline, status }) => (
               <Link key={slug} href={`/tools#${slug}`} className="rounded-2xl border p-5 transition-colors hover:bg-muted/50">
                 <div className="mb-3 flex items-center justify-between">
                   <span className="grid h-10 w-10 place-items-center rounded-full bg-muted text-foreground">
                     <Icon className="h-5 w-5" />
                   </span>
-                  <Badge tone="outline">Soon</Badge>
+                  {status === "in-development" ? <Badge>In development</Badge> : <Badge tone="outline">Soon</Badge>}
                 </div>
                 <p className="font-bold">{title}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{tagline}</p>
@@ -262,35 +265,34 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {featured && (
-        <section id="developers" className="border-y">
-          <div className="mx-auto max-w-6xl px-4 py-20">
-            <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl font-extrabold tracking-tight">Need a hand fixing your site?</h2>
-              <p className="mt-3 text-muted-foreground">
-                Every report comes with an option to hire a developer who can take care of the fixes for you.
-              </p>
-            </div>
-            <Card className="mx-auto mt-10 max-w-2xl">
-              <CardContent className="flex flex-col gap-5 pt-6 sm:flex-row sm:items-center">
-                <DeveloperAvatar dev={featured} size={64} />
-                <div className="min-w-0 flex-1">
-                  <p className="flex items-center gap-1.5 text-lg font-bold">
-                    {featured.name} <BadgeCheck className="h-5 w-5 fill-primary text-primary-foreground" />
-                  </p>
-                  <p className="text-sm text-muted-foreground">{featured.headline}</p>
-                  <p className="mt-2 line-clamp-2 text-sm">{featured.bio}</p>
-                </div>
-                <Link href="/developers" className={buttonVariants({ variant: "contrast", className: "shrink-0" })}>
-                  View profile
-                </Link>
-              </CardContent>
-            </Card>
+      <section id="freelancers" className="border-y">
+        <div className="mx-auto max-w-6xl px-4 py-20">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-extrabold tracking-tight">Need a hand? Hire a developer or writer</h2>
+            <p className="mt-3 text-muted-foreground">
+              Website reports suggest developers who match the issues found, and the writing tools suggest writers who match what
+              you&apos;re working on, from SEO articles to books and scripts.
+            </p>
           </div>
-        </section>
-      )}
+          {featured.length > 0 && (
+            <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {featured.map((f) => (
+                <FreelancerListCard key={f.id} freelancer={f} />
+              ))}
+            </div>
+          )}
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link href="/freelancers" className={buttonVariants({ variant: "contrast" })}>
+              Browse freelancers
+            </Link>
+            <Link href="/dashboard/freelancer" className={buttonVariants({ variant: "outline" })}>
+              Get listed as a freelancer
+            </Link>
+          </div>
+        </div>
+      </section>
 
-      <section id="faq" className={featured ? "" : "border-t"}>
+      <section id="faq">
         <div className="mx-auto max-w-3xl px-4 py-20">
           <h2 className="text-center text-3xl font-extrabold tracking-tight">Frequently asked questions</h2>
           <div className="mt-10 divide-y rounded-2xl border">

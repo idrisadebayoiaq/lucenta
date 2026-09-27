@@ -7,7 +7,6 @@ import {
   Globe,
   Puzzle,
   Share2,
-  UserPlus,
   Users,
   Wand2,
   Wrench,
@@ -22,6 +21,8 @@ export type Tool = {
   description: string;
   features: string[];
   href?: string;
+  /** Roadmap items only: shown as "In development" instead of "Coming soon". */
+  status?: "in-development";
 };
 
 export const AVAILABLE_TOOLS: Tool[] = [
@@ -76,14 +77,19 @@ export const AVAILABLE_TOOLS: Tool[] = [
     href: "/dashboard/rewriter",
   },
   {
-    slug: "hire-a-developer",
+    slug: "freelancers",
     icon: Wrench,
-    title: "Hire a developer",
-    tagline: "Get an expert to fix the issues in your report.",
+    title: "Hire a freelancer",
+    tagline: "Developers and content writers, matched to what you need.",
     description:
-      "Don't want to fix everything yourself? Every website report links to available developers you can reach on WhatsApp, by phone or email, with your report context already filled in.",
-    features: ["Verified developers with real portfolios", "WhatsApp, call or email in one tap", "Your audited site is included in the message"],
-    href: "/developers",
+      "Don't want to do everything yourself? Website reports suggest developers whose skills match the issues found, and the writing tools suggest writers who specialise in your kind of content: SEO articles, copy, books, scripts and more. Developers and writers can create their own profile with a photo, portfolio gallery, services and contact details.",
+    features: [
+      "Developers matched to the issues in each report",
+      "Writers matched to the content you're working on",
+      "Full profiles with portfolio gallery and services",
+      "WhatsApp, call or email in one tap, with no fees",
+    ],
+    href: "/freelancers",
   },
 ];
 
@@ -95,19 +101,6 @@ export const COMING_SOON_TOOLS: Tool[] = [
     tagline: "Audit your Instagram, X, TikTok and LinkedIn profiles.",
     description: "Scores your bio, profile photo, posting consistency and engagement, and suggests what to post and fix to grow faster.",
     features: ["Bio and profile checks", "Posting frequency and engagement", "Content suggestions"],
-  },
-  {
-    slug: "developer-accounts",
-    icon: UserPlus,
-    title: "Developer accounts",
-    tagline: "Sign up as a developer and get hired from reports.",
-    description:
-      "Create a developer account, fill in your skills, portfolio and contact details, and get suggested to people when they analyze their website. Developers are ranked by how well they match each report: the site's performance, results and the issues found in the analytics.",
-    features: [
-      "Developer sign-up with skills, portfolio and contact details",
-      "Suggested on website reports that match your skills",
-      "Ranking based on each report's performance, results and issues",
-    ],
   },
   {
     slug: "pdf-reports",
