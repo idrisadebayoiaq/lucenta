@@ -6,9 +6,9 @@ export const MAX_TEXT_CHARS = 3000;
 
 export const FREE_FEATURES = [
   `${DAILY_SCAN_LIMIT} AI website audits per day`,
-  `${DAILY_CONTENT_LIMIT} texts per day for AI detection + humanizing`,
+  `${DAILY_CONTENT_LIMIT} texts per day for the AI Detector and Rewriter`,
   `Up to ${MAX_TEXT_CHARS.toLocaleString()} characters per text`,
-  "Free AI score check on every humanized result",
-  "All humanizer tones and strengths",
+  "Writing suggestions that explain what to improve",
+  "All Rewriter tones and strengths",
   "Full history of your scans and checks",
 ];

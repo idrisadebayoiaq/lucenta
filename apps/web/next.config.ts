@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
       { source: "/legal/privacy", destination: "/privacy", permanent: true },
       { source: "/legal/acceptable-use", destination: "/responsible-use", permanent: true },
       { source: "/complete-profile", destination: "/onboarding", permanent: true },
+      { source: "/dashboard/humanizer", destination: "/dashboard/rewriter", permanent: true },
     ];
   },
   async rewrites() {

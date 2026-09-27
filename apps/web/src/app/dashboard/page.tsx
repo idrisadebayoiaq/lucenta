@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, Badge, EmptyState, Progress } from "@/components/ui/misc";
 import { getCurrentProfile, createClient } from "@/lib/supabase/server";
 import { MAX_TEXT_CHARS } from "@/lib/limits";
-import { canUseHumanizer } from "@/lib/onboarding";
+import { textCheckAiScore, textCheckLabel } from "@/lib/text-checks";
 import { getDailyUsage } from "@/lib/usage";
 import { aiScoreColor, cn, formatDateTime, scoreColor } from "@/lib/utils";
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = { title: "Dashboard" };
 const QUICK_ACTIONS = [
   { href: "/dashboard/analyzer", icon: Globe, title: "Analyze a website", body: "Full audit with fixes" },
   { href: "/dashboard/detector", icon: Bot, title: "Detect AI text", body: "Check any content" },
-  { href: "/dashboard/humanizer", icon: Wand2, title: "Humanize text", body: "Make it sound natural" },
+  { href: "/dashboard/rewriter", icon: Wand2, title: "Improve your writing", body: "Suggestions and rewrites" },
 ];
 
 export default async function DashboardPage({ searchParams }: PageProps<"/dashboard">) {
@@ -33,7 +33,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
   const firstName = profile?.full_name?.split(" ")[0];
   const meters = [
     { label: "Website audits", hint: "AI-powered site analysis", ...usage.scans },
-    { label: "Texts (detect + humanize)", hint: `Up to ${MAX_TEXT_CHARS.toLocaleString()} characters each`, ...usage.contents },
+    { label: "Texts (detector + rewriter)", hint: `Up to ${MAX_TEXT_CHARS.toLocaleString()} characters each`, ...usage.contents },
   ];
 
   return (
@@ -43,7 +43,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
       {params.passwordReset && <Alert tone="success" title="Your password has been updated." />}
 
       <div className="grid gap-4 md:grid-cols-3">
-        {QUICK_ACTIONS.filter((a) => canUseHumanizer(profile?.occupation) || a.href !== "/dashboard/humanizer").map(({ href, icon: Icon, title, body }) => (
+        {QUICK_ACTIONS.map(({ href, icon: Icon, title, body }) => (
           <Link key={href} href={href} className="group rounded-2xl border bg-card p-5 transition-colors hover:bg-muted/50">
             <div className="mb-4 grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
               <Icon className="h-5 w-5" />
@@ -137,14 +137,14 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
             {checks && checks.length > 0 ? (
               <ul className="divide-y">
                 {checks.map((c) => {
-                  const score = c.kind === "humanize" ? c.ai_score_after : c.ai_score_before;
+                  const score = textCheckAiScore(c);
                   return (
                     <li key={c.id}>
                       <Link href={`/dashboard/history/${c.id}`} className="flex items-center justify-between gap-3 py-3 hover:opacity-80">
                         <div className="min-w-0">
                           <p className="truncate text-sm font-medium">{c.title || "Untitled text"}</p>
                           <p className="text-xs text-muted-foreground">
-                            {c.kind === "humanize" ? "Humanized" : "Detected"} · {c.word_count} words · {formatDateTime(c.created_at)}
+                            {textCheckLabel(c.kind)} · {c.word_count} words · {formatDateTime(c.created_at)}
                           </p>
                         </div>
                         {score != null && <span className={cn("text-sm font-bold", aiScoreColor(score))}>{Math.round(score * 100)}% AI</span>}
@@ -154,7 +154,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
                 })}
               </ul>
             ) : (
-              <EmptyState icon={<Bot className="h-8 w-8" />} title="No text checks yet" description="Detect or humanize some text to see it here." />
+              <EmptyState icon={<Bot className="h-8 w-8" />} title="No text checks yet" description="Check or improve some text to see it here." />
             )}
           </CardContent>
         </Card>

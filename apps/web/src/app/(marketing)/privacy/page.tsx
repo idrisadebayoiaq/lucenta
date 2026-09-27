@@ -59,7 +59,8 @@ const sections: LegalSection[] = [
             you can view them again.
           </li>
           <li>
-            <strong>Text for the AI Detector and Humanizer:</strong> the text you paste and the results. These are saved to your
+            <strong>Text for the AI Detector and Rewriter:</strong> the text you paste and the results (scores, writing
+            suggestions or rewrites). These are saved to your
             history <strong>only if &quot;Save history&quot; is on</strong> in Settings. With it off, your text is processed and
             then discarded.
           </li>
@@ -90,7 +91,7 @@ const sections: LegalSection[] = [
           </li>
           <li>
             <strong>Browser storage</strong> remembers your theme (dark/light), keeps a copy of the device identifier, and
-            briefly holds text you send from the Detector to the Humanizer.
+            briefly holds text you send from the Detector to the Rewriter.
           </li>
         </ul>
         <p>We don&apos;t use advertising cookies, and we don&apos;t currently use third-party analytics or tracking pixels.</p>
@@ -108,8 +109,8 @@ const sections: LegalSection[] = [
         </li>
         <li>
           <strong>To tailor tool access:</strong> we use your occupation to decide which tools you can use. To support academic
-          integrity, the Humanizer isn&apos;t available on student accounts, while the AI Detector and Website Analyzer are
-          (performance of our contract with you).
+          integrity, student accounts get the Rewriter&apos;s Suggestions mode but not its Rewrite mode, while the AI
+          Detector and Website Analyzer are fully available (performance of our contract with you).
         </li>
         <li>
           <strong>To understand how people find us:</strong> we look at how-you-heard answers in aggregate to decide where to
@@ -138,7 +139,7 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>
-          The AI Detector&apos;s scoring runs on our own servers. To humanize text, check meaning, and review websites, we send
+          The AI Detector&apos;s scoring runs on our own servers. To give writing suggestions, rewrite text, check meaning, and review websites, we send
           the relevant text or page content to AI models through <strong>OpenRouter</strong>, which routes requests to model
           providers (currently models such as Meta Llama and Google Gemini). They process it only to return your result.
         </p>
@@ -164,7 +165,7 @@ const sections: LegalSection[] = [
             <strong>Supabase:</strong> database, authentication and file storage.
           </li>
           <li>
-            <strong>OpenRouter and its AI model providers:</strong> to generate humanized text, meaning checks and website
+            <strong>OpenRouter and its AI model providers:</strong> to generate writing suggestions, rewrites, meaning checks and website
             reviews.
           </li>
           <li>
@@ -305,7 +306,7 @@ export default function PrivacyPage() {
         <>
           <p>
             Your privacy matters to us. This policy explains what information Lucenta collects when you use our Website Analyzer,
-            AI Text Detector and Humanizer, why we collect it, who processes it, and the control you have over it.
+            AI Text Detector and Rewriter, why we collect it, who processes it, and the control you have over it.
           </p>
           <p className="rounded-2xl border p-4">
             <strong>The short version:</strong> we collect only what we need to run Lucenta, we never sell your data, your text

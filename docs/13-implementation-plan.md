@@ -217,6 +217,16 @@ Migration `supabase/migrations/0001_initial_schema.sql`:
 - `completeOnboarding` re-runs the device, network and email guards for brand-new accounts that skipped the signup form (created directly via the Supabase API) and deletes blocked ones.
 - Privacy Policy, Terms and Responsible Use updated.
 
+## Stage 11h — Humanizer renamed to Rewriter, Suggestions mode for students ✅
+- The Humanizer is now the **Rewriter** (`/dashboard/rewriter`; `/dashboard/humanizer` redirects). Internals keep their names: `lib/humanizer`, `text_checks.kind = 'humanize'`.
+- Two modes in `rewriter-workspace.tsx` (text is shared between them):
+  - **Suggestions** (`/api/suggest`, `lib/suggestions`): flags unclear, wordy, generic, repetitive or passive sentences and explains how to fix them. It never returns rewritten sentences: the prompt forbids it and `sanitize()` strips long quotes and "try: …" examples. Built-in checks (stock phrases, 35+ word sentences, passive voice, repeated openings) fill gaps and are the fallback when no LLM is configured. Saved as `kind = 'suggest'` (migration 0013). Uses one daily text.
+  - **Rewrite** (`/api/rewrite`): the old humanizer engine. Not available to students (403 `NOT_AVAILABLE_FOR_STUDENTS`).
+- Students see Suggestions only; everyone else defaults to Rewrite.
+- No AI score after a rewrite: the before/after gauges and "Check AI score" button are gone (UI, API response and history). A disclosure note sits under every rewrite. History lists only show AI scores for detections.
+- The Detector's button is now "Get writing suggestions" (opens Suggestions mode with the text).
+- Marketing copy, tools list, legal pages and FAQ updated ("Make your writing clearer" instead of "sound human").
+
 ## Stage 12 — Hardening & launch ⬜
 - Rate limiting (Upstash), captcha on anonymous usage, Sentry, PostHog, E2E tests (Playwright), load test, SEO metadata/sitemap for our own site, deploy to Vercel, point domain.
 

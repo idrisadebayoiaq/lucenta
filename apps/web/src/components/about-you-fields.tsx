@@ -83,7 +83,7 @@ export function AboutYouFields({
         ) : (
           <p className="text-xs text-muted-foreground">
             {occupation === "student" &&
-              "Students can use the AI Detector and Website Analyzer. The Humanizer isn't available for student accounts, to support academic integrity. "}
+              "Students can use every tool, but the Rewriter gives feedback only (Suggestions mode) and won't rewrite text for you, to support academic integrity. "}
             Choose carefully: you can only change your occupation once every {OCCUPATION_LOCK_DAYS} days.
           </p>
         )}

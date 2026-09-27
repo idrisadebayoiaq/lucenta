@@ -47,7 +47,7 @@ export async function isDerivedContent(userId: string, text: string) {
   return !!data;
 }
 
-/** Lets a humanized result be checked without using another slot. Written with the service role so users can't forge it. */
+/** Lets a rewritten result be checked without using another slot. Written with the service role so users can't forge it. */
 export async function registerDerivedContent(userId: string, parentText: string, derivedText: string) {
   const admin = createAdminClient();
   await admin

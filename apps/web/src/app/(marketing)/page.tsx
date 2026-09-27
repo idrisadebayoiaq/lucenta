@@ -44,10 +44,10 @@ const TOOLS = [
   },
   {
     icon: Wand2,
-    title: "Humanizer",
-    href: "/tools#humanizer",
-    description: "Rewrite stiff, robotic text so it reads naturally, while keeping your meaning, names, and numbers.",
-    points: ["Multiple tones", "Meaning preserved", "Check the new AI score for free"],
+    title: "Rewriter",
+    href: "/tools#rewriter",
+    description: "Get feedback on what to improve, or polish stiff, wordy text while keeping your meaning, names and numbers.",
+    points: ["Sentence-by-sentence suggestions", "Multiple tones", "Meaning preserved"],
   },
 ];
 
@@ -63,7 +63,7 @@ const CHECKS = [
 const STEPS = [
   { title: "Paste a URL or text", body: "Drop in your website address or the content you want to check." },
   { title: "Get a clear report", body: "Scores, metrics, and highlights that explain exactly what's going on." },
-  { title: "Fix it or get help", body: "Follow the prioritized fixes, humanize text in one click, or hand the report to a developer." },
+  { title: "Fix it or get help", body: "Follow the prioritized fixes, get writing suggestions in one click, or hand the report to a developer." },
 ];
 
 const FAQ = [
@@ -73,19 +73,19 @@ const FAQ = [
   },
   {
     q: "Is Lucenta really free?",
-    a: "Yes. Every account gets 5 website audits and 5 texts (up to 3,000 characters each) per day for detection and humanizing. Limits reset every day at midnight UTC.",
+    a: "Yes. Every account gets 5 website audits and 5 texts (up to 3,000 characters each) per day for the AI Detector and Rewriter. Limits reset every day at midnight UTC.",
   },
   {
     q: "How accurate is the AI detector?",
     a: "AI detection is probabilistic. We show a confidence level and highlight the sentences driving the score. Human writing can be flagged and AI writing can be missed, so treat the score as a starting point for a conversation, never as the only evidence that someone cheated.",
   },
   {
-    q: "Will the humanizer change my meaning?",
-    a: "No. The humanizer keeps names, numbers, quotes, and your key points intact, and checks that the rewrite still says the same thing. You can re-check the humanized text's AI score for free.",
+    q: "Will the Rewriter change my meaning?",
+    a: "No. Rewrite mode keeps names, numbers, quotes, and your key points intact, and checks that the rewrite still says the same thing. Suggestions mode doesn't change your text at all: it explains what to improve and you make the edits.",
   },
   {
     q: "Can I use Lucenta for school work?",
-    a: "You can use the detector to review your own drafts and the humanizer to improve writing you're allowed to polish. Lucenta is not a cheating tool: don't use it to submit AI-written work where your school forbids it, to hide AI use you're required to disclose, or to pass off someone else's work as yours. Always follow your institution's rules, and see our Responsible Use Policy for details.",
+    a: "Yes, to improve your own writing. Students can use the AI Detector to review their drafts and the Rewriter's Suggestions mode to learn what to fix, but Rewrite mode isn't available on student accounts. Lucenta is not a cheating tool: don't use it to submit AI-written work where your school forbids it, to hide AI use you're required to disclose, or to pass off someone else's work as yours. Always follow your institution's rules, and see our Responsible Use Policy for details.",
   },
   {
     q: "Can someone fix my website for me?",
@@ -110,11 +110,11 @@ export default async function HomePage() {
             <Sparkles className="h-3 w-3" /> 100% free · AI website audits + writing tools
           </Badge>
           <h1 className="mx-auto max-w-3xl text-4xl font-extrabold tracking-tight md:text-6xl">
-            See what your website is missing. <span className="text-gradient">Make your writing sound human.</span>
+            See what your website is missing. <span className="text-gradient">Make your writing clearer.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            Lucenta audits your site&apos;s speed, SEO, security and accessibility with AI, detects AI-written text, and rewrites it
-            so it reads naturally.
+            Lucenta audits your site&apos;s speed, SEO, security and accessibility with AI, checks text for signs of AI writing,
+            and shows you how to make your writing clearer.
           </p>
           <div className="mt-10">
             <HeroForm />
@@ -125,8 +125,8 @@ export default async function HomePage() {
               AI Detector
             </Link>
             <span>·</span>
-            <Link href="/dashboard/humanizer" className="font-bold text-primary hover:underline">
-              Humanizer
+            <Link href="/dashboard/rewriter" className="font-bold text-primary hover:underline">
+              Rewriter
             </Link>
           </div>
 

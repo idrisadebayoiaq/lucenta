@@ -31,8 +31,8 @@ export type ReferralSource = (typeof REFERRAL_SOURCES)[number]["id"];
 /** Occupation can be changed at most once in this many days (enforced by the enforce_profile_rules trigger). */
 export const OCCUPATION_LOCK_DAYS = 30;
 
-/** Students can use every tool except the Humanizer. */
-export function canUseHumanizer(occupation: string | null | undefined) {
+/** Students get the Rewriter's Suggestions mode only; everyone else can also rewrite text. */
+export function canUseRewrite(occupation: string | null | undefined) {
   return occupation !== "student";
 }
 

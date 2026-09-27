@@ -63,7 +63,7 @@ export function DailyTextsLeft({ used, limit }: { used: number; limit: number })
   return (
     <p className={cn("text-xs", left === 0 ? "text-rose-500" : "text-muted-foreground")}>
       {left === 0
-        ? "Daily limit reached · you can still re-check or humanize today's texts"
+        ? "Daily limit reached · you can still re-check or rewrite today's texts"
         : `${left} of ${limit} new texts left today`}
     </p>
   );

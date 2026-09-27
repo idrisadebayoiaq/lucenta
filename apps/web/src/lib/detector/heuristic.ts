@@ -44,7 +44,7 @@ function stdev(values: number[]) {
   return Math.sqrt(values.reduce((s, v) => s + (v - mean) ** 2, 0) / (values.length - 1));
 }
 
-function findPhrases(text: string) {
+export function findPhrases(text: string) {
   const lower = text.toLowerCase();
   return AI_PHRASES.filter((p) => new RegExp(`(^|[^a-z])${p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}([^a-z]|$)`).test(lower));
 }

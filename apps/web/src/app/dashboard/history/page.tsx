@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent } from "@/components/ui/card";
 import { createClient } from "@/lib/supabase/server";
+import { textCheckAiScore, textCheckLabel } from "@/lib/text-checks";
 import { cn } from "@/lib/utils";
 import { HistoryList, type HistoryItem } from "./history-list";
 
@@ -13,10 +14,17 @@ const TABS = [
   { id: "texts", label: "Text checks" },
 ] as const;
 
+const FILTERS = [
+  { id: "all", label: "All" },
+  { id: "detect", label: "Detection" },
+  { id: "suggest", label: "Suggestions" },
+  { id: "humanize", label: "Rewrites" },
+] as const;
+
 export default async function HistoryPage({ searchParams }: PageProps<"/dashboard/history">) {
   const params = await searchParams;
   const tab = params.tab === "texts" ? "texts" : "scans";
-  const filter = params.filter === "detect" || params.filter === "humanize" ? params.filter : "all";
+  const filter = FILTERS.find((f) => f.id === params.filter)?.id ?? "all";
   const supabase = await createClient();
 
   let items: HistoryItem[] = [];
@@ -44,12 +52,12 @@ export default async function HistoryPage({ searchParams }: PageProps<"/dashboar
     if (filter !== "all") query = query.eq("kind", filter);
     const { data } = await query;
     items = (data ?? []).map((c) => {
-      const score = c.kind === "humanize" ? c.ai_score_after : c.ai_score_before;
+      const score = textCheckAiScore(c);
       return {
         id: c.id,
         href: `/dashboard/history/${c.id}`,
         title: c.title || "Untitled text",
-        subtitle: `${c.kind === "humanize" ? "Humanized" : "AI detection"} · ${c.word_count} words`,
+        subtitle: `${textCheckLabel(c.kind)} · ${c.word_count} words`,
         createdAt: c.created_at,
         score: score != null ? { value: Math.round(Number(score) * 100), kind: "ai" } : null,
       };
@@ -73,13 +81,13 @@ export default async function HistoryPage({ searchParams }: PageProps<"/dashboar
         </div>
         {tab === "texts" && (
           <div className="flex gap-1 text-sm">
-            {(["all", "detect", "humanize"] as const).map((f) => (
+            {FILTERS.map((f) => (
               <Link
-                key={f}
-                href={`/dashboard/history?tab=texts${f === "all" ? "" : `&filter=${f}`}`}
-                className={cn("rounded-full border px-3 py-1 capitalize", filter === f ? "border-primary text-primary" : "text-muted-foreground hover:text-foreground")}
+                key={f.id}
+                href={`/dashboard/history?tab=texts${f.id === "all" ? "" : `&filter=${f.id}`}`}
+                className={cn("rounded-full border px-3 py-1", filter === f.id ? "border-primary text-primary" : "text-muted-foreground hover:text-foreground")}
               >
-                {f === "detect" ? "Detection" : f === "humanize" ? "Humanized" : "All"}
+                {f.label}
               </Link>
             ))}
           </div>

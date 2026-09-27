@@ -106,7 +106,7 @@ export function PreferencesForm({ saveHistory, emailNotifications }: { saveHisto
             name="save_history"
             defaultChecked={saveHistory}
             label="Save text history"
-            description="Keep your AI detection and humanizer checks so you can revisit them. When off, text is not stored."
+            description="Keep your AI detections, writing suggestions and rewrites so you can revisit them. When off, text is not stored."
           />
           <Switch
             name="email_notifications"

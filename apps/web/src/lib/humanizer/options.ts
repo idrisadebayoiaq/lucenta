@@ -11,7 +11,7 @@ export const TONES: { id: Tone; label: string }[] = [
 ];
 
 export const STRENGTHS: { id: Strength; label: string; description: string }[] = [
-  { id: "light", label: "Light", description: "Minimal edits" },
-  { id: "balanced", label: "Balanced", description: "Recommended" },
-  { id: "aggressive", label: "Aggressive", description: "Full rewrite" },
+  { id: "light", label: "Light", description: "Minimal edits: fix awkward phrasing and flow" },
+  { id: "balanced", label: "Balanced", description: "Recommended: rework sentences, keep the structure" },
+  { id: "aggressive", label: "Thorough", description: "Restructure sentences and paragraphs" },
 ];

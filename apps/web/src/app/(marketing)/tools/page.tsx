@@ -9,7 +9,7 @@ import { AVAILABLE_TOOLS, COMING_SOON_TOOLS } from "@/lib/tools";
 
 export const metadata: Metadata = {
   title: "Tools",
-  description: "Website Analyzer, AI Text Detector, Humanizer and more: everything Lucenta can do today and what's coming next.",
+  description: "Website Analyzer, AI Text Detector, Rewriter and more: everything Lucenta can do today and what's coming next.",
 };
 
 export default function ToolsPage() {

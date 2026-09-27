@@ -7,7 +7,7 @@ const COLUMNS = [
     links: [
       { href: "/tools#website-analyzer", label: "Website Analyzer" },
       { href: "/tools#ai-detector", label: "AI Detector" },
-      { href: "/tools#humanizer", label: "Humanizer" },
+      { href: "/tools#rewriter", label: "Rewriter" },
       { href: "/tools#coming-soon", label: "Coming soon" },
     ],
   },

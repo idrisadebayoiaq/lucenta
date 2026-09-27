@@ -5,7 +5,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 const POINTS = [
   "Free AI website audits with prioritized fixes",
   "AI text detection with sentence highlights",
-  "Humanize text while keeping your meaning",
+  "Writing suggestions and rewrites that keep your meaning",
 ];
 
 export default function AuthLayout({ children }: LayoutProps<"/">) {

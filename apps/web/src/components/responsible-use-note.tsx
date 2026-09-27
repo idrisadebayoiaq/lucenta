@@ -4,8 +4,8 @@ import { ShieldCheck } from "lucide-react";
 const NOTES = {
   detector:
     "Scores are estimates based on writing patterns, not proof of who wrote something. Human writing, especially formal text or writing by non-native speakers, can be flagged. Never use a score as the only evidence against anyone.",
-  humanizer:
-    "Use the Humanizer to polish writing you're allowed to improve. Don't use it to submit work where AI help isn't permitted, to hide AI use where disclosure is required, or to pass off someone else's work as your own.",
+  rewriter:
+    "Use the Rewriter to improve writing you're allowed to polish. Don't use it to submit work where AI help isn't permitted, to hide AI use where disclosure is required, or to pass off someone else's work as your own.",
 };
 
 export function ResponsibleUseNote({ tool }: { tool: keyof typeof NOTES }) {

@@ -10,7 +10,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Lucenta: Website Analyzer, AI Detector & Humanizer",
+    default: "Lucenta: Website Analyzer, AI Detector & Rewriter",
     template: "%s · Lucenta",
   },
   description:

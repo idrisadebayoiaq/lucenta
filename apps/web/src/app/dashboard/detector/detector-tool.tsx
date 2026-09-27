@@ -1,21 +1,21 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Bot, Eraser, Upload, Wand2 } from "lucide-react";
+import { Bot, Eraser, Lightbulb, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { AiGauge, LABELS } from "@/components/ai-gauge";
 import { DailyTextsLeft, DetectionReasons, HighlightedText } from "@/components/detection-report";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/input";
 import { Alert, Badge, EmptyState } from "@/components/ui/misc";
 import { MIN_DETECT_WORDS, type DetectionResult } from "@/lib/detector/types";
 import { MAX_TEXT_CHARS } from "@/lib/limits";
 import { cn, countWords } from "@/lib/utils";
+import { REWRITER_HANDOFF_KEY } from "../rewriter/rewriter-workspace";
 
-export function DetectorTool({ usage, canHumanize }: { usage: { used: number; limit: number }; canHumanize: boolean }) {
+export function DetectorTool({ usage }: { usage: { used: number; limit: number } }) {
   const router = useRouter();
   const [text, setText] = useState("");
   const [result, setResult] = useState<DetectionResult | null>(null);
@@ -55,9 +55,9 @@ export function DetectorTool({ usage, canHumanize }: { usage: { used: number; li
     setResult(null);
   }
 
-  function sendToHumanizer() {
-    sessionStorage.setItem("humanizer:text", analyzedText || text);
-    router.push("/dashboard/humanizer");
+  function getSuggestions() {
+    sessionStorage.setItem(REWRITER_HANDOFF_KEY, analyzedText || text);
+    router.push("/dashboard/rewriter?mode=suggest");
   }
 
   return (
@@ -121,11 +121,9 @@ export function DetectorTool({ usage, canHumanize }: { usage: { used: number; li
                 <p className="text-xs text-muted-foreground">
                   Confidence: <span className="font-medium capitalize text-foreground">{result.confidence}</span> · {result.wordCount} words
                 </p>
-                {canHumanize && (
-                  <Button className="w-full" onClick={sendToHumanizer}>
-                    <Wand2 className="h-4 w-4" /> Humanize this text
-                  </Button>
-                )}
+                <Button variant="outline" className="w-full" onClick={getSuggestions}>
+                  <Lightbulb className="h-4 w-4" /> Get writing suggestions
+                </Button>
               </CardContent>
             </Card>
             <Card>
@@ -147,13 +145,6 @@ export function DetectorTool({ usage, canHumanize }: { usage: { used: number; li
             icon={<Bot className="h-8 w-8" />}
             title="Paste text to begin"
             description="You'll see the AI probability, highlighted sentences and the reasons behind the score."
-            action={
-              canHumanize ? (
-                <Link href="/dashboard/humanizer" className={buttonVariants({ variant: "outline", size: "sm" })}>
-                  Go to Humanizer
-                </Link>
-              ) : undefined
-            }
           />
         )}
       </div>

@@ -1,21 +1,20 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Bot, Check, Copy, Eraser, RefreshCw, Wand2 } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Check, Copy, Eraser, RefreshCw, ShieldCheck, Wand2 } from "lucide-react";
 import { toast } from "sonner";
-import { AiGauge, LABELS } from "@/components/ai-gauge";
-import { DailyTextsLeft, DetectionReasons, HighlightedText } from "@/components/detection-report";
+import { DailyTextsLeft } from "@/components/detection-report";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input, Label, Textarea } from "@/components/ui/input";
 import { Alert, Badge } from "@/components/ui/misc";
-import type { DetectionResult } from "@/lib/detector/types";
 import { STRENGTHS, TONES, type Strength, type Tone } from "@/lib/humanizer/options";
 import { MAX_TEXT_CHARS } from "@/lib/limits";
 import { cn, countWords } from "@/lib/utils";
 
-type Result = { text: string; aiScoreBefore: number; aiScoreAfter: number; similarity: number; iterations: number };
+type Result = { text: string; similarity: number; iterations: number };
 
 function wordDiff(a: string, b: string) {
   const A = a.split(/(\s+)/);
@@ -24,38 +23,35 @@ function wordDiff(a: string, b: string) {
   return B.map((w, i) => ({ w, changed: w.trim() !== "" && !setA.has(w.toLowerCase()), key: i }));
 }
 
-export function HumanizerTool({ usage, configured }: { usage: { used: number; limit: number }; configured: boolean }) {
+export function RewriteTool({
+  text,
+  setText,
+  usage,
+  configured,
+}: {
+  text: string;
+  setText: (text: string) => void;
+  usage: { used: number; limit: number };
+  configured: boolean;
+}) {
   const router = useRouter();
-  const [text, setText] = useState("");
   const [tone, setTone] = useState<Tone>("standard");
   const [strength, setStrength] = useState<Strength>("balanced");
   const [keepWords, setKeepWords] = useState("");
   const [result, setResult] = useState<Result | null>(null);
-  const [check, setCheck] = useState<DetectionResult | null>(null);
-  const [checking, setChecking] = useState(false);
-  const [showHighlights, setShowHighlights] = useState(false);
+  const [rewrittenFrom, setRewrittenFrom] = useState("");
   const [loading, setLoading] = useState(false);
   const [showDiff, setShowDiff] = useState(false);
   const [copied, setCopied] = useState(false);
   const words = countWords(text);
   const chars = text.trim().length;
 
-  useEffect(() => {
-    const incoming = sessionStorage.getItem("humanizer:text");
-    if (incoming) {
-      // sessionStorage is only readable after hydration, so this can't be a lazy initial state.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setText(incoming);
-      sessionStorage.removeItem("humanizer:text");
-    }
-  }, []);
+  const diff = useMemo(() => (result ? wordDiff(rewrittenFrom, result.text) : []), [result, rewrittenFrom]);
 
-  const diff = useMemo(() => (result ? wordDiff(text, result.text) : []), [result, text]);
-
-  async function onHumanize() {
+  async function onRewrite() {
     setLoading(true);
     try {
-      const res = await fetch("/api/humanize", {
+      const res = await fetch("/api/rewrite", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
@@ -66,35 +62,16 @@ export function HumanizerTool({ usage, configured }: { usage: { used: number; li
         }),
       });
       const data = await res.json();
-      if (!res.ok) toast.error(data.error?.message ?? "Humanizing failed.");
+      if (!res.ok) toast.error(data.error?.message ?? "Rewriting failed.");
       else {
         setResult(data);
-        setCheck(null);
-        setShowHighlights(false);
+        setRewrittenFrom(text);
         router.refresh();
       }
     } catch {
       toast.error("Network error. Please try again.");
     }
     setLoading(false);
-  }
-
-  async function onCheck() {
-    if (!result) return;
-    setChecking(true);
-    try {
-      const res = await fetch("/api/detect", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ text: result.text, save: false }),
-      });
-      const data = await res.json();
-      if (!res.ok) toast.error(data.error?.message ?? "Checking failed.");
-      else setCheck(data);
-    } catch {
-      toast.error("Network error. Please try again.");
-    }
-    setChecking(false);
   }
 
   async function copy() {
@@ -108,7 +85,7 @@ export function HumanizerTool({ usage, configured }: { usage: { used: number; li
   return (
     <div className="space-y-6">
       {!configured && (
-        <Alert tone="warning" title="Humanizer engine not connected yet">
+        <Alert tone="warning" title="Rewriting engine not connected yet">
           The interface is ready. Add <code className="font-mono">OPENROUTER_API_KEY</code> (or <code className="font-mono">OPENAI_API_KEY</code>) to{" "}
           <code className="font-mono">.env</code> and restart the server to start rewriting text.
         </Alert>
@@ -135,13 +112,14 @@ export function HumanizerTool({ usage, configured }: { usage: { used: number; li
             </div>
           </div>
           <div className="space-y-2">
-            <Label>Strength</Label>
+            <Label>How much to change</Label>
             <div className="grid grid-cols-3 gap-1 rounded-full border p-1">
               {STRENGTHS.map((s) => (
                 <button
                   key={s.id}
                   type="button"
                   onClick={() => setStrength(s.id)}
+                  title={s.description}
                   className={cn(
                     "rounded-full px-2 py-1.5 text-sm font-medium cursor-pointer",
                     strength === s.id ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
@@ -162,7 +140,7 @@ export function HumanizerTool({ usage, configured }: { usage: { used: number; li
       <div className="grid gap-6 lg:grid-cols-2">
         <Card className="flex flex-col">
           <CardHeader className="flex-row items-center justify-between">
-            <CardTitle>Original</CardTitle>
+            <CardTitle>Your text</CardTitle>
             <span className={cn("text-sm text-muted-foreground", chars > MAX_TEXT_CHARS && "text-rose-500")}>
               {chars.toLocaleString()} / {MAX_TEXT_CHARS.toLocaleString()} characters
             </span>
@@ -171,20 +149,16 @@ export function HumanizerTool({ usage, configured }: { usage: { used: number; li
             <Textarea
               value={text}
               maxLength={MAX_TEXT_CHARS}
-              onChange={(e) => {
-                setText(e.target.value);
-                setResult(null);
-                setCheck(null);
-              }}
-              placeholder="Paste AI-sounding text here…"
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Paste writing you'd like to make clearer, warmer or more natural…"
               className="min-h-96 flex-1 text-sm leading-7"
             />
             <div className="flex justify-between gap-2">
               <Button variant="ghost" onClick={() => setText("")} disabled={!text}>
                 <Eraser className="h-4 w-4" /> Clear
               </Button>
-              <Button onClick={onHumanize} loading={loading} disabled={words < 20 || chars > MAX_TEXT_CHARS || !configured}>
-                <Wand2 className="h-4 w-4" /> {loading ? "Humanizing…" : "Humanize"}
+              <Button onClick={onRewrite} loading={loading} disabled={words < 20 || chars > MAX_TEXT_CHARS || !configured}>
+                <Wand2 className="h-4 w-4" /> {loading ? "Rewriting…" : "Rewrite"}
               </Button>
             </div>
             <DailyTextsLeft used={usage.used} limit={usage.limit} />
@@ -193,13 +167,13 @@ export function HumanizerTool({ usage, configured }: { usage: { used: number; li
 
         <Card className="flex flex-col">
           <CardHeader className="flex-row items-center justify-between">
-            <CardTitle>Humanized</CardTitle>
+            <CardTitle>Rewritten</CardTitle>
             {result && (
               <div className="flex gap-1">
                 <Button variant="ghost" size="sm" onClick={() => setShowDiff((d) => !d)}>
                   {showDiff ? "Hide changes" : "Show changes"}
                 </Button>
-                <Button variant="ghost" size="sm" onClick={onHumanize} loading={loading}>
+                <Button variant="ghost" size="sm" onClick={onRewrite} loading={loading}>
                   {!loading && <RefreshCw className="h-4 w-4" />} Again
                 </Button>
                 <Button variant="outline" size="sm" onClick={copy}>
@@ -211,48 +185,31 @@ export function HumanizerTool({ usage, configured }: { usage: { used: number; li
           <CardContent className="flex flex-1 flex-col gap-4">
             {result ? (
               <>
-                {check && showHighlights ? (
-                  <HighlightedText text={result.text} result={check} className="min-h-96 flex-1 rounded-xl border bg-muted/30 p-3 text-sm leading-7" />
-                ) : (
-                  <div className="min-h-96 flex-1 whitespace-pre-wrap rounded-xl border bg-muted/30 p-3 text-sm leading-7">
-                    {showDiff
-                      ? diff.map((d) => (
-                          <span key={d.key} className={d.changed ? "rounded bg-emerald-500/20" : undefined}>
-                            {d.w}
-                          </span>
-                        ))
-                      : result.text}
-                  </div>
-                )}
-                <div className="grid grid-cols-3 items-center gap-2 rounded-xl border p-3">
-                  <AiGauge probability={result.aiScoreBefore} size={100} caption="Original" />
-                  <ArrowRight className="mx-auto h-5 w-5 text-muted-foreground" />
-                  {check ? (
-                    <AiGauge probability={check.aiProbability} size={100} caption="Humanized" />
-                  ) : (
-                    <div className="flex flex-col items-center gap-2 text-center">
-                      <Button size="sm" onClick={onCheck} loading={checking}>
-                        {!checking && <Bot className="h-4 w-4" />} Check AI score
-                      </Button>
-                      <span className="text-xs text-muted-foreground">Free. Doesn&apos;t use a daily text.</span>
-                    </div>
-                  )}
+                <div className="min-h-96 flex-1 whitespace-pre-wrap rounded-xl border bg-muted/30 p-3 text-sm leading-7">
+                  {showDiff
+                    ? diff.map((d) => (
+                        <span key={d.key} className={d.changed ? "rounded bg-emerald-500/20" : undefined}>
+                          {d.w}
+                        </span>
+                      ))
+                    : result.text}
                 </div>
-                {check && (
-                  <div className="space-y-3 rounded-xl border p-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <Badge tone={LABELS[check.label].tone}>{LABELS[check.label].text}</Badge>
-                      <Button variant="ghost" size="sm" onClick={() => setShowHighlights((s) => !s)}>
-                        {showHighlights ? "Hide sentence highlights" : "Highlight sentences"}
-                      </Button>
-                    </div>
-                    <DetectionReasons result={check} />
-                  </div>
-                )}
                 <div className="flex flex-wrap gap-2 text-xs">
                   <Badge tone={result.similarity >= 0.75 ? "success" : "warning"}>Meaning kept: {Math.round(result.similarity * 100)}%</Badge>
                   <Badge tone="outline">{countWords(result.text)} words</Badge>
-                  <Badge tone="outline">{result.iterations} pass{result.iterations > 1 ? "es" : ""}</Badge>
+                  <Badge tone="outline">
+                    {result.iterations} pass{result.iterations > 1 ? "es" : ""}
+                  </Badge>
+                </div>
+                <div className="flex items-start gap-3 rounded-xl border px-3 py-2.5 text-xs text-muted-foreground">
+                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  <p>
+                    You&apos;re the author of anything you use. Read this through before using it, and disclose AI assistance
+                    wherever your school, employer, client or publisher requires it.{" "}
+                    <Link href="/responsible-use" className="font-bold text-primary hover:underline">
+                      Responsible use
+                    </Link>
+                  </p>
                 </div>
               </>
             ) : (

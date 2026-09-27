@@ -4,7 +4,7 @@ import { LEGAL_CONTACT, LegalDocument, type LegalSection } from "@/components/le
 
 export const metadata: Metadata = {
   title: "Responsible Use",
-  description: "How Lucenta's AI Detector and Humanizer should and shouldn't be used. Lucenta does not support academic dishonesty or deception.",
+  description: "How Lucenta's AI Detector and Rewriter should and shouldn't be used. Lucenta does not support academic dishonesty or deception.",
 };
 
 const sections: LegalSection[] = [
@@ -67,20 +67,30 @@ const sections: LegalSection[] = [
     ),
   },
   {
-    id: "humanizer",
-    title: "The Humanizer",
+    id: "rewriter",
+    title: "The Rewriter",
     content: (
       <>
+        <h3>Two modes</h3>
+        <ul>
+          <li>
+            <strong>Suggestions</strong> points out sentences that are unclear, wordy, generic or repetitive and explains how
+            to fix them. It never writes replacement sentences: you make the changes, so the writing stays yours. This is the
+            only mode available on student accounts.
+          </li>
+          <li>
+            <strong>Rewrite</strong> produces a clearer, more natural version of your text while keeping your meaning, names
+            and numbers.
+          </li>
+        </ul>
         <h3>What it&apos;s for</h3>
-        <p>
-          The Humanizer rewrites stiff, repetitive or robotic-sounding text so it reads naturally, while keeping your meaning,
-          names and numbers. Good uses include:
-        </p>
+        <p>Good uses include:</p>
         <ul>
           <li>Polishing your own drafts: emails, blog posts, product descriptions, social posts, reports and website copy.</li>
           <li>Making AI-assisted drafts sound like your brand or your voice, where using AI assistance is allowed.</li>
           <li>Helping people who write in a second language express their own ideas more fluently.</li>
           <li>Simplifying complex text so more people can understand it.</li>
+          <li>Learning to spot and fix weak sentences in your own writing, with Suggestions mode.</li>
         </ul>
 
         <h3>What it&apos;s not for</h3>
@@ -106,9 +116,9 @@ const sections: LegalSection[] = [
         <h3>You remain the author</h3>
         <p>
           You are responsible for anything you publish or submit. Always read the output before using it, because rewrites can contain
-          mistakes or shift nuance, even with our meaning check. The free &quot;Check AI score&quot; button is there to help you
-          judge whether a rewrite reads naturally; it is not a guarantee about any other tool, and it is not a licence to use
-          the text somewhere AI help isn&apos;t allowed.
+          mistakes or shift nuance, even with our meaning check. Where AI assistance must be disclosed, disclose that you used
+          the Rewriter. We deliberately don&apos;t show AI detection scores on rewritten text: the Rewriter is for clearer
+          writing, not for passing detectors.
         </p>
       </>
     ),
@@ -121,8 +131,9 @@ const sections: LegalSection[] = [
         <p>
           <strong>Students:</strong> your institution&apos;s academic integrity policy always applies. If you aren&apos;t sure
           whether AI tools are allowed on an assignment, ask your teacher or lecturer first. If they&apos;re allowed,
-          disclose how you used them. To support academic integrity, the Humanizer isn&apos;t available on student accounts.
-          The AI Detector is a good way to check that your own writing doesn&apos;t read as generic before you hand it in.
+          disclose how you used them. To support academic integrity, student accounts can&apos;t use Rewrite mode. Instead,
+          Suggestions mode shows you which sentences could be clearer and why, and you make the changes yourself. The AI
+          Detector is a good way to check that your own writing doesn&apos;t read as generic before you hand it in.
         </p>
         <p>
           <strong>Educators:</strong> we encourage you to use the detector as one input among many. Because false positives
@@ -149,6 +160,7 @@ const sections: LegalSection[] = [
     content: (
       <ul>
         <li>We describe our tools honestly and don&apos;t advertise &quot;undetectable&quot; text or detector bypassing.</li>
+        <li>Students get feedback (Suggestions mode) rather than rewritten text, and no AI score is shown on rewritten text.</li>
         <li>We show the reasons behind every detection score and explain its limits wherever the score appears.</li>
         <li>Daily limits keep the service from being used for mass-produced content.</li>
         <li>
@@ -179,7 +191,7 @@ export default function ResponsibleUsePage() {
       intro={
         <>
           <p>
-            This policy explains how the AI Text Detector and Humanizer are meant to be used. It&apos;s written in plain
+            This policy explains how the AI Text Detector and Rewriter are meant to be used. It&apos;s written in plain
             language on purpose, because we want everyone to understand where we stand. It forms part of our{" "}
             <Link href="/terms" className="text-primary hover:underline">
               Terms of Use
@@ -187,7 +199,7 @@ export default function ResponsibleUsePage() {
             .
           </p>
           <p className="rounded-2xl border border-primary/40 bg-primary/5 p-4">
-            <strong>In short:</strong> use the Detector as a guide, never as proof. Use the Humanizer to improve writing
+            <strong>In short:</strong> use the Detector as a guide, never as proof. Use the Rewriter to improve writing
             you&apos;re allowed to improve, not to cheat, plagiarise or hide AI use where honesty is required.
           </p>
         </>

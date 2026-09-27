@@ -54,7 +54,7 @@ export function HistoryList({ items, kind }: { items: HistoryItem[]; kind: "scan
       <EmptyState
         icon={kind === "scans" ? <Globe className="h-8 w-8" /> : <Bot className="h-8 w-8" />}
         title="Nothing here yet"
-        description={kind === "scans" ? "Your website scans will appear here." : "Your AI detection and humanizer checks will appear here."}
+        description={kind === "scans" ? "Your website scans will appear here." : "Your AI detections, writing suggestions and rewrites will appear here."}
       />
     );
   }

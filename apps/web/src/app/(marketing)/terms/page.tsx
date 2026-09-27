@@ -6,7 +6,7 @@ import { OCCUPATION_LOCK_DAYS } from "@/lib/onboarding";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
-  description: "The terms that apply when you use Lucenta's Website Analyzer, AI Text Detector and Humanizer.",
+  description: "The terms that apply when you use Lucenta's Website Analyzer, AI Text Detector and Rewriter.",
 };
 
 const sections: LegalSection[] = [
@@ -72,7 +72,7 @@ const sections: LegalSection[] = [
     content: (
       <>
         <p>
-          Lucenta is currently free. Each account can run {DAILY_SCAN_LIMIT} website audits and check or humanize{" "}
+          Lucenta is currently free. Each account can run {DAILY_SCAN_LIMIT} website audits and check or improve{" "}
           {DAILY_CONTENT_LIMIT} texts (up to {MAX_TEXT_CHARS.toLocaleString()} characters each) per day. Limits reset at midnight
           UTC.
         </p>
@@ -114,13 +114,14 @@ const sections: LegalSection[] = [
   },
   {
     id: "ai-tools",
-    title: "AI Text Detector and Humanizer",
+    title: "AI Text Detector and Rewriter",
     content: (
       <>
-        <h3>Students and the Humanizer</h3>
+        <h3>Students and the Rewriter</h3>
         <p>
-          To support academic integrity, the Humanizer isn&apos;t available on student accounts. Students can still use the AI
-          Text Detector and the Website Analyzer. As with any occupation, once you choose Student you can&apos;t change it for{" "}
+          To support academic integrity, student accounts can use the Rewriter&apos;s Suggestions mode, which explains what to
+          improve without rewriting anything, but not its Rewrite mode. Students can use the AI Text Detector and the Website
+          Analyzer as normal. As with any occupation, once you choose Student you can&apos;t change it for{" "}
           {OCCUPATION_LOCK_DAYS} days. If your situation genuinely changes (for example you graduate or start working),
           update your occupation in Settings after that period. We may restrict accounts that appear to misrepresent their
           occupation.
@@ -131,12 +132,13 @@ const sections: LegalSection[] = [
           written. It can be wrong in both directions. You agree not to use a Lucenta result as the only basis for any decision
           that affects another person, such as grading, disciplinary action, hiring, firing or publishing an accusation.
         </p>
-        <h3>You are responsible for Humanizer output</h3>
+        <h3>You are responsible for Rewriter output</h3>
         <p>
-          The Humanizer is a writing aid for improving clarity, tone and flow. You remain the author of anything you publish or
+          The Rewriter is a writing aid for improving clarity, tone and flow. You remain the author of anything you publish or
           submit, you must review output before using it, and you must follow any rules that restrict or require disclosure of
           AI assistance. We don&apos;t guarantee that rewritten text will receive any particular result from Lucenta or any
-          third-party detector, and we don&apos;t offer the Humanizer as a way to evade them.
+          third-party detector, and we don&apos;t offer the Rewriter as a way to evade them. Suggestions are automated and may
+          be wrong; use your own judgement.
         </p>
         <p>
           See the <Link href="/responsible-use">Responsible Use Policy</Link> for full details, including guidance for students
@@ -233,7 +235,7 @@ const sections: LegalSection[] = [
     title: "Indemnity",
     content: (
       <p>
-        If you misuse the Service or break these Terms (for example by using the Humanizer for academic dishonesty or the
+        If you misuse the Service or break these Terms (for example by using the Rewriter for academic dishonesty or the
         analyzer against a site without permission) and someone makes a claim against us as a result, you agree to cover the
         reasonable costs we incur because of it.
       </p>
@@ -279,7 +281,7 @@ export default function TermsPage() {
       intro={
         <p>
           Thanks for using Lucenta. These Terms explain your rights and responsibilities when you use our Website Analyzer, AI Text
-          Detector and Humanizer. We&apos;ve tried to keep them readable, so please take a few minutes to go through them.
+          Detector and Rewriter. We&apos;ve tried to keep them readable, so please take a few minutes to go through them.
         </p>
       }
       sections={sections}
