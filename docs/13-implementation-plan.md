@@ -226,6 +226,11 @@ Migration `supabase/migrations/0001_initial_schema.sql`:
 - No AI score after a rewrite: the before/after gauges and "Check AI score" button are gone (UI, API response and history). A disclosure note sits under every rewrite. History lists only show AI scores for detections.
 - The Detector's button is now "Get writing suggestions" (opens Suggestions mode with the text).
 - Marketing copy, tools list, legal pages and FAQ updated ("Make your writing clearer" instead of "sound human").
+- Rewrite mode is the humanizer engine (non-students). Suggestions mode (students) puts robotic, AI-sounding sentences first (`robotic` category, from the heuristic detector's sentence scores) and explains what to change, so students humanize their own writing.
+
+## Keep-alive ✅
+- `.github/workflows/keep-supabase-awake.yml` pings `rest/v1/developers` every hour so the free Supabase project isn't paused after 7 idle days. Needs repository secrets `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` (set). Can be run manually from the Actions tab.
+- GitHub disables scheduled workflows in public repos after 60 days without commits; re-enable it from the Actions tab if that happens.
 
 ## Stage 12 — Hardening & launch ⬜
 - Rate limiting (Upstash), captcha on anonymous usage, Sentry, PostHog, E2E tests (Playwright), load test, SEO metadata/sitemap for our own site, deploy to Vercel, point domain.

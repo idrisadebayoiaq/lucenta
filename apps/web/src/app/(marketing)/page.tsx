@@ -80,12 +80,28 @@ const FAQ = [
     a: "AI detection is probabilistic. We show a confidence level and highlight the sentences driving the score. Human writing can be flagged and AI writing can be missed, so treat the score as a starting point for a conversation, never as the only evidence that someone cheated.",
   },
   {
+    q: "What's the difference between Rewrite and Suggestions?",
+    a: "Rewrite mode turns stiff, robotic text into natural writing for you, in the tone you choose. Suggestions mode doesn't change your text at all: it highlights sentences that sound robotic, unclear or wordy, explains why, and tells you how to fix them yourself.",
+  },
+  {
     q: "Will the Rewriter change my meaning?",
-    a: "No. Rewrite mode keeps names, numbers, quotes, and your key points intact, and checks that the rewrite still says the same thing. Suggestions mode doesn't change your text at all: it explains what to improve and you make the edits.",
+    a: "No. Rewrite mode keeps names, numbers, quotes, and your key points intact, and checks that the rewrite still says the same thing. You can also give it a list of words it must never change.",
   },
   {
     q: "Can I use Lucenta for school work?",
-    a: "Yes, to improve your own writing. Students can use the AI Detector to review their drafts and the Rewriter's Suggestions mode to learn what to fix, but Rewrite mode isn't available on student accounts. Lucenta is not a cheating tool: don't use it to submit AI-written work where your school forbids it, to hide AI use you're required to disclose, or to pass off someone else's work as yours. Always follow your institution's rules, and see our Responsible Use Policy for details.",
+    a: "Yes, to improve your own writing. Students can use the AI Detector and Website Analyzer as normal, and the Rewriter's Suggestions mode to learn what to fix. Lucenta is not a cheating tool: don't use it to submit AI-written work where your school forbids it, to hide AI use you're required to disclose, or to pass off someone else's work as yours. Always follow your institution's rules, and see our Responsible Use Policy for details.",
+  },
+  {
+    q: "Why can't students use Rewrite mode?",
+    a: "To support academic integrity. Instead of writing the work for you, Suggestions mode shows you exactly which sentences to improve and why, so the writing stays yours and you get better at it. If your occupation changes, you can update it in Settings (occupation can be changed once every 30 days).",
+  },
+  {
+    q: "Why do you ask for my occupation and date of birth?",
+    a: "Lucenta is for people aged 16 and over, so we check your date of birth once at sign-up and never show it publicly. Your occupation decides which Rewriter modes you get, and \"how you heard about us\" helps us understand where people find Lucenta. See our Privacy Policy for details.",
+  },
+  {
+    q: "Can I create more than one account?",
+    a: "No. Each person can have one account, and only one account can be created per device. This keeps the free daily limits fair for everyone.",
   },
   {
     q: "Can someone fix my website for me?",

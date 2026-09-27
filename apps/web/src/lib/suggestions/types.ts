@@ -1,4 +1,5 @@
 export const SUGGESTION_CATEGORIES = {
+  robotic: "Sounds robotic",
   clarity: "Clarity",
   wordiness: "Wordiness",
   filler: "Filler phrase",

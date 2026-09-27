@@ -1,5 +1,5 @@
 import "server-only";
-import { findPhrases, splitSentences } from "@/lib/detector/heuristic";
+import { detectHeuristic, findPhrases, splitSentences } from "@/lib/detector/heuristic";
 import { chatCompletion, isLLMConfigured, llmEngineName } from "@/lib/openai";
 import { countWords } from "@/lib/utils";
 import { SUGGESTION_CATEGORIES, type Suggestion, type SuggestionCategory, type SuggestionResult } from "./types";
@@ -27,8 +27,38 @@ function sanitize(text: string, maxLength: number) {
   return out && !/[.!?…]$/.test(out) ? `${out}.` : out;
 }
 
-function heuristicDrafts(sentences: Sentence[]): Draft[] {
-  const drafts: Draft[] = [];
+const ROBOTIC_THRESHOLD = 0.62;
+const TRANSITION_OPENER = /^(moreover|furthermore|additionally|however|overall|ultimately|in conclusion|in summary|firstly|secondly|finally)\b/i;
+
+/** Sentences the detector scores as most machine-like, with the reasons a writer can act on. */
+function roboticDrafts(input: string, sentences: Sentence[]): Draft[] {
+  const scores = detectHeuristic(input).sentences;
+  return scores
+    .filter((s) => s.ai >= ROBOTIC_THRESHOLD && wordsIn(s.text).length >= 6)
+    .sort((a, b) => b.ai - a.ai)
+    .slice(0, 4)
+    .flatMap((score) => {
+      const index = sentences.findIndex((s) => s.start === score.start);
+      if (index < 0) return [];
+      const text = score.text;
+      const reasons: string[] = [];
+      if (TRANSITION_OPENER.test(text.trim())) reasons.push("it opens with a formal transition word");
+      if (findPhrases(text.replace(/[\u2018\u2019]/g, "'").toLowerCase()).length) reasons.push("it relies on stock phrases");
+      if (!/\b\w+'(t|s|re|ve|ll|d|m)\b/i.test(text)) reasons.push("it has no contractions, so it sounds stiff");
+      if (!/\b(i|my|me|we|our|you)\b/i.test(text)) reasons.push("there's no personal voice in it");
+      return [
+        {
+          index,
+          category: "robotic" as const,
+          issue: `This sentence reads as machine-like${reasons.length ? ` because ${reasons.slice(0, 2).join(" and ")}` : ""}.`,
+          tip: "Say it the way you'd explain it out loud: start with the main point, use plain words, and add a concrete detail or your own view.",
+        },
+      ];
+    });
+}
+
+function heuristicDrafts(input: string, sentences: Sentence[]): Draft[] {
+  const drafts: Draft[] = roboticDrafts(input, sentences);
   let previousOpening = "";
   let openingRun = 1;
 
@@ -81,9 +111,12 @@ function heuristicDrafts(sentences: Sentence[]): Draft[] {
   return drafts;
 }
 
-function heuristicSummary(sentences: Sentence[]) {
+function heuristicSummary(input: string, sentences: Sentence[]) {
   const lengths = sentences.map((s) => wordsIn(s.text).length).filter((n) => n >= 3);
   const summary: string[] = [];
+  if (detectHeuristic(input).aiProbability >= ROBOTIC_THRESHOLD) {
+    summary.push("Overall this reads formal and machine-like. Your own examples, opinions and a more conversational rhythm will make it sound like you.");
+  }
   if (lengths.length >= 5) {
     const mean = lengths.reduce((a, b) => a + b, 0) / lengths.length;
     const sd = Math.sqrt(lengths.reduce((s, n) => s + (n - mean) ** 2, 0) / lengths.length);
@@ -104,12 +137,13 @@ async function llmFeedback(sentences: Sentence[], hints: Draft[]): Promise<{ dra
       {
         role: "system",
         content: [
-          "You are a patient writing tutor. You give feedback that helps writers improve their own text. You never rewrite it for them.",
+          "You are a patient writing tutor. You help writers make their own text sound natural, clear and like a real person wrote it. You never rewrite it for them: they make every change themselves.",
           "Hard rules:",
           "- Never write a replacement, corrected or example version of any sentence, and never write new sentences the writer could copy.",
           "- When pointing at a problem you may quote at most 3 words from the text.",
           "- Each tip explains what to change and why, as an instruction (for example: cut the opening phrase and start with the main point).",
-          "- Look for: unclear or overloaded sentences, wordiness, stock or filler phrases, vague abstract words, repetition, monotonous rhythm, unnecessary passive voice, tone that doesn't fit, and grammar mistakes.",
+          "- First priority: sentences that sound robotic or AI-generated (category robotic). Explain what makes them sound that way, such as stock phrases, formal transition openers, every sentence the same length, no contractions, abstract words instead of concrete details, rule-of-three lists, or no personal voice, and how the writer can make it sound like themselves.",
+          "- Also look for: unclear or overloaded sentences, wordiness, filler phrases, vague abstract words, repetition, monotonous rhythm, unnecessary passive voice, tone that doesn't fit, and grammar mistakes.",
           "- Choose the 3 to 8 most useful points and skip sentences that are already fine. Use plain, encouraging language and no dashes.",
           `Reply with JSON only: {"summary": [up to 3 short observations about the whole text], "suggestions": [{"index": <sentence number>, "category": <one of: ${categories}>, "issue": <one sentence>, "tip": <one or two sentences>}]}`,
         ].join("\n"),
@@ -148,10 +182,10 @@ async function llmFeedback(sentences: Sentence[], hints: Draft[]): Promise<{ dra
 /** Points out unclear, wordy or generic sentences and explains how to fix them, without rewriting anything. */
 export async function suggestImprovements(input: string): Promise<SuggestionResult> {
   const sentences = splitSentences(input);
-  const heuristics = heuristicDrafts(sentences);
+  const heuristics = heuristicDrafts(input, sentences);
 
   let drafts = heuristics;
-  let summary = heuristicSummary(sentences);
+  let summary = heuristicSummary(input, sentences);
   let engine = "heuristic";
 
   if (isLLMConfigured()) {

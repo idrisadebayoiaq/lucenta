@@ -12,8 +12,18 @@ export type RewriterMode = "suggest" | "rewrite";
 export const REWRITER_HANDOFF_KEY = "rewriter:text";
 
 const MODES = [
-  { id: "suggest", label: "Suggestions", icon: Lightbulb, description: "See what to improve and why. You make the edits, so the writing stays yours." },
-  { id: "rewrite", label: "Rewrite", icon: Wand2, description: "Get a clearer, more natural version with your meaning, names and numbers kept." },
+  {
+    id: "suggest",
+    label: "Suggestions",
+    icon: Lightbulb,
+    description: "See which sentences sound robotic or unclear, and how to fix them. You make the edits, so the writing stays yours.",
+  },
+  {
+    id: "rewrite",
+    label: "Rewrite",
+    icon: Wand2,
+    description: "Turn stiff, robotic text into natural, human-sounding writing, with your meaning, names and numbers kept.",
+  },
 ] as const;
 
 export function RewriterWorkspace({

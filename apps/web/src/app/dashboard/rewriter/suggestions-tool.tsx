@@ -168,8 +168,8 @@ export function SuggestionsTool({
             <div className="flex min-h-96 flex-1 flex-col items-center justify-center gap-3 rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">
               <Lightbulb className="h-8 w-8 text-primary" />
               <p className="max-w-sm">
-                Lucenta points out sentences that are unclear, wordy or generic and explains how to fix them. You make the
-                changes yourself, so the writing stays yours.
+                Lucenta points out sentences that sound robotic, unclear or wordy and explains how to fix them. You make the
+                changes yourself, so the writing sounds like you.
               </p>
             </div>
           ) : (
