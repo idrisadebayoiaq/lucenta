@@ -133,11 +133,13 @@ export async function deleteAllHistory() {
   const user = await getCurrentUser();
   if (!user) return { error: "You are not signed in." };
   const supabase = await createClient();
-  const [scans, texts] = await Promise.all([
+  const [comparisons, scans, texts] = await Promise.all([
+    supabase.from("comparisons").delete().eq("user_id", user.id),
     supabase.from("scans").delete().eq("user_id", user.id),
     supabase.from("text_checks").delete().eq("user_id", user.id),
   ]);
-  if (scans.error || texts.error) return { error: (scans.error ?? texts.error)!.message };
+  const failed = comparisons.error ?? scans.error ?? texts.error;
+  if (failed) return { error: failed.message };
   revalidatePath("/dashboard", "layout");
   return { success: true };
 }

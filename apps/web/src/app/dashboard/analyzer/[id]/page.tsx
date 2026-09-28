@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { ArrowLeft, BarChart3, ExternalLink } from "lucide-react";
 import { HireDeveloperCard } from "@/components/freelancer-card";
+import { buttonVariants } from "@/components/ui/button";
 import { Alert, Badge } from "@/components/ui/misc";
 import type { Report } from "@/lib/analyzer/types";
 import { matchDevelopers } from "@/lib/freelancer-match";
@@ -49,6 +50,14 @@ export default async function ScanReportPage({ params }: PageProps<"/dashboard/a
           </div>
         </div>
         <div className="flex gap-2">
+          {report && (
+            <Link
+              href={`/dashboard/compare?url=${encodeURIComponent(scan.url)}&device=${scan.device}`}
+              className={buttonVariants({ variant: "outline" })}
+            >
+              <BarChart3 className="h-4 w-4" /> Compare
+            </Link>
+          )}
           <ScanActions scanId={scan.id} url={scan.url} device={scan.device} />
         </div>
       </div>

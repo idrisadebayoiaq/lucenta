@@ -185,6 +185,21 @@ type QuotaLinkRow = {
   user_id: string
 }
 
+type ComparisonRow = {
+  created_at: string
+  device: string
+  id: string
+  site_url: string
+  user_id: string
+}
+
+type ComparisonSiteRow = {
+  comparison_id: string
+  position: number
+  scan_id: string | null
+  url: string
+}
+
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 export type Database = {
@@ -268,6 +283,26 @@ export type Database = {
         Insert: Ins<Optional<QuotaLinkRow, "created_at">>
         Update: Upd<QuotaLinkRow>
         Relationships: []
+      }
+      comparisons: {
+        Row: Row<ComparisonRow>
+        Insert: Ins<Optional<ComparisonRow, "created_at" | "device" | "id">>
+        Update: Upd<ComparisonRow>
+        Relationships: []
+      }
+      comparison_sites: {
+        Row: Row<ComparisonSiteRow>
+        Insert: Ins<Optional<ComparisonSiteRow, "scan_id">>
+        Update: Upd<ComparisonSiteRow>
+        Relationships: [
+          {
+            foreignKeyName: "comparison_sites_comparison_id_fkey"
+            columns: ["comparison_id"]
+            isOneToOne: false
+            referencedRelation: "comparisons"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: { [_ in never]: never }

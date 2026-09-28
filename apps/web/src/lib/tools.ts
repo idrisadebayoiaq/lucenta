@@ -44,6 +44,23 @@ export const AVAILABLE_TOOLS: Tool[] = [
     href: "/dashboard/analyzer",
   },
   {
+    slug: "competitor-comparison",
+    icon: BarChart3,
+    title: "Competitor comparison",
+    tagline: "See how your site stacks up.",
+    description:
+      "Scan your site next to up to 3 competitors with the same 50+ checks. Lucenta ranks every site, shows exactly which checks competitors pass and you don't, and turns the gaps into a list of fixes, starting with the quick wins.",
+    features: [
+      "Side-by-side overall, category and speed scores",
+      "Gaps: checks competitors pass that your site misses, with how to fix them",
+      "Quick wins: easy, high-value fixes competitors already have",
+      "Where you're ahead: strengths to mention in your pitch",
+      "Re-run any time and see how every score changed",
+      "Sites you already scanned today don't use another audit",
+    ],
+    href: "/dashboard/compare",
+  },
+  {
     slug: "ai-detector",
     icon: Bot,
     title: "AI Text Detector",
@@ -117,14 +134,6 @@ export const COMING_SOON_TOOLS: Tool[] = [
     tagline: "Know the moment your site gets worse.",
     description: "Automatic weekly re-scans with an email when your score drops, a page breaks or your SSL is about to expire.",
     features: ["Scheduled re-scans", "Score-drop alerts", "SSL and uptime warnings"],
-  },
-  {
-    slug: "competitor-comparison",
-    icon: BarChart3,
-    title: "Competitor comparison",
-    tagline: "See how your site stacks up.",
-    description: "Scan your site next to up to 3 competitors and see exactly where they beat you.",
-    features: ["Side-by-side scores", "Gaps and quick wins", "Track changes over time"],
   },
   {
     slug: "document-upload",

@@ -237,6 +237,15 @@ Migration `supabase/migrations/0001_initial_schema.sql`:
 - Header announcement bar (`lib/announcements.ts`) with a "Set up yours" button, shown for 7 days from `startsAt` and dismissible. Update `startsAt` to the real launch date when deploying.
 - Roadmap item "Developer accounts" moved from Coming soon to the available "Hire a freelancer" tool. Roadmap items can use `status: "in-development"` to show an "In development" badge.
 
+## Stage 11j — Competitor comparison ✅
+- `/dashboard/compare`: your site plus 1–3 competitors, mobile or desktop. `POST /api/comparisons` runs a normal website scan for every site in parallel (`runScan` in `lib/analyzer/run-scan.ts`, shared with `/api/scans`), so each site also appears in the Website Analyzer history with its full report.
+- Limits: one daily audit per site actually scanned. Completed scans of the same URL and device from today (UTC) are reused for free, except on "Re-run" (`fresh: true`). The request is refused up front if there aren't enough audits left.
+- If your own site fails, nothing is saved. If some competitors fail, the comparison is saved without them and the page lists why.
+- Tables (migration 0016): `comparisons` (owner, `site_url`, device) and `comparison_sites` (position 0 = your site, `url`, `scan_id` set null if the scan is deleted). Owners can read, insert and delete their own rows.
+- `/dashboard/compare/[id]` (`lib/analyzer/compare.ts`): rank and overall rings, a side-by-side table (overall, 7 categories, TTFB, page weight, requests, words, tech stack; best value highlighted), **Quick wins** (easy, medium/high-impact gaps), **Where you're ahead**, and **Where competitors beat you** (checks you warn/fail that at least one competitor passes, with the fix steps). Score changes are shown against the previous comparison of the same site and device.
+- A "Compare" button on every website report pre-fills the form. "Delete all history" also deletes comparisons.
+- Roadmap item "Competitor comparison" moved from Coming soon to the available tools.
+
 ## Keep-alive ✅
 - `.github/workflows/keep-supabase-awake.yml` pings `rest/v1/developers` every hour so the free Supabase project isn't paused after 7 idle days. Needs repository secrets `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` (set). Can be run manually from the Actions tab.
 - GitHub disables scheduled workflows in public repos after 60 days without commits; re-enable it from the Actions tab if that happens.

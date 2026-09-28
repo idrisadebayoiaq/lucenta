@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { BriefcaseBusiness, Bot, ChevronDown, Globe, History, Home, LayoutDashboard, LogOut, Menu, Settings, User, Users, Wand2, X } from "lucide-react";
+import { BarChart3, BriefcaseBusiness, Bot, ChevronDown, Globe, History, Home, LayoutDashboard, LogOut, Menu, Settings, User, Users, Wand2, X } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import { signOut } from "../(auth)/actions";
 const NAV = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard, exact: true },
   { href: "/dashboard/analyzer", label: "Website Analyzer", icon: Globe },
+  { href: "/dashboard/compare", label: "Compare sites", icon: BarChart3 },
   { href: "/dashboard/detector", label: "AI Detector", icon: Bot },
   { href: "/dashboard/rewriter", label: "Rewriter", icon: Wand2 },
   { href: "/dashboard/history", label: "History", icon: History },
