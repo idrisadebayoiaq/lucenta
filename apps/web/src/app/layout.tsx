@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/toaster";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -9,6 +10,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Lucenta: Website Analyzer, AI Detector & Rewriter",
     template: "%s · Lucenta",

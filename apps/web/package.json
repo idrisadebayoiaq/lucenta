@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.9.0",
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.117.2",
     "cheerio": "^1.2.0",

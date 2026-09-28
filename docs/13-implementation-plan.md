@@ -246,6 +246,22 @@ Migration `supabase/migrations/0001_initial_schema.sql`:
 - A "Compare" button on every website report pre-fills the form. "Delete all history" also deletes comparisons.
 - Roadmap item "Competitor comparison" moved from Coming soon to the available tools.
 
+## Stage 11k — PDF reports & share links ✅
+- Every finished website report and every comparison has **Share** and **PDF** buttons (`components/share-controls.tsx`).
+- **PDF** (`@react-pdf/renderer`, listed in `serverExternalPackages`). Shared building blocks are in `lib/reports/pdf-kit.tsx`: colors, score rings, badges, the running header and a footer with the Lucenta link, a "View online" link and page numbers.
+  - `lib/reports/report-pdf.tsx` follows the web report: dark cover with the overall score, category cards, the AI review, "Fix these first" cards with fix steps, what's missing, tech stack, metrics and all checks.
+  - `lib/reports/comparison-pdf.tsx` follows the web comparison: rank, score rings with deltas, the side-by-side table with the best cells highlighted, quick wins, where the site is ahead, and gaps.
+  - `?brand=white` gives a **white-label** PDF that uses the profile's company name (or full name) instead of Lucenta.
+  - Built-in PDF fonts only cover Windows-1252, so `clean()` drops other characters.
+- **Routes**: `GET /api/scans/[id]/pdf` and `GET /api/comparisons/[id]/pdf` for the owner. `GET /api/shared/reports/[slug]/pdf` and `GET /api/shared/comparisons/[slug]/pdf` are public.
+- **Share links**: `POST /api/scans/[id]/share` and `POST /api/comparisons/[id]/share` take `{ enabled }` and set `is_public` plus a random 16-character `share_slug`.
+  - Turning sharing off clears the slug, and turning it on again creates a new one, so old links stop working.
+  - Public pages are `/r/[slug]` (report) and `/c/[slug]` (comparison). They need no login, are noindex, have OG metadata, a Download PDF button and a sign-up CTA.
+- Links and PDFs use `SITE_URL` (`lib/site.ts`): `NEXT_PUBLIC_APP_URL`, falling back to `https://lucenta-beige.vercel.app`.
+- Migration 0017: shared reports are only readable through `get_shared_report(slug)` (security definer). The old "read own or public" policies let anyone with the publishable key list every public scan; `anon` has no direct access to `scans`/`scan_results` any more.
+- Migration 0018: `comparisons.is_public`/`share_slug`, owner update policy, and `get_shared_comparison(slug)` (security definer) returning every site's report plus the previous run's scores.
+- Roadmap item "PDF reports & share links" moved from Coming soon to the available tools.
+
 ## Keep-alive ✅
 - `.github/workflows/keep-supabase-awake.yml` pings `rest/v1/developers` every hour so the free Supabase project isn't paused after 7 idle days. Needs repository secrets `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` (set). Can be run manually from the Actions tab.
 - GitHub disables scheduled workflows in public repos after 60 days without commits; re-enable it from the Actions tab if that happens.

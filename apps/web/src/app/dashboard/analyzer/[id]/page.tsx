@@ -10,6 +10,7 @@ import { matchDevelopers } from "@/lib/freelancer-match";
 import { getFreelancers } from "@/lib/freelancer-queries";
 import { createClient } from "@/lib/supabase/server";
 import { formatDateTime } from "@/lib/utils";
+import { ReportExport } from "./report-export";
 import { ReportView } from "./report-view";
 import { ScanActions } from "./scan-actions";
 
@@ -49,7 +50,7 @@ export default async function ScanReportPage({ params }: PageProps<"/dashboard/a
             </p>
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {report && (
             <Link
               href={`/dashboard/compare?url=${encodeURIComponent(scan.url)}&device=${scan.device}`}
@@ -58,6 +59,7 @@ export default async function ScanReportPage({ params }: PageProps<"/dashboard/a
               <BarChart3 className="h-4 w-4" /> Compare
             </Link>
           )}
+          {report && scan.status === "completed" && <ReportExport scanId={scan.id} shareSlug={scan.is_public ? scan.share_slug : null} />}
           <ScanActions scanId={scan.id} url={scan.url} device={scan.device} />
         </div>
       </div>

@@ -189,6 +189,8 @@ type ComparisonRow = {
   created_at: string
   device: string
   id: string
+  is_public: boolean
+  share_slug: string | null
   site_url: string
   user_id: string
 }
@@ -286,7 +288,7 @@ export type Database = {
       }
       comparisons: {
         Row: Row<ComparisonRow>
-        Insert: Ins<Optional<ComparisonRow, "created_at" | "device" | "id">>
+        Insert: Ins<Optional<ComparisonRow, "created_at" | "device" | "id" | "is_public" | "share_slug">>
         Update: Upd<ComparisonRow>
         Relationships: []
       }
@@ -311,6 +313,8 @@ export type Database = {
       consume_daily_scan: { Args: never; Returns: boolean }
       delete_current_user: { Args: never; Returns: undefined }
       email_in_use: { Args: { p_email: string; p_exclude?: string }; Returns: boolean }
+      get_shared_report: { Args: { p_slug: string }; Returns: { url: string; device: string; created_at: string; report: Json }[] }
+      get_shared_comparison: { Args: { p_slug: string }; Returns: Json | null }
       get_daily_usage: { Args: never; Returns: { contents_used: number; scans_used: number; shared: boolean }[] }
       increment_usage: { Args: { p_amount: number; p_field: string }; Returns: boolean }
       plan_limit: { Args: { p_field: string; p_plan: string }; Returns: number }

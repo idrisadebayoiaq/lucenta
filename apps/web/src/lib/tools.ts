@@ -61,6 +61,22 @@ export const AVAILABLE_TOOLS: Tool[] = [
     href: "/dashboard/compare",
   },
   {
+    slug: "pdf-reports",
+    icon: FileText,
+    title: "PDF reports & share links",
+    tagline: "Send a polished report to your client or team.",
+    description:
+      "Download any website report as a clean, printable PDF, or create a read-only link that anyone can open without an account. Agencies can download a white-label version with their own company name instead of Lucenta.",
+    features: [
+      "Full PDF: scores, summary, prioritized fixes with steps, metrics and every check",
+      "Private share links: only people with the link can see the report",
+      "Turn a link off at any time and it stops working",
+      "White-label PDFs with your company name for client work",
+      "People you share with can download the PDF too",
+    ],
+    href: "/dashboard/analyzer",
+  },
+  {
     slug: "ai-detector",
     icon: Bot,
     title: "AI Text Detector",
@@ -118,14 +134,6 @@ export const COMING_SOON_TOOLS: Tool[] = [
     tagline: "Audit your Instagram, X, TikTok and LinkedIn profiles.",
     description: "Scores your bio, profile photo, posting consistency and engagement, and suggests what to post and fix to grow faster.",
     features: ["Bio and profile checks", "Posting frequency and engagement", "Content suggestions"],
-  },
-  {
-    slug: "pdf-reports",
-    icon: FileText,
-    title: "PDF reports & share links",
-    tagline: "Send a polished report to your client or team.",
-    description: "Download any website report as a branded PDF or share a read-only link.",
-    features: ["Branded PDF export", "Public share links", "White-label for agencies"],
   },
   {
     slug: "monitoring",
