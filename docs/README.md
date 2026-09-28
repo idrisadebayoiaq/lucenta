@@ -23,6 +23,8 @@ Lucenta is a web app with three analysis tools:
 | 10 | [Testing & Quality](./10-testing-quality.md) | Test strategy, detector benchmark harness |
 | 11 | [Security, Privacy & Legal](./11-security-privacy-legal.md) | SSRF, data retention, ToS, acceptable use |
 | 12 | [Roadmap](./12-roadmap.md) | Phased build plan with milestones |
+| 13 | [Implementation Plan](./13-implementation-plan.md) | Stage-by-stage build log |
+| 14 | [Content Plan](./14-content-plan.md) | X + Instagram posting schedule, post details and status |
 
 ## Suggested reading order
 
