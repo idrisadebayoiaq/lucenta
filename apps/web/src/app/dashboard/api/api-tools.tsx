@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, type ReactNode } from "react";
 import { Check, Copy, Eye, EyeOff, KeyRound, RefreshCw, Send, Trash2, Webhook } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -35,6 +35,14 @@ function CopyButton({ value, label = "Copy" }: { value: string; label?: string }
     >
       {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
       {copied ? "Copied" : label}
+    </Button>
+  );
+}
+
+export function ScrollToButton({ target, children }: { target: string; children: ReactNode }) {
+  return (
+    <Button type="button" variant="outline" onClick={() => document.getElementById(target)?.scrollIntoView({ behavior: "smooth", block: "start" })}>
+      {children}
     </Button>
   );
 }

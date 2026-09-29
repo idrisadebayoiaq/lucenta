@@ -2,13 +2,16 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge, EmptyState, Progress } from "@/components/ui/misc";
+import { BookOpen } from "lucide-react";
 import { RATE_LIMIT_PER_MINUTE } from "@/lib/api/handler";
 import { MAX_ACTIVE_KEYS } from "@/lib/api/keys";
+import { MIN_DETECT_WORDS } from "@/lib/detector/types";
+import { DAILY_CONTENT_LIMIT, DAILY_SCAN_LIMIT, MAX_TEXT_CHARS } from "@/lib/limits";
 import { SITE_URL } from "@/lib/site";
 import { createClient } from "@/lib/supabase/server";
 import { getDailyUsage, utcToday } from "@/lib/usage";
 import { formatDateTime } from "@/lib/utils";
-import { ApiKeysCard, CodeBlock, WebhookCard } from "./api-tools";
+import { ApiKeysCard, CodeBlock, ScrollToButton, WebhookCard } from "./api-tools";
 
 export const metadata: Metadata = { title: "Developer API" };
 
@@ -18,6 +21,82 @@ const ENDPOINTS = [
   ["GET", "/api/v1/audits/{id}", "Get one audit with its full report."],
   ["POST", "/api/v1/detect", "Check a text for AI-likelihood, with sentence scores."],
   ["GET", "/api/v1/usage", "Today's audits and texts left."],
+];
+
+const CONNECT_STEPS: { title: string; body: string; code?: { label: string; code: string }[] }[] = [
+  {
+    title: "Create an API key",
+    body: "Use the API keys section above. Give it a name you'll recognise, like the name of your website, and copy the key straight away. It's only shown once.",
+  },
+  {
+    title: "Save the key on your server",
+    body: "Add it as an environment variable called LUCENTA_API_KEY in your .env file or your hosting settings (Vercel, Netlify, cPanel and so on). Never put it in front-end JavaScript, HTML, a mobile app or a public repo. If a key leaks, revoke it above and create a new one.",
+    code: [{ label: ".env", code: "LUCENTA_API_KEY=lc_live_YOUR_KEY" }],
+  },
+  {
+    title: "Call Lucenta from your server",
+    body: "Your website form or app sends the URL or text to your own backend. Your backend calls Lucenta with the key and sends the result back. Here's the same idea in Node.js and PHP.",
+    code: [
+      {
+        label: "Node.js / Next.js (app/api/audit/route.js)",
+        code: `export async function POST(request) {
+  const { url } = await request.json();
+  const res = await fetch("${SITE_URL}/api/v1/audits", {
+    method: "POST",
+    headers: {
+      Authorization: \`Bearer \${process.env.LUCENTA_API_KEY}\`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ url, device: "mobile" }),
+  });
+  const data = await res.json();
+  if (!res.ok) return Response.json({ error: data.error.message }, { status: res.status });
+  return Response.json({ score: data.score, grade: data.grade, fixes: data.report.fixes });
+}`,
+      },
+      {
+        label: "PHP (WordPress, Laravel or plain PHP)",
+        code: `<?php
+$ch = curl_init("${SITE_URL}/api/v1/detect");
+curl_setopt_array($ch, [
+  CURLOPT_POST => true,
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_TIMEOUT => 120,
+  CURLOPT_HTTPHEADER => [
+    "Authorization: Bearer " . getenv("LUCENTA_API_KEY"),
+    "Content-Type: application/json",
+  ],
+  CURLOPT_POSTFIELDS => json_encode(["text" => $_POST["text"]]),
+]);
+$result = json_decode(curl_exec($ch), true);
+echo $result["label"]; // likely_human, mixed or likely_ai`,
+      },
+    ],
+  },
+  {
+    title: "Show the result to your users",
+    body: "Audits return score, grade and report (with fixes, categories and metrics). Detection returns ai_probability, label and a score for each sentence. Use whichever fields you need in your own design.",
+  },
+  {
+    title: "Get notified with a webhook (optional)",
+    body: "Add your endpoint in the Webhook section above and we'll POST to it whenever an API audit finishes. Check the Lucenta-Signature header with your signing secret so you know the request really came from Lucenta.",
+    code: [
+      {
+        label: "Verify a webhook (Node.js)",
+        code: `import { createHmac, timingSafeEqual } from "node:crypto";
+
+function isFromLucenta(rawBody, signatureHeader, secret) {
+  const { t, v1 } = Object.fromEntries(signatureHeader.split(",").map((p) => p.split("=")));
+  const expected = createHmac("sha256", secret).update(\`\${t}.\${rawBody}\`).digest("hex");
+  return v1?.length === expected.length && timingSafeEqual(Buffer.from(v1), Buffer.from(expected));
+}`,
+      },
+    ],
+  },
+  {
+    title: "Handle errors",
+    body: "Every error has the same shape: { error: { code, message } }. Show the message to your users, and treat 429 as \"try again later\". Test your setup with GET /api/v1/usage. It doesn't use any of your limits.",
+  },
 ];
 
 function daysAgo(days: number) {
@@ -46,6 +125,11 @@ export default async function ApiPage() {
       <PageHeader
         title="Developer API"
         description="Run website audits and AI detection from your own apps, scripts and workflows."
+        actions={
+          <ScrollToButton target="how-to-connect">
+            <BookOpen className="h-4 w-4" /> Read how to connect
+          </ScrollToButton>
+        }
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -174,6 +258,57 @@ const result = await res.json(); // { ai_probability, label, sentences, ... }`}
           ) : (
             <EmptyState title="No requests yet" description="Create a key and make your first request. It will show up here." />
           )}
+        </CardContent>
+      </Card>
+
+      <Card id="how-to-connect" className="scroll-mt-24">
+        <CardHeader>
+          <CardTitle>How to connect Lucenta to your website or app</CardTitle>
+          <CardDescription>
+            Your website or app talks to your own server, and your server talks to Lucenta. That keeps your API key private.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-8">
+          <ol className="space-y-8">
+            {CONNECT_STEPS.map((step, i) => (
+              <li key={step.title} className="flex gap-4">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">{i + 1}</span>
+                <div className="min-w-0 flex-1 space-y-3">
+                  <p className="font-bold">{step.title}</p>
+                  <p className="text-sm text-muted-foreground">{step.body}</p>
+                  {step.code?.map((c) => (
+                    <div key={c.label} className="space-y-2">
+                      <p className="text-xs font-bold text-muted-foreground">{c.label}</p>
+                      <CodeBlock code={c.code} />
+                    </div>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div className="rounded-xl border bg-muted/30 p-5">
+            <p className="font-bold">Limits</p>
+            <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-muted-foreground">
+              <li>
+                <span className="font-medium text-foreground">{DAILY_SCAN_LIMIT} website audits</span> and{" "}
+                <span className="font-medium text-foreground">{DAILY_CONTENT_LIMIT} different texts</span> per day. These are shared with your dashboard, so
+                audits you run here count too.
+              </li>
+              <li>Limits reset every day at midnight UTC. Check what&apos;s left any time with GET /api/v1/usage.</li>
+              <li>Up to {RATE_LIMIT_PER_MINUTE} requests per minute across all your keys.</li>
+              <li>
+                Texts need at least {MIN_DETECT_WORDS} words and can be up to {MAX_TEXT_CHARS.toLocaleString()} characters. Checking the same text again on
+                the same day doesn&apos;t use another slot.
+              </li>
+              <li>An audit takes 20 to 60 seconds, so set your request timeout to at least 100 seconds.</li>
+              <li>Up to {MAX_ACTIVE_KEYS} active API keys and one webhook per account.</li>
+              <li>
+                Going over a limit returns HTTP 429. Show your users a friendly message and try again later (after midnight UTC for daily limits, or after
+                a minute for the rate limit).
+              </li>
+            </ul>
+          </div>
         </CardContent>
       </Card>
     </div>
