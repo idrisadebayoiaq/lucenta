@@ -2,8 +2,11 @@ import Link from "next/link";
 import {
   Accessibility,
   ArrowRight,
+  BarChart3,
   Bot,
   Check,
+  Code2,
+  FileText,
   Gauge,
   Globe,
   PenLine,
@@ -35,6 +38,20 @@ const TOOLS = [
     points: ["AI review of your content and UX", "What your site is missing", "Step-by-step fixes"],
   },
   {
+    icon: BarChart3,
+    title: "Competitor comparison",
+    href: "/tools#competitor-comparison",
+    description: "Scan your site next to up to 3 competitors and see exactly which checks they pass that you don't.",
+    points: ["Side-by-side scores and ranking", "Gaps and quick wins", "Re-run to track changes"],
+  },
+  {
+    icon: FileText,
+    title: "PDF reports & share links",
+    href: "/tools#pdf-reports",
+    description: "Download any report as a clean PDF or send a private read-only link. No account needed to open it.",
+    points: ["Printable PDF reports", "Private share links you can turn off", "White-label PDFs for agencies"],
+  },
+  {
     icon: Bot,
     title: "AI Text Detector",
     href: "/tools#ai-detector",
@@ -47,6 +64,13 @@ const TOOLS = [
     href: "/tools#rewriter",
     description: "Get feedback on what to improve, or polish stiff, wordy text while keeping your meaning, names and numbers.",
     points: ["Sentence-by-sentence suggestions", "Multiple tones", "Meaning preserved"],
+  },
+  {
+    icon: Code2,
+    title: "Developer API",
+    href: "/tools#api",
+    description: "Run website audits and AI detection from your own website, app or scripts with a simple REST API.",
+    points: ["Full audit reports as JSON", "Signed webhooks", "API keys and usage dashboard"],
   },
 ];
 
@@ -140,6 +164,10 @@ export default async function HomePage() {
           </div>
           <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
             <span>Or try:</span>
+            <Link href="/dashboard/compare" className="font-bold text-primary hover:underline">
+              Compare sites
+            </Link>
+            <span>·</span>
             <Link href="/dashboard/detector" className="font-bold text-primary hover:underline">
               AI Detector
             </Link>
@@ -164,13 +192,15 @@ export default async function HomePage() {
 
       <section id="features" className="mx-auto max-w-6xl px-4 py-20">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-extrabold tracking-tight">Three tools, one dashboard</h2>
-          <p className="mt-3 text-muted-foreground">Everything you need to check what you publish before the world sees it.</p>
+          <h2 className="text-3xl font-extrabold tracking-tight">Every tool, one dashboard</h2>
+          <p className="mt-3 text-muted-foreground">
+            Check your website, compare it with competitors, share reports and improve your writing, or build it all into your own app.
+          </p>
         </div>
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {TOOLS.map(({ icon: Icon, title, description, points, href }) => (
-            <Card key={title} className="group transition-colors hover:bg-muted/50">
-              <CardContent className="space-y-4 pt-6">
+            <Card key={title} className="group flex flex-col transition-colors hover:bg-muted/50">
+              <CardContent className="flex flex-1 flex-col gap-4 pt-6">
                 <div className="grid h-11 w-11 place-items-center rounded-full bg-primary/10 text-primary">
                   <Icon className="h-5 w-5" />
                 </div>
@@ -185,7 +215,7 @@ export default async function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <Link href={href} className="inline-flex items-center gap-1 text-sm font-bold text-primary">
+                <Link href={href} className="mt-auto inline-flex items-center gap-1 text-sm font-bold text-primary">
                   Learn more <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
               </CardContent>
