@@ -1,5 +1,5 @@
-// Must stay in sync with claim_content() and consume_daily_scan() in
-// supabase/migrations/0005_free_daily_limits_and_developers.sql.
+// Must stay in sync with claim_content_for() and consume_daily_scan_for() in
+// supabase/migrations/0019_developer_api.sql.
 export const DAILY_CONTENT_LIMIT = 5;
 export const DAILY_SCAN_LIMIT = 5;
 export const MAX_TEXT_CHARS = 3000;

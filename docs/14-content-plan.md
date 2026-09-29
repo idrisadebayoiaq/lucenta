@@ -37,8 +37,10 @@ A daily posting plan for the QuoreStack brand and Lucenta. Each post gets an Ins
 |---|---|---|---|---|---|---|
 | 1 | Mon, Sep 28 | Morning | Personal | Meet the Developer | Carousel, 8 slides | Posted |
 | 2 | Mon, Sep 28 | Evening | Education | 7 reasons your website is losing customers | Carousel, 9 slides | Posted |
-| 3 | Tue, Sep 29 | Morning | Education | 6 questions to ask before you hire a developer | Carousel, 8 slides | To do |
-| 4 | Tue, Sep 29 | Evening | Education | How much does a website cost in 2026? | Carousel, 7 slides | To do |
+| Extra | Mon, Sep 28 | Night | Build in public | Just shipped: competitor comparison, PDF export, share links | Carousel, 5 slides | Ready |
+| 3 | Tue, Sep 29 | Morning | Education | 6 questions to ask before you hire a developer | Carousel, 8 slides | Ready |
+| 4 | Tue, Sep 29 | Evening | Education | How much does a website cost in 2026? | Carousel, 7 slides | Ready |
+| Extra | Tue, Sep 29 | Midday | Build in public | Building today: Lucenta Developer API (teaser) | Carousel, 4 slides | Ready |
 | 5 | Wed, Sep 30 | Morning | Build in public | I audited 5 websites with Lucenta | Carousel, 7 slides | To do |
 | 6 | Wed, Sep 30 | Evening | Education | Next.js + Supabase: my MVP stack | Carousel, 6 slides | To do |
 | 7 | Thu, Oct 1 | Morning | Proof of work | Case study: Starlights Visuals | Carousel, 6 slides | To do |

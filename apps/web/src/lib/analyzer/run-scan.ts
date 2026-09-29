@@ -2,9 +2,10 @@ import "server-only";
 import { analyzeWebsite } from "@/lib/analyzer/analyze";
 import { UnsafeUrlError } from "@/lib/analyzer/safe-fetch";
 import type { Report } from "@/lib/analyzer/types";
+import { createAdminClient } from "@/lib/supabase/admin";
 import type { Json } from "@/lib/supabase/database.types";
 import { createClient } from "@/lib/supabase/server";
-import { consumeDailyScan } from "@/lib/usage";
+import { consumeDailyScan, consumeDailyScanFor } from "@/lib/usage";
 
 export type ScanOutcome =
   | { scanId: string; status: "completed"; report: Report }
@@ -18,9 +19,12 @@ function failureMessage(e: unknown) {
   return "The scan failed.";
 }
 
-/** Creates a scan row, analyzes the site and saves the report. Uses one daily scan only if the analysis succeeds. */
-export async function runScan(userId: string, url: string, device: "mobile" | "desktop"): Promise<ScanOutcome> {
-  const supabase = await createClient();
+/**
+ * Creates a scan row, analyzes the site and saves the report. Uses one daily scan only if the analysis succeeds.
+ * `viaApi` runs without a session (API key requests), writing with the service role on behalf of `userId`.
+ */
+export async function runScan(userId: string, url: string, device: "mobile" | "desktop", viaApi = false): Promise<ScanOutcome> {
+  const supabase = viaApi ? createAdminClient() : await createClient();
   const { data: scan, error: insertError } = await supabase
     .from("scans")
     .insert({ user_id: userId, url, device, status: "running", stage: "Analyzing", progress: 10 })
@@ -30,7 +34,11 @@ export async function runScan(userId: string, url: string, device: "mobile" | "d
 
   try {
     const report = await analyzeWebsite(url, device);
-    await supabase.from("scan_results").insert({ scan_id: scan.id, report: report as unknown as Json });
+    const { error: resultError } = await supabase.from("scan_results").insert({ scan_id: scan.id, report: report as unknown as Json });
+    if (resultError) {
+      console.error("[runScan] could not save report", resultError);
+      throw new Error("Could not save the report. Please try again.");
+    }
     await supabase
       .from("scans")
       .update({
@@ -42,7 +50,7 @@ export async function runScan(userId: string, url: string, device: "mobile" | "d
         completed_at: new Date().toISOString(),
       })
       .eq("id", scan.id);
-    await consumeDailyScan().catch(() => false);
+    await (viaApi ? consumeDailyScanFor(userId) : consumeDailyScan()).catch(() => false);
     return { scanId: scan.id, status: "completed", report };
   } catch (e) {
     const message = failureMessage(e);

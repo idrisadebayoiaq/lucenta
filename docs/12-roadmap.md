@@ -58,7 +58,7 @@ Estimates assume 1–2 developers. Adjust as needed.
 - [ ] Backlinks / domain authority (DataForSEO)
 - [ ] Multi-language detector + humanizer
 - [ ] Chrome extension (detect/humanize anywhere)
-- [ ] Public API
+- [x] Public API (v1: audits, detection, usage, webhooks; see [15-developer-api.md](./15-developer-api.md))
 
 ## Phase 7 — Social Profile Analyzer
 - See [04-profile-analyzer.md](./04-profile-analyzer.md).

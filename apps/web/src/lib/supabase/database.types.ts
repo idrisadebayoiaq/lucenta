@@ -202,6 +202,40 @@ type ComparisonSiteRow = {
   url: string
 }
 
+type ApiKeyRow = {
+  created_at: string
+  id: string
+  key_hash: string
+  last_used_at: string | null
+  name: string
+  prefix: string
+  revoked_at: string | null
+  user_id: string
+}
+
+type ApiRequestRow = {
+  created_at: string
+  duration_ms: number
+  id: number
+  key_id: string | null
+  method: string
+  path: string
+  status: number
+  user_id: string
+}
+
+type ApiWebhookRow = {
+  created_at: string
+  enabled: boolean
+  last_delivered_at: string | null
+  last_error: string | null
+  last_status: number | null
+  secret: string
+  updated_at: string
+  url: string
+  user_id: string
+}
+
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 export type Database = {
@@ -306,11 +340,32 @@ export type Database = {
           },
         ]
       }
+      api_keys: {
+        Row: Row<ApiKeyRow>
+        Insert: Ins<Optional<ApiKeyRow, "created_at" | "id" | "last_used_at" | "revoked_at">>
+        Update: Upd<ApiKeyRow>
+        Relationships: []
+      }
+      api_requests: {
+        Row: Row<ApiRequestRow>
+        Insert: Ins<Optional<Omit<ApiRequestRow, "id">, "created_at" | "duration_ms" | "key_id">>
+        Update: Upd<Omit<ApiRequestRow, "id">>
+        Relationships: []
+      }
+      api_webhooks: {
+        Row: Row<ApiWebhookRow>
+        Insert: Ins<Optional<ApiWebhookRow, "created_at" | "enabled" | "last_delivered_at" | "last_error" | "last_status" | "updated_at">>
+        Update: Upd<ApiWebhookRow>
+        Relationships: []
+      }
     }
     Views: { [_ in never]: never }
     Functions: {
       claim_content: { Args: { p_hash: string }; Returns: boolean }
+      claim_content_for: { Args: { p_hash: string; p_user: string }; Returns: boolean }
       consume_daily_scan: { Args: never; Returns: boolean }
+      consume_daily_scan_for: { Args: { p_user: string }; Returns: boolean }
+      get_daily_usage_for: { Args: { p_user: string }; Returns: { contents_used: number; scans_used: number; shared: boolean }[] }
       delete_current_user: { Args: never; Returns: undefined }
       email_in_use: { Args: { p_email: string; p_exclude?: string }; Returns: boolean }
       get_shared_report: { Args: { p_slug: string }; Returns: { url: string; device: string; created_at: string; report: Json }[] }

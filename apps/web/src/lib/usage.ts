@@ -64,3 +64,27 @@ export async function consumeDailyScan() {
   if (error) throw error;
   return data === true;
 }
+
+// Service-role versions for API key requests, which have no session. Same quota as the app.
+
+export async function getDailyUsageFor(userId: string) {
+  const { data, error } = await createAdminClient().rpc("get_daily_usage_for", { p_user: userId });
+  if (error) throw error;
+  const row = data?.[0];
+  return {
+    contents: { used: row?.contents_used ?? 0, limit: DAILY_CONTENT_LIMIT },
+    scans: { used: row?.scans_used ?? 0, limit: DAILY_SCAN_LIMIT },
+  };
+}
+
+export async function claimContentFor(userId: string, text: string) {
+  const { data, error } = await createAdminClient().rpc("claim_content_for", { p_user: userId, p_hash: contentHash(text) });
+  if (error) throw error;
+  return data === true;
+}
+
+export async function consumeDailyScanFor(userId: string) {
+  const { data, error } = await createAdminClient().rpc("consume_daily_scan_for", { p_user: userId });
+  if (error) throw error;
+  return data === true;
+}

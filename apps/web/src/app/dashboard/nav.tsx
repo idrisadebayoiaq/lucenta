@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { BarChart3, BriefcaseBusiness, Bot, ChevronDown, Globe, History, Home, LayoutDashboard, LogOut, Menu, Settings, User, Users, Wand2, X } from "lucide-react";
+import { BarChart3, BriefcaseBusiness, Bot, ChevronDown, Code2, Globe, History, Home, LayoutDashboard, LogOut, Menu, Settings, User, Users, Wand2, X } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -17,6 +17,7 @@ const NAV = [
   { href: "/dashboard/detector", label: "AI Detector", icon: Bot },
   { href: "/dashboard/rewriter", label: "Rewriter", icon: Wand2 },
   { href: "/dashboard/history", label: "History", icon: History },
+  { href: "/dashboard/api", label: "Developer API", icon: Code2 },
 ];
 
 const ACCOUNT_NAV = [

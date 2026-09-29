@@ -124,6 +124,22 @@ export const AVAILABLE_TOOLS: Tool[] = [
     ],
     href: "/freelancers",
   },
+  {
+    slug: "api",
+    icon: Share2,
+    title: "Developer API",
+    tagline: "Build Lucenta into your own product.",
+    description:
+      "Run website audits and AI detection from your own apps, scripts and workflows. Create an API key in your dashboard, call a simple REST API with JSON responses, and get a webhook when an audit finishes. API requests share your account's daily limits.",
+    features: [
+      "REST endpoints for audits, reports, AI detection and usage",
+      "Full audit reports as JSON: scores, fixes, metrics and every check",
+      "Signed webhooks when an audit completes or fails",
+      "Up to 5 API keys you can revoke at any time",
+      "Usage dashboard with your recent requests",
+    ],
+    href: "/dashboard/api",
+  },
 ];
 
 export const COMING_SOON_TOOLS: Tool[] = [
@@ -158,13 +174,5 @@ export const COMING_SOON_TOOLS: Tool[] = [
     tagline: "Lucenta anywhere you write.",
     description: "Audit the site you're on, or check and improve text in Gmail, Google Docs and LinkedIn without leaving the page.",
     features: ["One-click site audit", "Writing suggestions in any text box", "Chrome and Edge"],
-  },
-  {
-    slug: "api",
-    icon: Share2,
-    title: "Developer API",
-    tagline: "Build Lucenta into your own product.",
-    description: "Run website audits and AI detection from your own apps and workflows.",
-    features: ["REST API", "Webhooks", "Usage dashboard"],
   },
 ];
