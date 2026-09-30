@@ -15,6 +15,11 @@ export type DetectionResult = {
   };
   explanation: string[];
   engine: "heuristic" | "ml";
+  /** Set when an uploaded document was checked in parts. Sentence offsets are relative to the whole document. */
+  document?: DocumentInfo;
 };
+
+export type DocumentPart = { start: number; end: number; aiProbability: number; label: DetectionResult["label"]; wordCount: number };
+export type DocumentInfo = { fileName: string; parts: DocumentPart[]; totalParts: number };
 
 export const MIN_DETECT_WORDS = 80;

@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { Check, Copy, Pencil, Trash2, X } from "lucide-react";
+import { Check, Copy, Download, Pencil, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { deleteItems, renameTextCheck } from "../actions";
 
@@ -49,7 +49,7 @@ export function EditableTitle({ id, title }: { id: string; title: string }) {
   );
 }
 
-export function TextCheckActions({ id, output }: { id: string; output: string | null }) {
+export function TextCheckActions({ id, output, pdf }: { id: string; output: string | null; pdf?: boolean }) {
   const router = useRouter();
   const [pending, start] = useTransition();
 
@@ -68,6 +68,11 @@ export function TextCheckActions({ id, output }: { id: string; output: string | 
 
   return (
     <div className="flex gap-2">
+      {pdf && (
+        <a href={`/api/text-checks/${id}/pdf`} className={buttonVariants({ variant: "outline" })}>
+          <Download className="h-4 w-4" /> PDF report
+        </a>
+      )}
       {output && (
         <Button
           variant="outline"

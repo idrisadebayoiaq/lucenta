@@ -8,7 +8,7 @@ import { createClient, getCurrentProfile, getCurrentUser } from "@/lib/supabase/
 import { claimContent, isDerivedContent } from "@/lib/usage";
 import { countWords } from "@/lib/utils";
 
-const bodySchema = z.object({ text: z.string().max(100_000), save: z.boolean().default(true) });
+const bodySchema = z.object({ text: z.string().max(100_000), save: z.boolean().default(true), title: z.string().trim().max(120).optional() });
 
 function error(code: string, message: string, status: number) {
   return NextResponse.json({ error: { code, message } }, { status });
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       .insert({
         user_id: user.id,
         kind: "detect",
-        title: text.slice(0, 80),
+        title: parsed.data.title || text.slice(0, 80),
         input_text: text,
         word_count: words,
         ai_score_before: Number(result.aiProbability.toFixed(4)),

@@ -8,10 +8,11 @@ function highlightClass(ai: number) {
   return "";
 }
 
-export function HighlightedText({ text, result, className }: { text: string; result: DetectionResult; className?: string }) {
-  if (!result.sentences.length) return <div className={className}>{text}</div>;
+/** Renders `text` from `start` onwards; sentence offsets stay relative to the full text. */
+export function HighlightedText({ text, result, className, start = 0 }: { text: string; result: DetectionResult; className?: string; start?: number }) {
+  if (!result.sentences.length) return <div className={cn("whitespace-pre-wrap", className)}>{text.slice(start)}</div>;
   const parts: ReactNode[] = [];
-  let cursor = 0;
+  let cursor = start;
   result.sentences.forEach((s, i) => {
     if (s.start > cursor) parts.push(text.slice(cursor, s.start));
     parts.push(

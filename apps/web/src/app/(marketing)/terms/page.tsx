@@ -132,6 +132,12 @@ const sections: LegalSection[] = [
           written. It can be wrong in both directions. You agree not to use a Lucenta result as the only basis for any decision
           that affects another person, such as grading, disciplinary action, hiring, firing or publishing an accusation.
         </p>
+        <h3>Document uploads</h3>
+        <p>
+          Only upload documents you have the right to share. Long documents are checked in parts, and each part counts as one
+          of your daily texts. Formatting, images and anything the file doesn&apos;t store as text (such as scanned pages) are
+          not checked.
+        </p>
         <h3>You are responsible for Rewriter output</h3>
         <p>
           The Rewriter is a writing aid for improving clarity, tone and flow. You remain the author of anything you publish or

@@ -26,7 +26,8 @@ Estimates assume 1–2 developers. Adjust as needed.
 - [ ] Fine-tune DeBERTa classifier; train meta-model; calibrate
 - [ ] Sentence-level scoring
 - [ ] FastAPI ML service deployed on GPU host
-- [ ] Detector UI with highlights + explanations; file upload
+- [ ] Detector UI with highlights + explanations
+- [x] File upload (.docx, .pdf, .txt), long documents checked in parts, PDF reports
 - **Milestone:** detector with FPR < 3% on human test set.
 
 ## Phase 3 — Humanizer v1 (Weeks 7–9)

@@ -363,6 +363,8 @@ export type Database = {
     Functions: {
       claim_content: { Args: { p_hash: string }; Returns: boolean }
       claim_content_for: { Args: { p_hash: string; p_user: string }; Returns: boolean }
+      claim_contents: { Args: { p_hashes: string[] }; Returns: boolean }
+      claim_contents_for: { Args: { p_hashes: string[]; p_user: string }; Returns: boolean }
       consume_daily_scan: { Args: never; Returns: boolean }
       consume_daily_scan_for: { Args: { p_user: string }; Returns: boolean }
       get_daily_usage_for: { Args: { p_user: string }; Returns: { contents_used: number; scans_used: number; shared: boolean }[] }

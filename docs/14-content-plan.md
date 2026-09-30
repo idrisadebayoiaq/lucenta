@@ -41,8 +41,9 @@ A daily posting plan for the QuoreStack brand and Lucenta. Each post gets an Ins
 | 3 | Tue, Sep 29 | Morning | Education | 6 questions to ask before you hire a developer | Carousel, 8 slides | Ready |
 | 4 | Tue, Sep 29 | Evening | Education | How much does a website cost in 2026? | Carousel, 7 slides | Ready |
 | Extra | Tue, Sep 29 | Midday | Build in public | Building today: Lucenta Developer API (teaser) | Carousel, 4 slides | Ready |
-| 5 | Wed, Sep 30 | Morning | Build in public | I audited 5 websites with Lucenta | Carousel, 7 slides | To do |
-| 6 | Wed, Sep 30 | Evening | Education | Next.js + Supabase: my MVP stack | Carousel, 6 slides | To do |
+| Extra | Tue, Sep 29 | Evening | Product launch | The Lucenta Developer API is live (new template) | Carousel, 6 slides | Ready |
+| 5 | Wed, Sep 30 | Morning | Build in public | I audited 5 websites with Lucenta | Carousel, 7 slides | Ready |
+| 6 | Wed, Sep 30 | Evening | Education | Next.js + Supabase: my MVP stack | Carousel, 6 slides | Ready |
 | 7 | Thu, Oct 1 | Morning | Proof of work | Case study: Starlights Visuals | Carousel, 6 slides | To do |
 | 8 | Thu, Oct 1 | Evening | Build in public | How I built an AI detector that explains itself | Carousel, 7 slides | To do |
 | 9 | Fri, Oct 2 | Morning | Personal | What 2 years of building taught me | Carousel, 7 slides | To do |
@@ -117,7 +118,7 @@ The blocked posts are scheduled last to give time to collect what they need. If 
   2–6. One site per slide: overall score, best category, biggest issue, and one fix.
   7. "Audit your own site free."
 - **Rules:** keep the tone respectful and helpful, never mocking. Prefer well-known brands, or blur names if the results are poor.
-- **Needs:** choose the 5 sites. Screenshots come from Lucenta reports.
+- **Sites:** Flutterwave (flutterwave.com/ng), PiggyVest, Moniepoint, Kuda and Jumia, scanned on mobile on Sep 30. Paystack and Konga block automated scanners (HTTP 403), so they were swapped out.
 
 ### 6. Next.js + Supabase: my MVP stack (Wed, Sep 30, evening)
 - **Goal:** a developer audience post that shows expertise.
@@ -246,7 +247,6 @@ The blocked posts are scheduled last to give time to collect what they need. If 
 | Post | What's needed | Needed by |
 |---|---|---|
 | 7 | Confirm result figures and permission to feature Starlights Visuals | Oct 1 |
-| 5 | Pick 5 websites to audit | Sep 30 |
 | 9 | Confirm the 5 lessons | Oct 2 |
 | 10 | Agree on the 5 Cursor tricks | Oct 2 |
 | 11 | Phone screenshots of Epic Transport and X-Relax | Oct 3 |

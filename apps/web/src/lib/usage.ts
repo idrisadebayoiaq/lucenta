@@ -34,6 +34,14 @@ export async function claimContent(text: string) {
   return data === true;
 }
 
+/** Claims a slot for every part of a document at once: all parts are allowed, or none are charged. */
+export async function claimContents(texts: string[]) {
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("claim_contents", { p_hashes: texts.map(contentHash) });
+  if (error) throw error;
+  return data === true;
+}
+
 export async function isDerivedContent(userId: string, text: string) {
   const supabase = await createClient();
   const { data } = await supabase

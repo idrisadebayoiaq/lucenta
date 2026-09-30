@@ -146,7 +146,11 @@ Migration `supabase/migrations/0001_initial_schema.sql`:
 ### Step 8.3 — ML service **[keys later]** ⬜
 - `apps/ml-service` (FastAPI): trained classifier + perplexity/Binoculars. When `ML_SERVICE_URL` is set, `/api/detect` uses it instead of the heuristic. See doc 03.
 
-### Step 8.4 — File upload (.txt/.docx/.pdf) ⬜
+### Step 8.4 — File upload (.txt/.docx/.pdf) ✅
+- `POST /api/documents/extract` reads text from .docx (`mammoth`), .pdf (`unpdf`, lines reflowed into paragraphs), .txt and .md, up to 4 MB. Files are never stored.
+- Files up to 3,000 characters go into the normal text box. Longer ones are split into parts of up to 3,000 characters (`lib/documents/split.ts`) at paragraph or sentence breaks.
+- `POST /api/detect/document` claims a daily slot for every part at once with `claim_contents()` (migration 0020), checks the parts and merges them into one result with a score per part (`lib/documents/merge.ts`). At most 5 parts, the daily limit; users with fewer texts left can check the first N parts.
+- `GET /api/text-checks/[id]/pdf` downloads a PDF report of any saved AI check, from the Detector and from History.
 
 ---
 

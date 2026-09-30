@@ -55,8 +55,8 @@ const TOOLS = [
     icon: Bot,
     title: "AI Text Detector",
     href: "/tools#ai-detector",
-    description: "See how likely text is to be AI-generated, with sentence-level highlights and the reasons why.",
-    points: ["Sentence highlights", "Clear explanations", "Confidence score"],
+    description: "See how likely text is to be AI-generated, with sentence-level highlights and the reasons why. Paste text or upload a document.",
+    points: ["Sentence highlights", "Upload .docx, .pdf or .txt", "PDF report of every check"],
   },
   {
     icon: Wand2,

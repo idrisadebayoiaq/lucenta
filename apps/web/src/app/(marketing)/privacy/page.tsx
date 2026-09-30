@@ -72,6 +72,11 @@ const sections: LegalSection[] = [
             history <strong>only if &quot;Save history&quot; is on</strong> in Settings. With it off, your text is processed and
             then discarded.
           </li>
+          <li>
+            <strong>Uploaded documents:</strong> when you upload a .docx, .pdf or .txt file, we read the text out of it in memory
+            and never store the file itself. The extracted text is then treated exactly like pasted text, including the
+            &quot;Save history&quot; setting above.
+          </li>
         </ul>
         <h3>Usage records</h3>
         <p>
