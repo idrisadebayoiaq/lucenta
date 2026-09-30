@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { BarChart3, BriefcaseBusiness, Bot, ChevronDown, Code2, Globe, History, Home, LayoutDashboard, LogOut, Menu, Settings, User, Users, Wand2, X } from "lucide-react";
+import { BarChart3, BriefcaseBusiness, Bot, ChevronDown, Code2, Globe, History, Home, LayoutDashboard, LogOut, Menu, Settings, ShieldCheck, User, Users, Wand2, X } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -28,7 +28,9 @@ const ACCOUNT_NAV = [
 
 export type NavUser = { name: string | null; email: string | null; avatarUrl: string | null };
 
-function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
+const ADMIN_LINK = { href: "/dashboard/admin", label: "Admin", icon: ShieldCheck, exact: false };
+
+function NavLinks({ onNavigate, isAdmin }: { onNavigate?: () => void; isAdmin?: boolean }) {
   const pathname = usePathname();
   const isActive = (href: string, exact?: boolean) => (exact ? pathname === href : pathname.startsWith(href));
 
@@ -63,6 +65,7 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
       </Link>
       {NAV.map(renderLink)}
       {ACCOUNT_NAV.map(renderLink)}
+      {isAdmin && renderLink(ADMIN_LINK)}
       <Link
         href="/freelancers"
         onClick={onNavigate}
@@ -93,11 +96,11 @@ export function Avatar({ user, size = 32 }: { user: Pick<NavUser, "name" | "emai
   );
 }
 
-export function Sidebar() {
+export function Sidebar({ isAdmin }: { isAdmin?: boolean }) {
   return (
-    <aside className="sticky top-0 hidden h-screen w-72 shrink-0 flex-col border-r px-4 py-3 lg:flex">
+    <aside className="sticky top-0 hidden h-screen w-72 shrink-0 flex-col overflow-y-auto border-r px-4 py-3 lg:flex">
       <Logo href="/dashboard" className="mb-6 px-3 py-2" />
-      <NavLinks />
+      <NavLinks isAdmin={isAdmin} />
       <div className="rounded-2xl border p-4">
         <p className="font-bold">Need an expert?</p>
         <p className="mt-1 text-sm text-muted-foreground">Hire a developer to fix your site, or a writer to polish your content.</p>
@@ -109,7 +112,7 @@ export function Sidebar() {
   );
 }
 
-export function Topbar({ user }: { user: NavUser }) {
+export function Topbar({ user, isAdmin }: { user: NavUser; isAdmin?: boolean }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -187,7 +190,7 @@ export function Topbar({ user }: { user: NavUser }) {
                 <X className="h-5 w-5" />
               </Button>
             </div>
-            <NavLinks onNavigate={() => setMobileOpen(false)} />
+            <NavLinks onNavigate={() => setMobileOpen(false)} isAdmin={isAdmin} />
           </div>
         </div>
       )}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
+import { Analytics } from "@/components/analytics";
 import { Toaster } from "@/components/toaster";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col font-sans">
         {children}
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );

@@ -17,10 +17,10 @@ export default async function DashboardLayout({ children }: LayoutProps<"/dashbo
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1400px]">
-      <Sidebar />
+      <Sidebar isAdmin={profile?.is_admin} />
       <div className="flex min-w-0 flex-1 flex-col">
         <AnnouncementBar />
-        <Topbar user={navUser} />
+        <Topbar user={navUser} isAdmin={profile?.is_admin} />
         <main className="mx-auto w-full max-w-6xl flex-1 p-4 lg:p-8">{children}</main>
       </div>
     </div>

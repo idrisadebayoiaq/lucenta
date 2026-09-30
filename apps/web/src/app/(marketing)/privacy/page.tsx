@@ -88,6 +88,13 @@ const sections: LegalSection[] = [
           Like most websites, our hosting and database providers log basic technical data such as IP address, browser type and
           request times, used for security, abuse prevention and fixing errors.
         </p>
+        <h3>Site statistics</h3>
+        <p>
+          We count page visits with our own first-party analytics to see how the site is used and how fast it loads. For each
+          visit we record the page, the site you came from, your country, device type and browser, and loading-speed
+          measurements. Visitors are counted with an anonymous ID that changes every day and can&apos;t be traced back to your IP
+          address or account. No cookies are used for this and nothing is shared with third parties.
+        </p>
       </>
     ),
   },
@@ -108,7 +115,7 @@ const sections: LegalSection[] = [
             announcement banner.
           </li>
         </ul>
-        <p>We don&apos;t use advertising cookies, and we don&apos;t currently use third-party analytics or tracking pixels.</p>
+        <p>We don&apos;t use advertising cookies, and we don&apos;t use third-party analytics or tracking pixels. Our own site statistics (above) don&apos;t use cookies.</p>
       </>
     ),
   },

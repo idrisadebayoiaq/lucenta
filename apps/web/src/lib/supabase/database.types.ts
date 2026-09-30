@@ -20,6 +20,7 @@ type ProfileRow = {
   email_notifications: boolean
   full_name: string | null
   id: string
+  is_admin: boolean
   job_title: string | null
   location: string | null
   occupation: string | null
@@ -236,6 +237,29 @@ type ApiWebhookRow = {
   user_id: string
 }
 
+type PageViewRow = {
+  browser: string
+  country: string | null
+  created_at: string
+  day: string
+  device: string
+  id: number
+  path: string
+  referrer: string | null
+  visitor: string
+}
+
+type WebVitalRow = {
+  created_at: string
+  day: string
+  device: string
+  id: number
+  name: string
+  path: string
+  rating: string
+  value: number
+}
+
 type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
 export type Database = {
@@ -358,9 +382,22 @@ export type Database = {
         Update: Upd<ApiWebhookRow>
         Relationships: []
       }
+      page_views: {
+        Row: Row<PageViewRow>
+        Insert: Ins<Optional<Omit<PageViewRow, "id">, "created_at" | "day" | "referrer" | "country">>
+        Update: Upd<Omit<PageViewRow, "id">>
+        Relationships: []
+      }
+      web_vitals: {
+        Row: Row<WebVitalRow>
+        Insert: Ins<Optional<Omit<WebVitalRow, "id">, "created_at" | "day">>
+        Update: Upd<Omit<WebVitalRow, "id">>
+        Relationships: []
+      }
     }
     Views: { [_ in never]: never }
     Functions: {
+      admin_overview: { Args: { p_days: number }; Returns: Json }
       claim_content: { Args: { p_hash: string }; Returns: boolean }
       claim_content_for: { Args: { p_hash: string; p_user: string }; Returns: boolean }
       claim_contents: { Args: { p_hashes: string[] }; Returns: boolean }
