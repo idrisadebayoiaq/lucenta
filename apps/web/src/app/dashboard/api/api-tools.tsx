@@ -50,7 +50,7 @@ export function ScrollToButton({ target, children }: { target: string; children:
 export function CodeBlock({ code }: { code: string }) {
   return (
     <div className="relative">
-      <pre className="overflow-x-auto rounded-xl border bg-muted/40 p-4 pr-24 font-mono text-xs leading-relaxed">{code}</pre>
+      <pre className="overflow-x-auto border-2 border-ink bg-muted/40 p-4 pr-24 font-mono text-xs leading-relaxed">{code}</pre>
       <div className="absolute right-2 top-2">
         <CopyButton value={code} />
       </div>

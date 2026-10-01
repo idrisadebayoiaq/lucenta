@@ -53,8 +53,9 @@ const list = (max: number, itemMax: number, label: string) =>
     .transform((items) => [...new Set(items)]);
 
 function buildSchema(userId: string) {
-  const ownImage = (bucket: "freelancers" | "avatars") => `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${bucket}/${userId}/`;
-  const isOwnImage = (v: string) => v.startsWith(ownImage("freelancers")) || v.startsWith(ownImage("avatars"));
+  // Profile photos in the "avatars" bucket are private, so a public listing must use the freelancers bucket.
+  const ownImage = (bucket: "freelancers") => `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${bucket}/${userId}/`;
+  const isOwnImage = (v: string) => v.startsWith(ownImage("freelancers"));
 
   return z
     .object({

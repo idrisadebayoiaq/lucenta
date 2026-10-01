@@ -65,7 +65,7 @@ export default async function FreelancerProfile({ params }: PageProps<"/freelanc
               <CardContent className="grid gap-4 sm:grid-cols-2">
                 {f.gallery.map((g, i) => (
                   <figure key={g.url} className="space-y-2">
-                    <a href={g.url} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-xl border">
+                    <a href={g.url} target="_blank" rel="noreferrer" className="block overflow-hidden border-2 border-ink">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={g.url} alt={g.caption || `${f.name} portfolio image ${i + 1}`} loading="lazy" className="aspect-video w-full object-cover transition-transform hover:scale-[1.02]" />
                     </a>
@@ -83,7 +83,7 @@ export default async function FreelancerProfile({ params }: PageProps<"/freelanc
               </CardHeader>
               <CardContent className="grid gap-3 sm:grid-cols-2">
                 {f.services.map((s) => (
-                  <div key={s.title} className="rounded-2xl border p-4">
+                  <div key={s.title} className="brutal p-4">
                     <p className="font-semibold">{s.title}</p>
                     {s.description && <p className="mt-1 text-sm text-muted-foreground">{s.description}</p>}
                   </div>

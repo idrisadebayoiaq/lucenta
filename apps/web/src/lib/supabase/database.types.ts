@@ -20,7 +20,6 @@ type ProfileRow = {
   email_notifications: boolean
   full_name: string | null
   id: string
-  is_admin: boolean
   job_title: string | null
   location: string | null
   occupation: string | null
@@ -29,6 +28,7 @@ type ProfileRow = {
   plan: string
   referral_other: string | null
   referral_source: string | null
+  role: "member" | "admin" | "super_admin"
   save_history: boolean
   stripe_customer_id: string | null
   updated_at: string
@@ -411,6 +411,24 @@ export type Database = {
       get_shared_comparison: { Args: { p_slug: string }; Returns: Json | null }
       get_daily_usage: { Args: never; Returns: { contents_used: number; scans_used: number; shared: boolean }[] }
       increment_usage: { Args: { p_amount: number; p_field: string }; Returns: boolean }
+      list_users: {
+        Args: never
+        Returns: {
+          id: string
+          email: string | null
+          full_name: string | null
+          username: string | null
+          avatar_url: string | null
+          role: "member" | "admin" | "super_admin"
+          plan: string
+          occupation: string | null
+          location: string | null
+          created_at: string
+          last_sign_in_at: string | null
+          email_confirmed_at: string | null
+        }[]
+      }
+      set_user_role: { Args: { p_user: string; p_role: "member" | "admin" }; Returns: undefined }
       plan_limit: { Args: { p_field: string; p_plan: string }; Returns: number }
     }
     Enums: { [_ in never]: never }

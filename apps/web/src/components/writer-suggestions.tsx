@@ -25,7 +25,7 @@ export function WriterSuggestions({ text, writers, className }: { text: string; 
 
   if (answer === null) {
     return (
-      <div className={cn("flex flex-wrap items-center justify-between gap-3 rounded-xl border px-4 py-3", className)}>
+      <div className={cn("flex flex-wrap items-center justify-between gap-3 border-2 border-ink bg-card px-4 py-3", className)}>
         <p className="text-sm font-medium">Happy with this result?</p>
         <div className="flex gap-2">
           <Button size="sm" variant="outline" onClick={() => setAnswer("yes")}>
@@ -40,7 +40,7 @@ export function WriterSuggestions({ text, writers, className }: { text: string; 
   }
 
   return (
-    <div className={cn("space-y-4 rounded-2xl border border-primary/40 p-4", className)}>
+    <div className={cn("space-y-4 border-2 border-l-[6px] border-ink border-l-primary bg-card p-4", className)}>
       <div className="flex items-start gap-3">
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
           <PenLine className="h-5 w-5" />
@@ -61,7 +61,7 @@ export function WriterSuggestions({ text, writers, className }: { text: string; 
       </div>
 
       {matches.length > 0 && (
-        <div className="divide-y rounded-xl border">
+        <div className="divide-y-2 divide-ink border-2 border-ink bg-card">
           {matches.map(({ freelancer, reasons }) => (
             <div key={freelancer.id} className="space-y-3 p-4">
               <div className="flex items-start gap-3">

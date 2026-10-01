@@ -4,18 +4,22 @@ import { cn, scoreColor } from "@/lib/utils";
 type BadgeTone = "default" | "success" | "warning" | "danger" | "info" | "outline";
 
 const badgeTones: Record<BadgeTone, string> = {
-  default: "bg-primary/10 text-primary",
-  success: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
-  warning: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
-  danger: "bg-rose-500/10 text-rose-600 dark:text-rose-400",
-  info: "bg-sky-500/10 text-sky-600 dark:text-sky-400",
-  outline: "border text-muted-foreground",
+  default: "border-primary bg-primary/10 text-primary",
+  success: "border-emerald-600 bg-emerald-500/10 text-emerald-700 dark:border-emerald-400 dark:text-emerald-400",
+  warning: "border-amber-600 bg-amber-500/10 text-amber-700 dark:border-amber-400 dark:text-amber-400",
+  danger: "border-rose-600 bg-rose-500/10 text-rose-700 dark:border-rose-400 dark:text-rose-400",
+  info: "border-sky-600 bg-sky-500/10 text-sky-700 dark:border-sky-400 dark:text-sky-400",
+  outline: "border-ink bg-card text-foreground",
 };
 
 export function Badge({ tone = "default", className, ...props }: HTMLAttributes<HTMLSpanElement> & { tone?: BadgeTone }) {
   return (
     <span
-      className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap", badgeTones[tone], className)}
+      className={cn(
+        "inline-flex items-center gap-1 border-[1.5px] px-2 py-0.5 text-[11px] font-extrabold uppercase tracking-wider whitespace-nowrap",
+        badgeTones[tone],
+        className,
+      )}
       {...props}
     />
   );
@@ -24,8 +28,8 @@ export function Badge({ tone = "default", className, ...props }: HTMLAttributes<
 export function Progress({ value, className, barClassName }: { value: number; className?: string; barClassName?: string }) {
   const pct = Math.max(0, Math.min(100, value));
   return (
-    <div className={cn("h-2 w-full overflow-hidden rounded-full bg-muted", className)}>
-      <div className={cn("h-full rounded-full bg-primary transition-all", barClassName)} style={{ width: `${pct}%` }} />
+    <div className={cn("h-2 w-full overflow-hidden bg-muted", className)}>
+      <div className={cn("h-full bg-primary transition-all", barClassName)} style={{ width: `${pct}%` }} />
     </div>
   );
 }
@@ -55,14 +59,14 @@ export function ScoreRing({
           cy={size / 2}
           r={radius}
           strokeWidth={stroke}
-          strokeLinecap="round"
+          strokeLinecap="butt"
           strokeDasharray={circumference}
           strokeDashoffset={offset}
           className="fill-none stroke-current transition-all duration-700"
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="font-bold text-foreground" style={{ fontSize: size * 0.28 }}>
+        <span className="font-black text-foreground" style={{ fontSize: size * 0.28 }}>
           {Math.round(score)}
         </span>
         {label && <span className="text-xs text-muted-foreground">{label}</span>}
@@ -73,9 +77,9 @@ export function ScoreRing({
 
 export function EmptyState({ icon, title, description, action }: { icon?: ReactNode; title: string; description?: string; action?: ReactNode }) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-xl border border-dashed p-10 text-center">
+    <div className="flex flex-col items-center justify-center border-2 border-dashed border-ink bg-card p-10 text-center">
       {icon && <div className="mb-3 text-muted-foreground">{icon}</div>}
-      <p className="font-medium">{title}</p>
+      <p className="font-extrabold">{title}</p>
       {description && <p className="mt-1 max-w-sm text-sm text-muted-foreground">{description}</p>}
       {action && <div className="mt-4">{action}</div>}
     </div>
@@ -84,14 +88,14 @@ export function EmptyState({ icon, title, description, action }: { icon?: ReactN
 
 export function Alert({ tone = "info", title, children }: { tone?: "info" | "warning" | "danger" | "success"; title?: string; children?: ReactNode }) {
   const tones = {
-    info: "border-sky-500/30 bg-sky-500/5",
-    warning: "border-amber-500/30 bg-amber-500/5",
-    danger: "border-rose-500/30 bg-rose-500/5",
-    success: "border-emerald-500/30 bg-emerald-500/5",
+    info: "border-l-sky-500 bg-sky-500/5",
+    warning: "border-l-amber-500 bg-amber-500/5",
+    danger: "border-l-rose-500 bg-rose-500/5",
+    success: "border-l-emerald-500 bg-emerald-500/5",
   };
   return (
-    <div className={cn("rounded-lg border p-3 text-sm", tones[tone])}>
-      {title && <p className="font-medium">{title}</p>}
+    <div className={cn("border-2 border-l-[6px] border-ink p-3 text-sm", tones[tone])}>
+      {title && <p className="font-bold">{title}</p>}
       {children && <div className="text-muted-foreground">{children}</div>}
     </div>
   );
@@ -106,8 +110,8 @@ export function Switch({ name, defaultChecked, label, description }: { name: str
       </span>
       <span className="relative mt-0.5 inline-flex shrink-0">
         <input type="checkbox" name={name} defaultChecked={defaultChecked} className="peer sr-only" />
-        <span className="h-6 w-11 rounded-full bg-muted transition-colors peer-checked:bg-primary peer-focus-visible:ring-2 peer-focus-visible:ring-ring" />
-        <span className="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform peer-checked:translate-x-5" />
+        <span className="h-6 w-11 border-2 border-ink bg-muted transition-colors peer-checked:bg-primary peer-focus-visible:ring-2 peer-focus-visible:ring-ring" />
+        <span className="absolute left-1 top-1 h-4 w-4 border-2 border-ink bg-white transition-transform peer-checked:translate-x-5" />
       </span>
     </label>
   );

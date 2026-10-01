@@ -29,7 +29,7 @@ function useDismiss(open: boolean, close: () => void) {
 
 function Panel({ children, className = "w-64" }: { children: ReactNode; className?: string }) {
   return (
-    <div role="menu" className={`absolute right-0 z-20 mt-2 rounded-2xl border bg-background p-2 shadow-lg ${className}`}>
+    <div role="menu" className={`absolute right-0 z-20 mt-2 brutal p-2 ${className}`}>
       {children}
     </div>
   );

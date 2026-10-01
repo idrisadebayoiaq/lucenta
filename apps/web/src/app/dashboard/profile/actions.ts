@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { checkEmailAllowed } from "@/lib/account-guard";
 import { createClient, getCurrentUser } from "@/lib/supabase/server";
 
 export type FormState = {
@@ -92,6 +93,11 @@ export async function setAvatarUrl(avatarUrl: string | null) {
 export async function changeEmail(_: FormState, formData: FormData): Promise<FormState> {
   const parsed = z.object({ email: z.email("Enter a valid email address") }).safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { fieldErrors: z.flattenError(parsed.error).fieldErrors };
+
+  const user = await getCurrentUser();
+  if (!user) return { error: "Please log in again." };
+  const emailCheck = await checkEmailAllowed(parsed.data.email, user.id);
+  if (!emailCheck.allowed) return { fieldErrors: { email: [emailCheck.message] } };
 
   const supabase = await createClient();
   const { error } = await supabase.auth.updateUser(

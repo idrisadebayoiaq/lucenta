@@ -106,7 +106,7 @@ export function RewriteTool({
                   type="button"
                   onClick={() => setTone(t.id)}
                   className={cn(
-                    "rounded-full border px-3 py-1 text-sm font-medium cursor-pointer",
+                    "border-2 border-ink px-3 py-1 text-sm font-medium cursor-pointer",
                     tone === t.id ? "border-primary bg-primary text-primary-foreground" : "hover:bg-muted",
                   )}
                 >
@@ -117,7 +117,7 @@ export function RewriteTool({
           </div>
           <div className="space-y-2">
             <Label>How much to change</Label>
-            <div className="grid grid-cols-3 gap-1 rounded-full border p-1">
+            <div className="grid grid-cols-3 gap-1 border-2 border-ink bg-card p-1">
               {STRENGTHS.map((s) => (
                 <button
                   key={s.id}
@@ -189,7 +189,7 @@ export function RewriteTool({
           <CardContent className="flex flex-1 flex-col gap-4">
             {result ? (
               <>
-                <div className="min-h-96 flex-1 whitespace-pre-wrap rounded-xl border bg-muted/30 p-3 text-sm leading-7">
+                <div className="min-h-96 flex-1 whitespace-pre-wrap border-2 border-ink bg-muted/30 p-3 text-sm leading-7">
                   {showDiff
                     ? diff.map((d) => (
                         <span key={d.key} className={d.changed ? "rounded bg-emerald-500/20" : undefined}>
@@ -205,7 +205,7 @@ export function RewriteTool({
                     {result.iterations} pass{result.iterations > 1 ? "es" : ""}
                   </Badge>
                 </div>
-                <div className="flex items-start gap-3 rounded-xl border px-3 py-2.5 text-xs text-muted-foreground">
+                <div className="flex items-start gap-3 border-2 border-ink px-3 py-2.5 text-xs text-muted-foreground">
                   <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                   <p>
                     You&apos;re the author of anything you use. Read this through before using it, and disclose AI assistance

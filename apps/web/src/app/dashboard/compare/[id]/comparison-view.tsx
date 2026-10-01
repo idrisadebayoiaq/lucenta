@@ -24,7 +24,7 @@ function Delta({ value }: { value: number | undefined }) {
 function GapCard({ gap, site }: { gap: Gap; site: string }) {
   const rec = gap.recommendation;
   return (
-    <details className="group rounded-2xl border">
+    <details className="group brutal">
       <summary className="flex cursor-pointer list-none items-start justify-between gap-3 rounded-2xl p-4 hover:bg-muted/50">
         <div className="space-y-1.5">
           <p className="font-bold">{rec?.title ?? gap.title}</p>
@@ -125,7 +125,7 @@ export function ComparisonView({ data, siteHref }: { data: ComparisonData; siteH
                     key={s.url}
                     site={s}
                     className={cn(
-                      "flex flex-col items-center gap-2 rounded-2xl border p-4 text-center transition-colors",
+                      "flex flex-col items-center gap-2 brutal p-4 text-center transition-colors",
                       siteHref && "hover:bg-muted/50",
                       i === 0 && "border-primary bg-primary/5",
                     )}

@@ -2,31 +2,35 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* X (Twitter) palette */
+/* Lucenta: bold outlines, hard offset shadows, square corners (matches the email templates). */
 :root {
-  --background: #ffffff;
-  --foreground: #0f1419;
+  --background: #eef0f4;
+  --foreground: #0b0b0f;
   --card: #ffffff;
-  --muted: #f7f9f9;
-  --muted-foreground: #536471;
-  --border: #eff3f4;
-  --primary: #1d9bf0;
+  --muted: #e4e7ee;
+  --muted-foreground: #5b6070;
+  --border: #d3d7e0;
+  --ink: #0b0b0f;
+  --shadow-ink: #0b0b0f;
+  --primary: #1d6bff;
   --primary-foreground: #ffffff;
-  --accent: #e8f5fd;
-  --ring: #1d9bf0;
+  --accent: #e3ecff;
+  --ring: #1d6bff;
 }
 
 .dark {
-  --background: #000000;
-  --foreground: #e7e9ea;
-  --card: #000000;
-  --muted: #16181c;
-  --muted-foreground: #71767b;
-  --border: #2f3336;
-  --primary: #1d9bf0;
+  --background: #0b0b0f;
+  --foreground: #f2f3f5;
+  --card: #15161c;
+  --muted: #20222a;
+  --muted-foreground: #9ba1af;
+  --border: #2d3039;
+  --ink: #e9ebf0;
+  --shadow-ink: #1d6bff;
+  --primary: #3b80ff;
   --primary-foreground: #ffffff;
-  --accent: #031018;
-  --ring: #1d9bf0;
+  --accent: #0f1b33;
+  --ring: #3b80ff;
   color-scheme: dark;
 }
 
@@ -37,21 +41,47 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
+  --color-ink: var(--ink);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
   --color-ring: var(--ring);
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: var(--font-inter), "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: var(--font-geist-mono);
+  --shadow-brutal: 6px 6px 0 0 var(--shadow-ink);
+  --shadow-brutal-sm: 4px 4px 0 0 var(--shadow-ink);
+  --shadow-brutal-xs: 3px 3px 0 0 var(--shadow-ink);
+  --shadow-brutal-primary: 4px 4px 0 0 var(--primary);
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
 }
 
-* {
-  border-color: var(--border);
-}
+@layer base {
+  * {
+    border-color: var(--border);
+  }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
 }
 
 ::selection {
@@ -60,11 +90,58 @@ body {
 
 .bg-grid {
   background-image:
-    linear-gradient(to right, color-mix(in oklab, var(--border) 60%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, var(--border) 60%, transparent) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in oklab, var(--ink) 9%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--ink) 9%, transparent) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
 .text-gradient {
   color: var(--primary);
+}
+
+@layer components {
+/* The outlined card with a hard shadow used across the site. */
+.brutal {
+  border: 2px solid var(--ink);
+  background: var(--card);
+  box-shadow: var(--shadow-brutal);
+}
+
+.brutal-hover {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.brutal-hover:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 0 var(--shadow-ink);
+}
+
+/* Heading with the short blue bar underneath, as in the emails. */
+.title-bar::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 5px;
+  margin-top: 12px;
+  background: var(--primary);
+}
+.text-center .title-bar::after,
+.title-bar.text-center::after {
+  margin-inline: auto;
+}
+
+/* Small uppercase label chip. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 2px solid var(--ink);
+  background: var(--card);
+  padding: 0.3rem 0.65rem;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
 }

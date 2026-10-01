@@ -198,7 +198,7 @@ export default function ResponsibleUsePage() {
             </Link>
             .
           </p>
-          <p className="rounded-2xl border border-primary/40 bg-primary/5 p-4">
+          <p className="border-2 border-l-[6px] border-ink border-l-primary bg-primary/5 p-4">
             <strong>In short:</strong> use the Detector as a guide, never as proof. Use the Rewriter to improve writing
             you&apos;re allowed to improve, not to cheat, plagiarise or hide AI use where honesty is required.
           </p>

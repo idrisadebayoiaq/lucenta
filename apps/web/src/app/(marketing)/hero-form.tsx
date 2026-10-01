@@ -16,7 +16,7 @@ export function HeroForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="mx-auto flex w-full max-w-xl flex-col gap-2 rounded-2xl border bg-card p-2 shadow-lg sm:flex-row">
+    <form onSubmit={onSubmit} className="mx-auto flex w-full max-w-xl flex-col gap-2 brutal p-2 sm:flex-row">
       <div className="flex flex-1 items-center gap-2 px-3">
         <Globe className="h-5 w-5 shrink-0 text-muted-foreground" />
         <input

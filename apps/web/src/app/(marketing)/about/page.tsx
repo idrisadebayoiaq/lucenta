@@ -40,7 +40,7 @@ export default function AboutPage() {
         <h2 className="text-2xl font-extrabold tracking-tight">What we believe</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {VALUES.map(({ icon: Icon, title, body }) => (
-            <div key={title} className="rounded-2xl border p-5">
+            <div key={title} className="brutal p-5">
               <Icon className="h-6 w-6 text-primary" />
               <p className="mt-3 font-bold">{title}</p>
               <p className="mt-1 text-sm text-muted-foreground">{body}</p>

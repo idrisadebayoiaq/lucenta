@@ -54,7 +54,7 @@ function AnnotatedText({ text, result, active, onSelect }: { text: string; resul
   }
   parts.push(<Fragment key="end">{text.slice(cursor)}</Fragment>);
 
-  return <div className="min-h-96 flex-1 whitespace-pre-wrap rounded-xl border bg-muted/30 p-3 text-sm leading-7">{parts}</div>;
+  return <div className="min-h-96 flex-1 whitespace-pre-wrap border-2 border-ink bg-muted/30 p-3 text-sm leading-7">{parts}</div>;
 }
 
 export function SuggestionsTool({
@@ -179,7 +179,7 @@ export function SuggestionsTool({
           ) : (
             <>
               {result.summary.length > 0 && (
-                <div className="rounded-xl border bg-muted/30 p-3">
+                <div className="border-2 border-ink bg-muted/30 p-3">
                   <p className="mb-1.5 text-sm font-bold">Overall</p>
                   <ul className="list-disc space-y-1 pl-5 text-sm text-muted-foreground">
                     {result.summary.map((s) => (
@@ -205,7 +205,7 @@ export function SuggestionsTool({
                         setEditing(false);
                       }}
                       className={cn(
-                        "cursor-pointer space-y-2 rounded-xl border p-3 transition-colors",
+                        "cursor-pointer space-y-2 border-2 border-ink p-3 transition-colors",
                         active === i ? "border-amber-500 bg-amber-400/5" : "hover:bg-muted/50",
                       )}
                     >

@@ -44,7 +44,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/dashbo
 
       <div className="grid gap-4 md:grid-cols-3">
         {QUICK_ACTIONS.map(({ href, icon: Icon, title, body }) => (
-          <Link key={href} href={href} className="group rounded-2xl border bg-card p-5 transition-colors hover:bg-muted/50">
+          <Link key={href} href={href} className="group brutal brutal-hover p-5">
             <div className="mb-4 grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
               <Icon className="h-5 w-5" />
             </div>

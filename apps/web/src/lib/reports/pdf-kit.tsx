@@ -1,5 +1,5 @@
 import "server-only";
-import { Circle, Link, Path, StyleSheet, Svg, Text, View } from "@react-pdf/renderer";
+import { Circle, Link, Path, Rect, StyleSheet, Svg, Text, View } from "@react-pdf/renderer";
 import type { ReactNode } from "react";
 import type { CheckStatus, Effort, Impact } from "@/lib/analyzer/types";
 import { SITE_HOST } from "@/lib/site";
@@ -8,17 +8,17 @@ import { SITE_HOST } from "@/lib/site";
 export type PdfBrand = { whiteLabel: false } | { whiteLabel: true; name: string };
 
 export const C = {
-  ink: "#0f1419",
-  body: "#273340",
-  muted: "#536471",
-  faint: "#8b98a5",
-  border: "#e1e8ed",
-  soft: "#f7f9f9",
-  track: "#eff3f4",
-  primary: "#1d9bf0",
-  primarySoft: "#e8f5fe",
-  heroMuted: "#8b98a5",
-  heroTrack: "#2f3336",
+  ink: "#0b0b0f",
+  body: "#262a33",
+  muted: "#5b6070",
+  faint: "#8a8f9c",
+  border: "#d3d7e0",
+  soft: "#eef0f4",
+  track: "#e4e7ee",
+  primary: "#1d6bff",
+  primarySoft: "#e3ecff",
+  heroMuted: "#9ba1af",
+  heroTrack: "#2d3039",
   green: "#10b981",
   amber: "#f59e0b",
   red: "#f43f5e",
@@ -31,8 +31,8 @@ const TONES: Record<Tone, { bg: string; fg: string; border?: string }> = {
   warning: { bg: "#fef3c7", fg: "#b45309" },
   success: { bg: "#d1fae5", fg: "#047857" },
   info: { bg: "#e0f2fe", fg: "#0369a1" },
-  primary: { bg: C.primarySoft, fg: "#1a8cd8" },
-  outline: { bg: "#ffffff", fg: C.muted, border: C.border },
+  primary: { bg: C.primarySoft, fg: C.primary },
+  outline: { bg: "#ffffff", fg: C.ink, border: C.ink },
 };
 
 export const IMPACT_TONE: Record<Impact, Tone> = { high: "danger", medium: "warning", low: "info" };
@@ -60,10 +60,10 @@ export const s = StyleSheet.create({
   muted: { color: C.muted },
   small: { fontSize: 8, color: C.muted },
   row: { flexDirection: "row" },
-  card: { borderWidth: 1, borderColor: C.border, borderRadius: 10, padding: 12, backgroundColor: "#ffffff" },
-  sectionTitle: { fontFamily: "Helvetica-Bold", fontSize: 13, color: C.ink },
-  sectionSub: { fontSize: 8.5, color: C.muted, marginTop: 1 },
-  hero: { backgroundColor: C.ink, borderRadius: 14, padding: 20, color: "#ffffff" },
+  card: { borderWidth: 1.5, borderColor: C.ink, padding: 12, backgroundColor: "#ffffff" },
+  sectionTitle: { fontFamily: "Helvetica-Bold", fontSize: 12.5, color: C.ink, textTransform: "uppercase", letterSpacing: 0.4 },
+  sectionSub: { fontSize: 8.5, color: C.muted, marginTop: 5 },
+  hero: { backgroundColor: C.ink, padding: 20, color: "#ffffff", borderBottomWidth: 5, borderBottomColor: C.primary },
 });
 
 /** `keepTogether` moves the whole section to the next page instead of splitting it. */
@@ -84,6 +84,7 @@ export function Section({
     <View style={{ marginTop: first ? 0 : 20 }} wrap={!keepTogether}>
       <View minPresenceAhead={60} style={{ marginBottom: 8 }}>
         <Text style={s.sectionTitle}>{title}</Text>
+        <View style={{ width: 28, height: 3, backgroundColor: C.primary, marginTop: 4 }} />
         {subtitle && <Text style={s.sectionSub}>{subtitle}</Text>}
       </View>
       {children}
@@ -100,11 +101,12 @@ export function Badge({ label, tone }: { label: string; tone: Tone }) {
         color: t.fg,
         borderWidth: t.border ? 0.75 : 0,
         borderColor: t.border ?? t.bg,
-        borderRadius: 8,
         paddingHorizontal: 5,
         paddingVertical: 1.5,
-        fontSize: 7.5,
+        fontSize: 7,
         fontFamily: "Helvetica-Bold",
+        textTransform: "uppercase",
+        letterSpacing: 0.5,
       }}
     >
       {label}
@@ -114,8 +116,8 @@ export function Badge({ label, tone }: { label: string; tone: Tone }) {
 
 export function Bar({ value, color, height = 4 }: { value: number; color: string; height?: number }) {
   return (
-    <View style={{ height, backgroundColor: C.track, borderRadius: height / 2 }}>
-      <View style={{ height, width: `${Math.max(2, Math.min(100, value))}%`, backgroundColor: color, borderRadius: height / 2 }} />
+    <View style={{ height, backgroundColor: C.track }}>
+      <View style={{ height, width: `${Math.max(2, Math.min(100, value))}%`, backgroundColor: color }} />
     </View>
   );
 }
@@ -150,7 +152,6 @@ export function ScoreRing({
             stroke={color}
             strokeWidth={stroke}
             fill="none"
-            strokeLinecap="round"
           />
         ) : null}
       </Svg>
@@ -185,13 +186,13 @@ export function StatusIcon({ status, size = 11 }: { status: CheckStatus; size?: 
 }
 
 export function LucentaMark({ size = 18, inverted }: { size?: number; inverted?: boolean }) {
-  const bg = inverted ? "#ffffff" : C.ink;
-  const fg = inverted ? C.ink : "#ffffff";
+  const edge = inverted ? "#ffffff" : C.ink;
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24">
-      <Circle cx={12} cy={12} r={12} fill={bg} />
-      <Circle cx={11} cy={11} r={4.5} stroke={fg} strokeWidth={2.2} fill="none" />
-      <Path d="M17.5 17.5 L14.3 14.3" stroke={fg} strokeWidth={2.2} strokeLinecap="round" />
+      <Rect x={3} y={3} width={21} height={21} fill={edge} />
+      <Rect x={0.75} y={0.75} width={20.5} height={20.5} fill={C.primary} stroke={edge} strokeWidth={1.5} />
+      <Circle cx={10} cy={10} r={4.2} stroke="#ffffff" strokeWidth={2.3} fill="none" />
+      <Path d="M13.2 13.2 L16.8 16.8" stroke="#ffffff" strokeWidth={2.6} />
     </Svg>
   );
 }
@@ -202,6 +203,7 @@ export function BrandLine({ brand, inverted, size = 16 }: { brand: PdfBrand; inv
       {!brand.whiteLabel && <LucentaMark size={size} inverted={inverted} />}
       <Text style={{ fontFamily: "Helvetica-Bold", fontSize: size * 0.72, color: inverted ? "#ffffff" : C.ink }}>
         {brand.whiteLabel ? clean(brand.name) : "Lucenta"}
+        {!brand.whiteLabel && <Text style={{ color: C.primary }}>.</Text>}
       </Text>
     </View>
   );
@@ -212,9 +214,10 @@ export function PageChrome({ brand, title, onlineUrl }: { brand: PdfBrand; title
   const brandName = brand.whiteLabel ? clean(brand.name) : "Lucenta";
   return (
     <>
+      <View fixed style={{ position: "absolute", top: 0, left: 0, right: 0, height: 5, backgroundColor: C.primary }} />
       <Text
         fixed
-        style={{ position: "absolute", top: 20, left: 36, fontSize: 8.5, fontFamily: "Helvetica-Bold", color: C.ink }}
+        style={{ position: "absolute", top: 20, left: 36, fontSize: 8.5, fontFamily: "Helvetica-Bold", color: C.ink, textTransform: "uppercase", letterSpacing: 0.6 }}
         render={({ pageNumber }) => (pageNumber > 1 ? brandName : "")}
       />
       <Text
@@ -222,7 +225,7 @@ export function PageChrome({ brand, title, onlineUrl }: { brand: PdfBrand; title
         style={{ position: "absolute", top: 21, right: 36, fontSize: 8, color: C.muted }}
         render={({ pageNumber }) => (pageNumber > 1 ? clean(title) : "")}
       />
-      <View fixed style={{ position: "absolute", bottom: 32, left: 36, right: 36, borderTopWidth: 0.75, borderColor: C.border }} />
+      <View fixed style={{ position: "absolute", bottom: 32, left: 36, right: 36, borderTopWidth: 1.5, borderColor: C.ink }} />
       <Text fixed style={{ position: "absolute", bottom: 18, left: 36, fontSize: 8, color: C.muted }}>
         {brand.whiteLabel ? `Prepared by ${brandName}` : `Generated with Lucenta · ${SITE_HOST}`}
       </Text>
@@ -251,8 +254,7 @@ export function Chip({ children, dark }: { children: ReactNode; dark?: boolean }
         fontSize: 8,
         color: dark ? "#d6dde3" : C.muted,
         borderWidth: 0.75,
-        borderColor: dark ? "#3e4851" : C.border,
-        borderRadius: 8,
+        borderColor: dark ? "#3e4851" : C.ink,
         paddingHorizontal: 6,
         paddingVertical: 2,
       }}

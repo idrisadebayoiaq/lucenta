@@ -10,7 +10,7 @@ const NOTES = {
 
 export function ResponsibleUseNote({ tool }: { tool: keyof typeof NOTES }) {
   return (
-    <div className="mb-6 flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm text-muted-foreground">
+    <div className="mb-6 flex items-start gap-3 border-2 border-ink bg-card px-4 py-3 text-sm text-muted-foreground">
       <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
       <p>
         {NOTES[tool]}{" "}

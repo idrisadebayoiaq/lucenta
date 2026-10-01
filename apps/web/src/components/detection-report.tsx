@@ -41,7 +41,7 @@ export function DetectionReasons({ result }: { result: DetectionResult }) {
           ["Lexical diversity", result.signals.lexicalDiversity],
           ["AI phrases", result.signals.aiPhraseCount],
         ].map(([label, value]) => (
-          <div key={label as string} className="rounded-xl border p-2">
+          <div key={label as string} className="border-2 border-ink p-2">
             <p className="text-xs text-muted-foreground">{label}</p>
             <p className="font-semibold">{value}</p>
           </div>

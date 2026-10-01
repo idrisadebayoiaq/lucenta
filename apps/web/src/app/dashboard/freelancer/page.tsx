@@ -5,6 +5,7 @@ import { BadgeCheck, Eye, EyeOff, Lock } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/misc";
+import { avatarPath } from "@/lib/avatars";
 import { getMyFreelancerProfile } from "@/lib/freelancer-queries";
 import { FREELANCER_MIN_AGE, isAdult, kindLabel } from "@/lib/freelancers";
 import { getCurrentProfile, getCurrentUser } from "@/lib/supabase/server";
@@ -85,7 +86,7 @@ export default async function FreelancerProfilePage() {
           name: profile.full_name ?? "",
           email: profile.email ?? user.email ?? "",
           location: profile.location ?? "",
-          avatarUrl: profile.avatar_url,
+          avatarUrl: avatarPath(profile.avatar_url) ? null : profile.avatar_url,
         }}
       />
     </div>

@@ -57,7 +57,7 @@ export default async function FreelancersPage({ searchParams }: PageProps<"/free
             href={href({ type: t.id, specialty: null })}
             aria-current={type === t.id ? "page" : undefined}
             className={cn(
-              "rounded-full border px-4 py-2 text-sm font-bold transition-colors",
+              "border-2 border-ink px-4 py-2 text-sm font-bold transition-colors",
               type === t.id ? "border-foreground bg-foreground text-background" : "hover:bg-muted",
             )}
           >
@@ -74,7 +74,7 @@ export default async function FreelancersPage({ searchParams }: PageProps<"/free
               key={s.id}
               href={href({ specialty: specialty === s.id ? null : s.id })}
               className={cn(
-                "rounded-full border px-3 py-1 text-sm transition-colors",
+                "border-2 border-ink px-3 py-1 text-sm transition-colors",
                 specialty === s.id ? "border-primary bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted",
               )}
             >
@@ -91,7 +91,7 @@ export default async function FreelancersPage({ searchParams }: PageProps<"/free
           ))}
         </div>
       ) : (
-        <div className="mt-8 rounded-2xl border border-dashed p-10 text-center">
+        <div className="mt-8 border-2 border-dashed border-ink bg-card p-10 text-center">
           <p className="font-bold">{type === "writer" ? "No writers listed yet" : "No freelancers match this filter yet"}</p>
           <p className="mt-1 text-sm text-muted-foreground">Are you a {type === "writer" ? "writer" : "developer or writer"}? Be one of the first on Lucenta.</p>
           <Link href="/dashboard/freelancer" className={buttonVariants({ size: "sm", className: "mt-4" })}>

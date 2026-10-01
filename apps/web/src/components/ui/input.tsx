@@ -2,9 +2,9 @@ import { forwardRef, type InputHTMLAttributes, type LabelHTMLAttributes, type Te
 import { cn } from "@/lib/utils";
 
 const fieldBase =
-  "w-full rounded-md border border-[#cfd9de] dark:border-[#333639] bg-transparent px-3 text-[15px] transition-colors placeholder:text-muted-foreground " +
-  "focus-visible:outline-none focus-visible:border-primary focus-visible:ring-1 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 " +
-  "aria-[invalid=true]:border-[#f4212e]";
+  "w-full border-2 border-ink bg-card px-3 text-[15px] transition-shadow placeholder:text-muted-foreground " +
+  "focus-visible:outline-none focus-visible:shadow-brutal-primary disabled:cursor-not-allowed disabled:opacity-50 " +
+  "aria-[invalid=true]:border-[#e5383b] aria-[invalid=true]:shadow-[4px_4px_0_0_#e5383b]";
 
 export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(({ className, ...props }, ref) => (
   <input ref={ref} className={cn(fieldBase, "h-12", className)} {...props} />
@@ -22,11 +22,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectHTMLAttributes<HTMLSel
 Select.displayName = "Select";
 
 export function Label({ className, ...props }: LabelHTMLAttributes<HTMLLabelElement>) {
-  return <label className={cn("text-sm font-medium leading-none", className)} {...props} />;
+  return <label className={cn("text-[11px] font-extrabold uppercase leading-none tracking-[0.12em]", className)} {...props} />;
 }
 
 export function FieldError({ message }: { message?: string | string[] }) {
   const text = Array.isArray(message) ? message[0] : message;
   if (!text) return null;
-  return <p className="text-xs text-rose-500">{text}</p>;
+  return <p className="text-xs font-semibold text-[#e5383b]">{text}</p>;
 }

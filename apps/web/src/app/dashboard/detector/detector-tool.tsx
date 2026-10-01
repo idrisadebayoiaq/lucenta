@@ -115,7 +115,7 @@ export function DetectorTool({ usage, writers }: { usage: { used: number; limit:
       <Card>
         <CardContent className="space-y-3 pt-6">
           {result ? (
-            <div ref={resultRef} className={cn("max-h-[36rem] min-h-80 overflow-y-auto rounded-xl border bg-card p-3 text-sm leading-7", parts && "space-y-4")}>
+            <div ref={resultRef} className={cn("max-h-[36rem] min-h-80 overflow-y-auto border-2 border-ink bg-card p-3 text-sm leading-7", parts && "space-y-4")}>
               {parts ? (
                 parts.map((p, i) => (
                   <div key={p.start} data-part={i} className="scroll-mt-3">

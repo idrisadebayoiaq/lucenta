@@ -33,19 +33,19 @@ const COLUMNS = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t">
+    <footer className="border-t-2 border-ink bg-[#0b0b0f] text-[#b9bdc9] [--ink:#ffffff]">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-4">
-        <div className="space-y-3">
+        <div className="space-y-3 text-white">
           <Logo />
-          <p className="text-sm text-muted-foreground">Audit your website and polish your writing in one place.</p>
+          <p className="text-sm text-[#b9bdc9]">Audit your website and polish your writing in one place.</p>
         </div>
         {COLUMNS.map((col) => (
           <div key={col.title}>
-            <p className="mb-3 text-sm font-bold">{col.title}</p>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.14em] text-white">{col.title}</p>
+            <ul className="space-y-2 text-sm">
               {col.links.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="hover:text-foreground hover:underline">
+                  <Link href={link.href} className="hover:text-white hover:underline">
                     {link.label}
                   </Link>
                 </li>
@@ -54,8 +54,8 @@ export function SiteFooter() {
           </div>
         ))}
       </div>
-      <div className="border-t py-6 text-center text-[13px] text-muted-foreground">
-        © {new Date().getFullYear()} Lucenta
+      <div className="border-t border-white/15 py-6 text-center text-[13px]">
+        © {new Date().getFullYear()} Lucenta <span className="text-[#1d6bff]">·</span> free AI website audits, AI detection &amp; writing tools
       </div>
     </footer>
   );

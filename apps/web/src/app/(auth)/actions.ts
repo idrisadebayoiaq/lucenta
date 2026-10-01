@@ -97,10 +97,47 @@ export async function signup(_: AuthState, formData: FormData): Promise<AuthStat
   }
 
   if (data.session) redirect("/dashboard");
+  redirect(`/verify-email?email=${encodeURIComponent(parsed.data.email)}`);
+}
 
-  return {
-    success: `We sent a confirmation link to ${parsed.data.email}. Click it to activate your account.`,
-  };
+const verifySchema = z.object({
+  email: z.email("Enter a valid email address"),
+  code: z
+    .string()
+    .transform((v) => v.replace(/\s/g, ""))
+    .pipe(z.string().regex(/^\d{6,10}$/, "Enter the code from your email")),
+});
+
+export async function verifyEmailCode(_: AuthState, formData: FormData): Promise<AuthState> {
+  const raw = Object.fromEntries(formData) as Record<string, string>;
+  const values = { email: raw.email ?? "" };
+  const parsed = verifySchema.safeParse(raw);
+  if (!parsed.success) return { fieldErrors: z.flattenError(parsed.error).fieldErrors, values };
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.verifyOtp({ email: parsed.data.email, token: parsed.data.code, type: "email" });
+  if (error) {
+    const expired = error.code === "otp_expired";
+    return { fieldErrors: { code: [expired ? "That code has expired or is wrong. Request a new one below." : "That code isn't right. Check your email and try again."] }, values };
+  }
+  redirect("/dashboard");
+}
+
+export async function resendEmailCode(_: AuthState, formData: FormData): Promise<AuthState> {
+  const parsed = z.object({ email: z.email() }).safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { error: "Enter a valid email address." };
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resend({
+    type: "signup",
+    email: parsed.data.email,
+    options: { emailRedirectTo: `${await origin()}/auth/callback?next=/dashboard` },
+  });
+  if (error) {
+    const wait = error.status === 429 || /seconds|rate/i.test(error.message);
+    return { error: wait ? "Please wait a minute before asking for another code." : "We couldn't send a new code. Please try again." };
+  }
+  return { success: `A new code is on its way to ${parsed.data.email}.` };
 }
 
 export async function login(_: AuthState, formData: FormData): Promise<AuthState> {
@@ -114,11 +151,11 @@ export async function login(_: AuthState, formData: FormData): Promise<AuthState
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithPassword(parsed.data);
   if (error) {
-    const message =
-      error.code === "email_not_confirmed"
-        ? "Please confirm your email address first. Check your inbox for the link."
-        : "Incorrect email or password.";
-    return { error: message, values };
+    if (error.code === "email_not_confirmed") {
+      await supabase.auth.resend({ type: "signup", email: parsed.data.email }).catch(() => null);
+      redirect(`/verify-email?email=${encodeURIComponent(parsed.data.email)}&resent=1`);
+    }
+    return { error: "Incorrect email or password.", values };
   }
 
   try {

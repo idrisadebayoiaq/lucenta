@@ -7,10 +7,10 @@ export default function DashboardLoading() {
       </div>
       <div className="grid gap-4 md:grid-cols-3">
         {[0, 1, 2].map((i) => (
-          <div key={i} className="h-28 rounded-2xl border bg-muted/40" />
+          <div key={i} className="h-28 border-2 border-ink bg-card" />
         ))}
       </div>
-      <div className="h-64 rounded-2xl border bg-muted/40" />
+      <div className="h-64 border-2 border-ink bg-card" />
     </div>
   );
 }

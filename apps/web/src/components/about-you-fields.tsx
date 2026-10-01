@@ -30,7 +30,7 @@ function ChoiceGroup({
           <label
             key={option.id}
             className={cn(
-              "cursor-pointer rounded-full border px-4 py-2 text-sm font-medium transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary",
+              "cursor-pointer border-2 border-ink px-4 py-2 text-sm font-medium transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary",
               value === option.id ? "border-primary bg-primary/10 text-primary" : "hover:bg-muted",
               disabled && "cursor-not-allowed opacity-60",
             )}

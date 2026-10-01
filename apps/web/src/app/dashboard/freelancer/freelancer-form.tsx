@@ -243,7 +243,7 @@ export function FreelancerForm({ userId, initial, defaults }: { userId: string; 
               onClick={() => chooseKind(id)}
               aria-pressed={kind === id}
               className={cn(
-                "flex cursor-pointer items-start gap-3 rounded-2xl border p-4 text-left transition-colors hover:bg-muted/50",
+                "flex cursor-pointer items-start gap-3 brutal p-4 text-left transition-colors hover:bg-muted/50",
                 kind === id && "border-primary bg-primary/5 ring-1 ring-primary",
               )}
             >
@@ -267,7 +267,7 @@ export function FreelancerForm({ userId, initial, defaults }: { userId: string; 
             <button
               type="button"
               onClick={() => avatarInput.current?.click()}
-              className="absolute bottom-0 right-0 grid h-8 w-8 cursor-pointer place-items-center rounded-full border bg-card shadow hover:bg-muted"
+              className="absolute bottom-0 right-0 grid h-8 w-8 cursor-pointer place-items-center rounded-full border-2 border-ink bg-card hover:bg-muted"
               aria-label="Upload photo"
             >
               <Camera className="h-4 w-4" />
@@ -343,7 +343,7 @@ export function FreelancerForm({ userId, initial, defaults }: { userId: string; 
                   onClick={() => toggleSpecialty(s.id)}
                   aria-pressed={on}
                   className={cn(
-                    "cursor-pointer rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+                    "cursor-pointer border-2 border-ink px-3 py-1.5 text-sm font-medium transition-colors",
                     on ? "border-primary bg-primary text-primary-foreground" : "hover:bg-muted",
                   )}
                 >
@@ -368,7 +368,7 @@ export function FreelancerForm({ userId, initial, defaults }: { userId: string; 
 
       <Section title="Services" description={`What can people hire you for? Add up to ${MAX_SERVICES}.`}>
         {services.map((s, i) => (
-          <div key={i} className="space-y-2 rounded-2xl border p-4">
+          <div key={i} className="space-y-2 brutal p-4">
             <div className="flex items-center gap-2">
               <Input
                 value={s.title}
@@ -405,7 +405,7 @@ export function FreelancerForm({ userId, initial, defaults }: { userId: string; 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {gallery.map((g, i) => (
               <div key={g.url} className="space-y-2">
-                <div className="relative overflow-hidden rounded-xl border">
+                <div className="relative overflow-hidden border-2 border-ink">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={g.url} alt={g.caption || `Gallery image ${i + 1}`} className="aspect-video w-full object-cover" />
                   <button
@@ -433,7 +433,7 @@ export function FreelancerForm({ userId, initial, defaults }: { userId: string; 
             type="button"
             onClick={() => galleryInput.current?.click()}
             disabled={uploading === "gallery"}
-            className="flex w-full cursor-pointer flex-col items-center gap-2 rounded-2xl border border-dashed p-8 text-sm text-muted-foreground transition-colors hover:bg-muted/50 disabled:opacity-60"
+            className="flex w-full cursor-pointer flex-col items-center gap-2 border-2 border-dashed border-ink bg-card p-8 text-sm text-muted-foreground transition-colors hover:bg-muted/50 disabled:opacity-60"
           >
             <ImagePlus className="h-6 w-6" />
             {uploading === "gallery" ? "Uploading…" : "Add images (you can select several)"}

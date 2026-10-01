@@ -29,7 +29,7 @@ function useToastOnSuccess(state: FormState) {
   }, [state]);
 }
 
-export function AvatarCard({ profile }: { profile: Tables<"profiles"> }) {
+export function AvatarCard({ profile, avatarSrc }: { profile: Tables<"profiles">; avatarSrc: string | null }) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
@@ -72,10 +72,10 @@ export function AvatarCard({ profile }: { profile: Tables<"profiles"> }) {
     <Card>
       <CardContent className="flex flex-col items-center gap-4 pt-6 text-center">
         <div className="relative">
-          <Avatar user={{ name: profile.full_name, email: profile.email, avatarUrl: profile.avatar_url }} size={96} />
+          <Avatar user={{ name: profile.full_name, email: profile.email, avatarUrl: avatarSrc }} size={96} />
           <button
             onClick={() => inputRef.current?.click()}
-            className="absolute bottom-0 right-0 grid h-8 w-8 place-items-center rounded-full border bg-card shadow hover:bg-muted cursor-pointer"
+            className="absolute bottom-0 right-0 grid h-8 w-8 place-items-center rounded-full border-2 border-ink bg-card hover:bg-muted cursor-pointer"
             aria-label="Upload photo"
             disabled={busy}
           >

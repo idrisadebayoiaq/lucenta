@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useActionState, useState } from "react";
-import { MailCheck } from "lucide-react";
 import { DeviceIdInput } from "@/components/device-id-input";
 import { latestAllowedBirthDate, MIN_AGE } from "@/lib/age";
 import { Button } from "@/components/ui/button";
@@ -15,21 +14,6 @@ export function SignupForm() {
   const [state, action, pending] = useActionState<AuthState, FormData>(signup, {});
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
-
-  if (state.success) {
-    return (
-      <div className="space-y-4 text-center">
-        <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-emerald-500/10 text-emerald-500">
-          <MailCheck className="h-6 w-6" />
-        </div>
-        <h2 className="text-xl font-semibold">Check your email</h2>
-        <p className="text-sm text-muted-foreground">{state.success}</p>
-        <Link href="/login" className="text-sm font-medium text-primary hover:underline">
-          Back to log in
-        </Link>
-      </div>
-    );
-  }
 
   const mismatch = confirm.length > 0 && confirm !== password;
 

@@ -335,7 +335,7 @@ export default function PrivacyPage() {
             Your privacy matters to us. This policy explains what information Lucenta collects when you use our Website Analyzer,
             AI Text Detector and Rewriter, why we collect it, who processes it, and the control you have over it.
           </p>
-          <p className="rounded-2xl border p-4">
+          <p className="brutal p-4">
             <strong>The short version:</strong> we collect only what we need to run Lucenta, we never sell your data, your text
             is only kept if you choose to save history, and we don&apos;t use your content to train AI models.
           </p>

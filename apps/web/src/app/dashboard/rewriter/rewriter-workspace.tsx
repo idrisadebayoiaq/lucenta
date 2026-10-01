@@ -64,7 +64,7 @@ export function RewriterWorkspace({
   return (
     <div className="space-y-6">
       <div className="space-y-3">
-        <div role="tablist" aria-label="Rewriter mode" className="inline-flex rounded-full border p-1">
+        <div role="tablist" aria-label="Rewriter mode" className="inline-flex border-2 border-ink bg-card p-1">
           {MODES.map(({ id, label, icon: Icon }) => {
             const locked = id === "rewrite" && !canRewrite;
             return (
@@ -77,7 +77,7 @@ export function RewriterWorkspace({
                 title={locked ? "Not available on student accounts" : undefined}
                 onClick={() => switchMode(id)}
                 className={cn(
-                  "inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-bold transition-colors",
+                  "inline-flex items-center gap-2 px-4 py-1.5 text-sm font-bold transition-colors",
                   mode === id ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
                   locked ? "cursor-not-allowed opacity-50" : "cursor-pointer",
                 )}
@@ -90,7 +90,7 @@ export function RewriterWorkspace({
         </div>
         <p className="text-sm text-muted-foreground">{current.description}</p>
         {!canRewrite && (
-          <div className="flex items-start gap-3 rounded-2xl border bg-primary/5 px-4 py-3 text-sm">
+          <div className="flex items-start gap-3 border-2 border-l-[6px] border-ink border-l-primary bg-primary/5 px-4 py-3 text-sm">
             <GraduationCap className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
             <p className="text-muted-foreground">
               <span className="font-bold text-foreground">Student account.</span> To support academic integrity, Rewrite mode

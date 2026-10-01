@@ -24,11 +24,11 @@ export default function ToolsPage() {
           </p>
           <nav className="mt-8 flex flex-wrap justify-center gap-2">
             {AVAILABLE_TOOLS.map((t) => (
-              <a key={t.slug} href={`#${t.slug}`} className="rounded-full border px-4 py-2 text-sm font-bold transition-colors hover:bg-muted">
+              <a key={t.slug} href={`#${t.slug}`} className="border-2 border-ink px-4 py-2 text-sm font-bold transition-colors hover:bg-muted">
                 {t.title}
               </a>
             ))}
-            <a href="#coming-soon" className="rounded-full border px-4 py-2 text-sm font-bold text-muted-foreground transition-colors hover:bg-muted">
+            <a href="#coming-soon" className="border-2 border-ink px-4 py-2 text-sm font-bold text-muted-foreground transition-colors hover:bg-muted">
               Coming soon
             </a>
           </nav>
@@ -79,7 +79,7 @@ export default function ToolsPage() {
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {COMING_SOON_TOOLS.map(({ slug, icon: Icon, title, tagline, description, features, status }) => (
-              <div key={slug} id={slug} className="scroll-mt-24 rounded-2xl border p-6">
+              <div key={slug} id={slug} className="scroll-mt-24 brutal p-6">
                 <div className="flex items-center justify-between">
                   <span className="grid h-11 w-11 place-items-center rounded-full bg-muted">
                     <Icon className="h-5 w-5" />
@@ -103,7 +103,7 @@ export default function ToolsPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="grid items-center gap-10 rounded-2xl border p-8 md:grid-cols-2 md:p-12">
+        <div className="grid items-center gap-10 brutal p-8 md:grid-cols-2 md:p-12">
           <div>
             <h2 className="text-3xl font-extrabold tracking-tight">Start free today</h2>
             <p className="mt-3 text-muted-foreground">No credit card. Your limits reset every day at midnight UTC.</p>

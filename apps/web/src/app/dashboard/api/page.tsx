@@ -287,7 +287,7 @@ const result = await res.json(); // { ai_probability, label, sentences, ... }`}
             ))}
           </ol>
 
-          <div className="rounded-xl border bg-muted/30 p-5">
+          <div className="border-2 border-ink bg-muted/40 p-5">
             <p className="font-bold">Limits</p>
             <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-muted-foreground">
               <li>

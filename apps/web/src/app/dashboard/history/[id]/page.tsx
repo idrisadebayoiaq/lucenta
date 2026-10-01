@@ -83,7 +83,7 @@ export default async function TextCheckPage({ params }: PageProps<"/dashboard/hi
                 ) : (
                   <ol className="space-y-3">
                     {suggestions.suggestions.map((s, i) => (
-                      <li key={`${s.start}-${s.category}`} className="space-y-2 rounded-xl border p-3">
+                      <li key={`${s.start}-${s.category}`} className="space-y-2 border-2 border-ink p-3">
                         <div className="flex items-center gap-2">
                           <span className="grid h-6 w-6 place-items-center rounded-full bg-amber-400/25 text-xs font-bold text-amber-700 dark:text-amber-300">
                             {i + 1}

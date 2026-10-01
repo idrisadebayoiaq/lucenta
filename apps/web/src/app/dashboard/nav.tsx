@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { BarChart3, BriefcaseBusiness, Bot, ChevronDown, Code2, Globe, History, Home, LayoutDashboard, LogOut, Menu, Settings, ShieldCheck, User, Users, Wand2, X } from "lucide-react";
+import { BarChart3, BriefcaseBusiness, Bot, ChevronDown, Code2, Globe, History, Home, LayoutDashboard, LogOut, Menu, Settings, ShieldCheck, User, UserCog, Users, Wand2, X } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -28,7 +28,10 @@ const ACCOUNT_NAV = [
 
 export type NavUser = { name: string | null; email: string | null; avatarUrl: string | null };
 
-const ADMIN_LINK = { href: "/dashboard/admin", label: "Admin", icon: ShieldCheck, exact: false };
+const ADMIN_NAV = [
+  { href: "/dashboard/admin", label: "Admin", icon: ShieldCheck, exact: false },
+  { href: "/dashboard/users", label: "Users", icon: UserCog, exact: false },
+];
 
 function NavLinks({ onNavigate, isAdmin }: { onNavigate?: () => void; isAdmin?: boolean }) {
   const pathname = usePathname();
@@ -43,11 +46,13 @@ function NavLinks({ onNavigate, isAdmin }: { onNavigate?: () => void; isAdmin?: 
         onClick={onNavigate}
         aria-current={active ? "page" : undefined}
         className={cn(
-          "flex w-fit items-center gap-4 rounded-full py-2.5 pl-3 pr-5 text-[17px] transition-colors hover:bg-muted",
-          active ? "font-bold text-foreground" : "text-foreground/90",
+          "flex items-center gap-3 border-2 px-3 py-2 text-[15px] transition-[transform,box-shadow,border-color]",
+          active
+            ? "border-ink bg-card font-extrabold text-foreground shadow-brutal-xs"
+            : "border-transparent font-semibold text-foreground/85 hover:border-ink hover:bg-card",
         )}
       >
-        <Icon className="h-6 w-6" strokeWidth={active ? 2.5 : 2} />
+        <Icon className={cn("h-5 w-5", active && "text-primary")} strokeWidth={active ? 2.5 : 2} />
         {label}
       </Link>
     );
@@ -58,20 +63,27 @@ function NavLinks({ onNavigate, isAdmin }: { onNavigate?: () => void; isAdmin?: 
       <Link
         href="/"
         onClick={onNavigate}
-        className="flex w-fit items-center gap-4 rounded-full py-2.5 pl-3 pr-5 text-[17px] text-foreground/90 transition-colors hover:bg-muted"
+        className="flex items-center gap-3 border-2 border-transparent px-3 py-2 text-[15px] font-semibold text-foreground/85 hover:border-ink hover:bg-card"
       >
-        <Home className="h-6 w-6" />
+        <Home className="h-5 w-5" />
         Home
       </Link>
+      <p className="mt-3 px-3 pb-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">Tools</p>
       {NAV.map(renderLink)}
+      <p className="mt-3 px-3 pb-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">Account</p>
       {ACCOUNT_NAV.map(renderLink)}
-      {isAdmin && renderLink(ADMIN_LINK)}
+      {isAdmin && (
+        <>
+          <p className="mt-3 px-3 pb-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-muted-foreground">Admin</p>
+          {ADMIN_NAV.map(renderLink)}
+        </>
+      )}
       <Link
         href="/freelancers"
         onClick={onNavigate}
-        className="flex w-fit items-center gap-4 rounded-full py-2.5 pl-3 pr-5 text-[17px] text-foreground/90 transition-colors hover:bg-muted"
+        className="mt-3 flex items-center gap-3 border-2 border-transparent px-3 py-2 text-[15px] font-semibold text-foreground/85 hover:border-ink hover:bg-card"
       >
-        <Users className="h-6 w-6" />
+        <Users className="h-5 w-5" />
         Hire a freelancer
       </Link>
       <Link href="/dashboard/analyzer" onClick={onNavigate} className={cn(buttonVariants({ size: "lg" }), "mt-4 w-full")}>
@@ -84,11 +96,11 @@ function NavLinks({ onNavigate, isAdmin }: { onNavigate?: () => void; isAdmin?: 
 export function Avatar({ user, size = 32 }: { user: Pick<NavUser, "name" | "email" | "avatarUrl">; size?: number }) {
   if (user.avatarUrl) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={user.avatarUrl} alt="" width={size} height={size} className="rounded-full object-cover" style={{ width: size, height: size }} />;
+    return <img src={user.avatarUrl} alt="" width={size} height={size} className="shrink-0 rounded-full border-2 border-ink object-cover" style={{ width: size, height: size }} />;
   }
   return (
     <span
-      className="grid shrink-0 place-items-center rounded-full bg-primary font-semibold text-primary-foreground"
+      className="grid shrink-0 place-items-center rounded-full border-2 border-ink bg-primary font-extrabold text-primary-foreground"
       style={{ width: size, height: size, fontSize: size * 0.38 }}
     >
       {initials(user.name, user.email)}
@@ -98,11 +110,11 @@ export function Avatar({ user, size = 32 }: { user: Pick<NavUser, "name" | "emai
 
 export function Sidebar({ isAdmin }: { isAdmin?: boolean }) {
   return (
-    <aside className="sticky top-0 hidden h-screen w-72 shrink-0 flex-col overflow-y-auto border-r px-4 py-3 lg:flex">
-      <Logo href="/dashboard" className="mb-6 px-3 py-2" />
+    <aside className="sticky top-0 hidden h-screen w-72 shrink-0 flex-col overflow-y-auto border-r-2 border-ink bg-background px-4 py-3 lg:flex">
+      <Logo href="/dashboard" className="mb-4 px-3 py-2" />
       <NavLinks isAdmin={isAdmin} />
-      <div className="rounded-2xl border p-4">
-        <p className="font-bold">Need an expert?</p>
+      <div className="brutal mt-6 p-4">
+        <p className="font-black">Need an expert?</p>
         <p className="mt-1 text-sm text-muted-foreground">Hire a developer to fix your site, or a writer to polish your content.</p>
         <Link href="/freelancers" className={cn(buttonVariants({ size: "sm", variant: "contrast" }), "mt-3")}>
           Browse freelancers
@@ -127,7 +139,7 @@ export function Topbar({ user, isAdmin }: { user: NavUser; isAdmin?: boolean }) 
 
   return (
     <>
-      <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background/80 px-4 backdrop-blur-md lg:px-8">
+      <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b-2 border-ink bg-card px-4 lg:px-8">
         <div className="flex items-center gap-2 lg:hidden">
           <Button variant="ghost" size="icon" onClick={() => setMobileOpen(true)} aria-label="Open menu">
             <Menu className="h-5 w-5" />
@@ -140,7 +152,7 @@ export function Topbar({ user, isAdmin }: { user: NavUser; isAdmin?: boolean }) 
           <div className="relative" ref={menuRef}>
             <button
               onClick={() => setMenuOpen((o) => !o)}
-              className="flex cursor-pointer items-center gap-2 rounded-full p-1 pr-2 hover:bg-muted"
+              className="flex cursor-pointer items-center gap-2 border-2 border-transparent p-1 pr-2 hover:border-ink"
               aria-haspopup="menu"
               aria-expanded={menuOpen}
             >
@@ -149,7 +161,7 @@ export function Topbar({ user, isAdmin }: { user: NavUser; isAdmin?: boolean }) 
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </button>
             {menuOpen && (
-              <div role="menu" className="absolute right-0 mt-2 w-60 rounded-2xl border bg-background py-2 shadow-[0_0_15px_rgba(255,255,255,0.15)]">
+              <div role="menu" className="brutal absolute right-0 mt-2 w-60 py-2">
                 <div className="px-4 py-2">
                   <p className="truncate text-sm font-bold">{user.name || "Your account"}</p>
                   <p className="truncate text-sm text-muted-foreground">{user.email}</p>
@@ -182,8 +194,8 @@ export function Topbar({ user, isAdmin }: { user: NavUser; isAdmin?: boolean }) 
 
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-[#5b7083]/40" onClick={() => setMobileOpen(false)} />
-          <div className="absolute inset-y-0 left-0 flex w-72 flex-col overflow-y-auto bg-background p-4 shadow-xl">
+          <div className="absolute inset-0 bg-[#0b0b0f]/50" onClick={() => setMobileOpen(false)} />
+          <div className="absolute inset-y-0 left-0 flex w-72 flex-col overflow-y-auto border-r-2 border-ink bg-background p-4">
             <div className="mb-6 flex items-center justify-between">
               <Logo href="/dashboard" />
               <Button variant="ghost" size="icon" onClick={() => setMobileOpen(false)} aria-label="Close menu">

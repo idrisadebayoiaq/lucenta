@@ -5,26 +5,29 @@ import { cn } from "@/lib/utils";
 export type Variant = "default" | "contrast" | "outline" | "ghost" | "secondary" | "destructive" | "link";
 type Size = "sm" | "md" | "lg" | "icon";
 
+const raised =
+  "border-2 border-ink shadow-brutal-sm hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brutal active:translate-x-0.5 active:translate-y-0.5 active:shadow-none";
+
 const variants: Record<Variant, string> = {
-  default: "bg-primary text-primary-foreground hover:bg-[#1a8cd8]",
-  contrast: "bg-foreground text-background hover:opacity-90",
-  outline: "border border-[#cfd9de] dark:border-[#536471] bg-transparent hover:bg-muted",
-  ghost: "hover:bg-muted",
-  secondary: "bg-muted hover:bg-accent",
-  destructive: "bg-[#f4212e] text-white hover:bg-[#dc1e29]",
+  default: cn(raised, "bg-primary text-primary-foreground"),
+  contrast: cn(raised, "bg-ink text-background shadow-brutal-primary hover:shadow-[6px_6px_0_0_var(--primary)]"),
+  outline: cn(raised, "bg-card text-foreground"),
+  ghost: "border-2 border-transparent hover:border-ink hover:bg-card",
+  secondary: "border-2 border-ink bg-muted hover:bg-accent",
+  destructive: cn(raised, "bg-[#e5383b] text-white"),
   link: "text-primary underline-offset-4 hover:underline px-0",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-8 px-4 text-sm",
-  md: "h-10 px-5 text-[15px]",
-  lg: "h-12 px-7 text-[17px]",
+  sm: "h-9 px-4 text-sm",
+  md: "h-11 px-5 text-[15px]",
+  lg: "h-13 px-7 text-base",
   icon: "h-9 w-9",
 };
 
 export function buttonVariants({ variant = "default", size = "md", className }: { variant?: Variant; size?: Size; className?: string } = {}) {
   return cn(
-    "inline-flex items-center justify-center gap-2 rounded-full font-bold transition-colors cursor-pointer",
+    "inline-flex items-center justify-center gap-2 font-extrabold transition-[transform,box-shadow,background-color,border-color] duration-150 cursor-pointer",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     "disabled:pointer-events-none disabled:opacity-50",
     variants[variant],

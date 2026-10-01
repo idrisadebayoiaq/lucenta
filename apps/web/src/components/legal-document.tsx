@@ -81,7 +81,7 @@ export function LegalDocument({
             ))}
           </div>
 
-          <div className="mt-12 rounded-2xl border p-5 text-sm text-muted-foreground">
+          <div className="mt-12 brutal p-5 text-sm text-muted-foreground">
             Questions about this page? Email us at{" "}
             <a href={`mailto:${LEGAL_CONTACT}`} className="font-bold text-primary hover:underline">
               {LEGAL_CONTACT}

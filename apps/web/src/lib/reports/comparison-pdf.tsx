@@ -118,10 +118,9 @@ function ComparisonDocument({ data, brand, onlineUrl }: { data: ComparisonData; 
                     style={{
                       flex: 1,
                       alignItems: "center",
-                      borderWidth: 1,
-                      borderColor: i === 0 ? C.primary : C.border,
+                      borderWidth: 1.5,
+                      borderColor: i === 0 ? C.primary : C.ink,
                       backgroundColor: i === 0 ? C.primarySoft : "#ffffff",
-                      borderRadius: 10,
                       paddingVertical: 10,
                       paddingHorizontal: 6,
                     }}
@@ -155,7 +154,7 @@ function ComparisonDocument({ data, brand, onlineUrl }: { data: ComparisonData; 
 
             <Section title="Side by side" subtitle="The best result in each row is highlighted in green." keepTogether>
               <View style={[s.card, { padding: 0 }]}>
-                <View style={[s.row, { backgroundColor: C.soft, borderTopLeftRadius: 10, borderTopRightRadius: 10, paddingVertical: 7, paddingHorizontal: 10 }]}>
+                <View style={[s.row, { backgroundColor: C.soft, borderBottomWidth: 1.5, borderColor: C.ink, paddingVertical: 7, paddingHorizontal: 10 }]}>
                   <Text style={{ width: labelWidth }} />
                   <View style={[s.row, { flex: 1 }]}>
                     {available.map((site, i) => (
@@ -179,7 +178,6 @@ function ComparisonDocument({ data, brand, onlineUrl }: { data: ComparisonData; 
                             style={{
                               paddingHorizontal: 6,
                               paddingVertical: 1.5,
-                              borderRadius: 8,
                               ...(row.best === i ? { backgroundColor: "#d1fae5" } : {}),
                               color: row.best === i ? "#047857" : C.body,
                               fontFamily: row.best === i || row.strong ? "Helvetica-Bold" : "Helvetica",

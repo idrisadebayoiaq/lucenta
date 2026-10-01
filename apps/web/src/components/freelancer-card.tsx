@@ -178,7 +178,7 @@ export function HireDeveloperCard({ matches, siteUrl, issueCount }: { matches: F
           </div>
         </div>
         {matches.length > 0 && (
-          <div className="divide-y rounded-2xl border">
+          <div className="divide-y-2 divide-ink border-2 border-ink bg-card">
             {matches.map(({ freelancer, reasons }) => (
               <div key={freelancer.id} className="space-y-3 p-4">
                 <div className="flex items-start gap-3">

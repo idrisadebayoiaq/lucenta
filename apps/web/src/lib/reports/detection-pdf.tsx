@@ -119,7 +119,7 @@ function DetectionDocument({ input, brand }: { input: DetectionPdfInput; brand: 
             ))}
             <View style={[s.row, { gap: 6, marginTop: 10 }]}>
               {signals.map(([k, v]) => (
-                <View key={k} style={{ flex: 1, borderWidth: 0.75, borderColor: C.border, borderRadius: 8, padding: 7 }}>
+                <View key={k} style={{ flex: 1, borderWidth: 1.5, borderColor: C.ink, padding: 7 }}>
                   <Text style={s.small}>{k}</Text>
                   <Text style={[s.bold, { color: C.ink, fontSize: 11, marginTop: 1 }]}>{v}</Text>
                 </View>

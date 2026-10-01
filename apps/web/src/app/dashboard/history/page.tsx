@@ -85,7 +85,7 @@ export default async function HistoryPage({ searchParams }: PageProps<"/dashboar
               <Link
                 key={f.id}
                 href={`/dashboard/history?tab=texts${f.id === "all" ? "" : `&filter=${f.id}`}`}
-                className={cn("rounded-full border px-3 py-1", filter === f.id ? "border-primary text-primary" : "text-muted-foreground hover:text-foreground")}
+                className={cn("border-2 border-ink px-3 py-1", filter === f.id ? "border-primary text-primary" : "text-muted-foreground hover:text-foreground")}
               >
                 {f.label}
               </Link>

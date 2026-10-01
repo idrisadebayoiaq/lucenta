@@ -25,7 +25,7 @@ export function DocumentPreview({
   const needed = ranges.length;
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-3 rounded-xl border bg-muted/40 p-3">
+      <div className="flex items-center gap-3 border-2 border-ink bg-muted/40 p-3">
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
           <FileText className="h-5 w-5" />
         </span>
@@ -40,7 +40,7 @@ export function DocumentPreview({
         </button>
       </div>
 
-      <div className="max-h-80 min-h-60 space-y-4 overflow-y-auto rounded-xl border bg-card p-3">
+      <div className="max-h-80 min-h-60 space-y-4 overflow-y-auto border-2 border-ink bg-card p-3">
         {ranges.map((r, i) => (
           <div key={r.start} className={cn(i >= left && "opacity-50")}>
             <p className="mb-1 text-xs font-semibold text-muted-foreground">
@@ -78,7 +78,7 @@ export function DocumentPartsCard({ document, onSelect }: { document: DocumentIn
           type="button"
           onClick={() => onSelect?.(i)}
           disabled={!onSelect}
-          className={cn("w-full space-y-1.5 rounded-xl border p-3 text-left transition-colors", onSelect && "cursor-pointer hover:bg-muted/50")}
+          className={cn("w-full space-y-1.5 border-2 border-ink p-3 text-left transition-colors", onSelect && "cursor-pointer hover:bg-muted/50")}
         >
           <div className="flex items-center justify-between gap-2 text-sm">
             <span className="font-semibold">Part {i + 1}</span>

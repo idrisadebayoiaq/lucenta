@@ -14,15 +14,19 @@ export const MARKETING_NAV = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-t-[6px] border-b-2 border-t-primary border-b-ink bg-card">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4">
         <div className="flex items-center gap-1">
           <MobileNav items={MARKETING_NAV} />
           <Logo />
         </div>
-        <nav className="hidden items-center gap-1 text-[15px] font-medium md:flex">
+        <nav className="hidden items-center gap-1 text-[15px] font-bold md:flex">
           {MARKETING_NAV.map((item) => (
-            <Link key={item.href} href={item.href} className="rounded-full px-3 py-2 transition-colors hover:bg-muted">
+            <Link
+              key={item.href}
+              href={item.href}
+              className="border-b-[3px] border-transparent px-3 py-1.5 transition-colors hover:border-primary hover:text-primary"
+            >
               {item.label}
             </Link>
           ))}

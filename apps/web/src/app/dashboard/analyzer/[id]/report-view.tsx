@@ -25,7 +25,7 @@ function vitalsRating(metric: "lcp" | "cls" | "inp" | "fcp" | "tbt" | "ttfb", va
 function RecommendationCard({ rec, defaultOpen }: { rec: Recommendation; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen ?? false);
   return (
-    <div className="rounded-2xl border">
+    <div className="brutal">
       <button onClick={() => setOpen((o) => !o)} className="flex w-full cursor-pointer items-start justify-between gap-3 rounded-2xl p-4 text-left hover:bg-muted/50">
         <div className="space-y-1.5">
           <p className="font-bold">{rec.title}</p>

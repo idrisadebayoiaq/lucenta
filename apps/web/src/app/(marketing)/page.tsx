@@ -147,13 +147,14 @@ export default async function HomePage() {
   return (
     <>
       <section className="relative overflow-hidden">
-        <div className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
+        <div className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,black_35%,transparent_80%)]" />
         <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-16 text-center md:pt-28">
-          <Badge className="mb-6">
-            <Sparkles className="h-3 w-3" /> 100% free · AI website audits + writing tools
-          </Badge>
-          <h1 className="mx-auto max-w-3xl text-4xl font-extrabold tracking-tight md:text-6xl">
-            See what your website is missing. <span className="text-gradient">Make your writing clearer.</span>
+          <span className="chip mb-8 shadow-brutal-xs">
+            <Sparkles className="h-3 w-3 text-primary" /> 100% free · AI website audits + writing tools
+          </span>
+          <h1 className="mx-auto max-w-4xl text-4xl font-black uppercase leading-[1.05] tracking-tight md:text-6xl">
+            See what your website is missing.{" "}
+            <span className="box-decoration-clone bg-primary px-2 leading-[1.25] text-white">Make your writing clearer.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
             Lucenta audits your site&apos;s speed, SEO, security and accessibility with AI, checks text for signs of AI writing,
@@ -179,9 +180,9 @@ export default async function HomePage() {
 
           <div className="mx-auto mt-16 grid max-w-4xl grid-cols-3 gap-4 sm:grid-cols-6">
             {CHECKS.map(({ icon: Icon, label }, i) => (
-              <div key={label} className="flex flex-col items-center gap-2 rounded-2xl border bg-card p-4">
+              <div key={label} className="brutal brutal-hover flex flex-col items-center gap-2 p-4">
                 <ScoreRing score={[62, 88, 94, 71, 97, 83][i]} size={56} stroke={5} />
-                <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                <span className="flex items-center gap-1 text-xs font-bold">
                   <Icon className="h-3 w-3" /> {label}
                 </span>
               </div>
@@ -192,20 +193,20 @@ export default async function HomePage() {
 
       <section id="features" className="mx-auto max-w-6xl px-4 py-20">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-extrabold tracking-tight">Every tool, one dashboard</h2>
-          <p className="mt-3 text-muted-foreground">
+          <h2 className="title-bar text-3xl font-black uppercase tracking-tight">Every tool, one dashboard</h2>
+          <p className="mt-5 text-muted-foreground">
             Check your website, compare it with competitors, share reports and improve your writing, or build it all into your own app.
           </p>
         </div>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {TOOLS.map(({ icon: Icon, title, description, points, href }) => (
-            <Card key={title} className="group flex flex-col transition-colors hover:bg-muted/50">
+            <Card key={title} className="brutal-hover group flex flex-col">
               <CardContent className="flex flex-1 flex-col gap-4 pt-6">
-                <div className="grid h-11 w-11 place-items-center rounded-full bg-primary/10 text-primary">
+                <div className="grid h-11 w-11 place-items-center border-2 border-ink bg-primary text-white shadow-brutal-xs">
                   <Icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold">{title}</h3>
+                  <h3 className="text-lg font-black">{title}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{description}</p>
                 </div>
                 <ul className="space-y-2 text-sm">
@@ -224,25 +225,23 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="coming-soon" className="border-t">
+      <section id="coming-soon" className="border-t-2 border-ink bg-card">
         <div className="mx-auto max-w-6xl px-4 py-20">
           <div className="mx-auto max-w-2xl text-center">
-            <Badge tone="outline" className="mb-4">
-              On the roadmap
-            </Badge>
-            <h2 className="text-3xl font-extrabold tracking-tight">Coming soon</h2>
-            <p className="mt-3 text-muted-foreground">We&apos;re building more tools to help you grow online. Sign up free to get them first.</p>
+            <span className="chip mb-5">On the roadmap</span>
+            <h2 className="title-bar text-3xl font-black uppercase tracking-tight">Coming soon</h2>
+            <p className="mt-5 text-muted-foreground">We&apos;re building more tools to help you grow online. Sign up free to get them first.</p>
           </div>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {COMING_SOON_TOOLS.slice(0, 4).map(({ slug, icon: Icon, title, tagline, status }) => (
-              <Link key={slug} href={`/tools#${slug}`} className="rounded-2xl border p-5 transition-colors hover:bg-muted/50">
+              <Link key={slug} href={`/tools#${slug}`} className="brutal brutal-hover p-5">
                 <div className="mb-3 flex items-center justify-between">
-                  <span className="grid h-10 w-10 place-items-center rounded-full bg-muted text-foreground">
+                  <span className="grid h-10 w-10 place-items-center border-2 border-ink bg-muted text-foreground">
                     <Icon className="h-5 w-5" />
                   </span>
                   {status === "in-development" ? <Badge>In development</Badge> : <Badge tone="outline">Soon</Badge>}
                 </div>
-                <p className="font-bold">{title}</p>
+                <p className="font-black">{title}</p>
                 <p className="mt-1 text-sm text-muted-foreground">{tagline}</p>
               </Link>
             ))}
@@ -255,16 +254,16 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="how-it-works" className="border-y">
+      <section id="how-it-works" className="border-y-2 border-ink">
         <div className="mx-auto max-w-6xl px-4 py-20">
-          <h2 className="text-center text-3xl font-extrabold tracking-tight">How it works</h2>
+          <h2 className="title-bar text-center text-3xl font-black uppercase tracking-tight">How it works</h2>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {STEPS.map((step, i) => (
-              <div key={step.title} className="rounded-2xl border p-6">
-                <div className="mb-4 grid h-9 w-9 place-items-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+              <div key={step.title} className="brutal p-6">
+                <div className="mb-4 grid h-11 w-11 place-items-center border-2 border-ink bg-primary font-mono text-lg font-bold text-primary-foreground">
                   {i + 1}
                 </div>
-                <h3 className="font-bold">{step.title}</h3>
+                <h3 className="font-black">{step.title}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{step.body}</p>
               </div>
             ))}
@@ -275,8 +274,8 @@ export default async function HomePage() {
       <section id="free" className="mx-auto max-w-6xl px-4 py-20">
         <div className="grid items-center gap-10 md:grid-cols-2">
           <div>
-            <h2 className="text-3xl font-extrabold tracking-tight">Free for everyone</h2>
-            <p className="mt-3 text-muted-foreground">
+            <h2 className="title-bar text-3xl font-black uppercase tracking-tight">Free for everyone</h2>
+            <p className="mt-5 text-muted-foreground">
               No plans, no credit card. Create an account and start auditing and writing today. Your limits reset every day.
             </p>
             <AuthCta className="mt-8" signedInLabel="Open your dashboard" />
@@ -295,11 +294,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="freelancers" className="border-y">
+      <section id="freelancers" className="border-y-2 border-ink bg-card">
         <div className="mx-auto max-w-6xl px-4 py-20">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-extrabold tracking-tight">Need a hand? Hire a developer or writer</h2>
-            <p className="mt-3 text-muted-foreground">
+            <h2 className="title-bar text-3xl font-black uppercase tracking-tight">Need a hand? Hire a developer or writer</h2>
+            <p className="mt-5 text-muted-foreground">
               Website reports suggest developers who match the issues found, and the writing tools suggest writers who match what
               you&apos;re working on, from SEO articles to books and scripts.
             </p>
@@ -324,13 +323,15 @@ export default async function HomePage() {
 
       <section id="faq">
         <div className="mx-auto max-w-3xl px-4 py-20">
-          <h2 className="text-center text-3xl font-extrabold tracking-tight">Frequently asked questions</h2>
-          <div className="mt-10 divide-y rounded-2xl border">
+          <h2 className="title-bar text-center text-3xl font-black uppercase tracking-tight">Frequently asked questions</h2>
+          <div className="brutal mt-10 divide-y-2 divide-ink">
             {FAQ.map((item) => (
               <details key={item.q} className="group p-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between font-bold">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-extrabold">
                   {item.q}
-                  <span className="text-xl text-muted-foreground transition-transform group-open:rotate-45">+</span>
+                  <span className="grid h-7 w-7 shrink-0 place-items-center border-2 border-ink text-lg leading-none transition-transform group-open:rotate-45 group-open:bg-primary group-open:text-white">
+                    +
+                  </span>
                 </summary>
                 <p className="mt-3 text-[15px] text-muted-foreground">{item.a}</p>
               </details>
@@ -347,10 +348,10 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-20">
-        <div className="rounded-2xl bg-primary p-10 text-center text-primary-foreground md:p-16">
-          <h2 className="text-3xl font-extrabold">Ready to see your score?</h2>
+        <div className="border-2 border-ink bg-primary p-10 text-center text-primary-foreground shadow-brutal md:p-16">
+          <h2 className="text-3xl font-black uppercase tracking-tight md:text-4xl">Ready to see your score?</h2>
           <p className="mx-auto mt-3 max-w-xl opacity-90">Create a free account and run your first AI website audit in under a minute.</p>
-          <AuthCta className="mt-8 bg-white !text-[#0f1419] hover:bg-white/90" />
+          <AuthCta className="mt-8 bg-white !text-[#0b0b0f]" />
         </div>
       </section>
     </>

@@ -5,6 +5,7 @@ import { Activity, Bot, Eye, Gauge, Globe, UserPlus, Users } from "lucide-react"
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/misc";
+import { isStaff } from "@/lib/roles";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentProfile } from "@/lib/supabase/server";
 import { cn } from "@/lib/utils";
@@ -71,7 +72,7 @@ function change(current: number, previous: number) {
 
 function Stat({ icon: Icon, label, value, hint }: { icon: typeof Users; label: string; value: string; hint?: string }) {
   return (
-    <div className="rounded-2xl border bg-card p-5">
+    <div className="brutal p-5">
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Icon className="h-4 w-4" /> {label}
       </div>
@@ -135,7 +136,7 @@ function BarList({ rows, empty }: { rows: { label: string; value: number; sub?: 
 function VitalCard({ vital, data }: { vital: (typeof VITALS)[number]; data?: Overview["vitals"][number] }) {
   if (!data) {
     return (
-      <div className="rounded-2xl border bg-card p-5">
+      <div className="brutal p-5">
         <p className="text-sm font-bold">{vital.name}</p>
         <p className="text-xs text-muted-foreground">{vital.label}</p>
         <p className="mt-3 text-2xl font-bold text-muted-foreground">-</p>
@@ -147,7 +148,7 @@ function VitalCard({ vital, data }: { vital: (typeof VITALS)[number]; data?: Ove
   const tone = { good: "text-emerald-500", ok: "text-amber-500", poor: "text-rose-500" }[status];
   const pct = (n: number) => `${(n / data.samples) * 100}%`;
   return (
-    <div className="rounded-2xl border bg-card p-5">
+    <div className="brutal p-5">
       <p className="text-sm font-bold">{vital.name}</p>
       <p className="text-xs text-muted-foreground">{vital.label}</p>
       <p className={cn("mt-3 text-2xl font-bold", tone)}>{fmtVital(data.p75, vital.unit)}</p>
@@ -166,7 +167,7 @@ function VitalCard({ vital, data }: { vital: (typeof VITALS)[number]; data?: Ove
 
 export default async function AdminPage({ searchParams }: PageProps<"/dashboard/admin">) {
   const profile = await getCurrentProfile();
-  if (!profile?.is_admin) notFound();
+  if (!isStaff(profile?.role)) notFound();
 
   const params = await searchParams;
   const days = RANGES.find((r) => String(r) === params.days) ?? 30;
@@ -188,12 +189,12 @@ export default async function AdminPage({ searchParams }: PageProps<"/dashboard/
         title="Admin"
         description="Visitors, performance and activity across Lucenta. Times are in UTC."
         actions={
-          <div className="flex rounded-full border p-1">
+          <div className="flex border-2 border-ink bg-card p-1">
             {RANGES.map((r) => (
               <Link
                 key={r}
                 href={`/dashboard/admin?days=${r}`}
-                className={cn("rounded-full px-4 py-1.5 text-sm font-medium", r === days ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted")}
+                className={cn("px-4 py-1.5 text-sm font-medium", r === days ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted")}
               >
                 {r} days
               </Link>

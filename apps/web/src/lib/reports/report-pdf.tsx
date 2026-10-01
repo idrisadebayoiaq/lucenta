@@ -132,7 +132,7 @@ function ReportDocument({ report, brand, createdAt, onlineUrl }: { report: Repor
           {report.recommendations.map((rec, i) => (
             <View key={rec.id} wrap={false} style={[s.card, { marginBottom: 7, borderLeftWidth: 3, borderLeftColor: IMPACT_COLOR[rec.impact] }]}>
               <View style={[s.row, { gap: 8, alignItems: "flex-start" }]}>
-                <View style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: C.track, alignItems: "center", justifyContent: "center" }}>
+                <View style={{ width: 18, height: 18, borderWidth: 1.5, borderColor: C.ink, backgroundColor: C.primarySoft, alignItems: "center", justifyContent: "center" }}>
                   <Text style={{ fontSize: 8, fontFamily: "Helvetica-Bold", color: C.ink, lineHeight: 1 }}>{i + 1}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
@@ -212,7 +212,7 @@ function ReportDocument({ report, brand, createdAt, onlineUrl }: { report: Repor
               const fails = cat.checks.filter((ch) => ch.status === "fail").length;
               return (
                 <View key={c} style={{ marginBottom: 14 }}>
-                  <View minPresenceAhead={50} style={{ backgroundColor: C.soft, borderRadius: 8, padding: 8, marginBottom: 2 }}>
+                  <View minPresenceAhead={50} style={{ backgroundColor: C.soft, borderLeftWidth: 3, borderLeftColor: C.primary, padding: 8, marginBottom: 2 }}>
                     <View style={[s.row, { justifyContent: "space-between", alignItems: "center", marginBottom: 5 }]}>
                       <View style={[s.row, { gap: 6, alignItems: "center" }]}>
                         <Text style={[s.bold, { fontSize: 10.5, color: C.ink }]}>{CATEGORY_LABELS[c]}</Text>

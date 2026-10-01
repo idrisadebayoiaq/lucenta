@@ -2,6 +2,7 @@ import "server-only";
 import { createHmac, randomUUID } from "node:crypto";
 import disposableDomains from "disposable-email-domains";
 import { cookies, headers } from "next/headers";
+import { EMAIL_PROVIDER_MESSAGE, isAllowedEmailDomain } from "@/lib/email-domains";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export const DEVICE_COOKIE = "lc_did";
@@ -116,11 +117,15 @@ export async function checkSignupAllowed(ctx: DeviceContext, ignoreUserId?: stri
   return { allowed: true };
 }
 
-/** Rejects disposable inboxes and addresses that are variations (dots, +tags) of an existing account's email. */
+/**
+ * Accepts well-known email providers only, and rejects disposable inboxes and addresses that are
+ * variations (dots, +tags) of an existing account's email.
+ */
 export async function checkEmailAllowed(
   email: string,
   excludeUserId?: string,
 ): Promise<{ allowed: true } | { allowed: false; message: string }> {
+  if (!isAllowedEmailDomain(email)) return { allowed: false, message: EMAIL_PROVIDER_MESSAGE };
   const domain = email.split("@")[1]?.toLowerCase() ?? "";
   disposableSet ??= new Set(disposableDomains);
   if (disposableSet.has(domain)) {
