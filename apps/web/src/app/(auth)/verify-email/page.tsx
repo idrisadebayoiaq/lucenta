@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { MailCheck } from "lucide-react";
+import { Alert } from "@/components/ui/misc";
 import { VerifyForm } from "./verify-form";
 
 export const metadata: Metadata = { title: "Verify your email" };
@@ -21,6 +22,13 @@ export default async function VerifyEmailPage({ searchParams }: PageProps<"/veri
         {params.resent ? "Your email isn't confirmed yet, so we sent a new code to " : "We sent a verification code to "}
         <span className="font-semibold text-foreground">{email}</span>. Enter it below to activate your account.
       </p>
+      <div className="mt-5">
+        <Alert tone="warning" title="Can't find the email?">
+          It can take a minute to arrive. Check your <strong className="text-foreground">Spam</strong> or{" "}
+          <strong className="text-foreground">Promotions</strong> folder for an email from Lucenta. If it&apos;s there, mark it as
+          &ldquo;Not spam&rdquo; so future emails reach your inbox.
+        </Alert>
+      </div>
       <div className="mt-6">
         <VerifyForm email={email} />
       </div>

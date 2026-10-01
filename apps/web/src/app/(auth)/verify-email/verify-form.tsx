@@ -40,9 +40,9 @@ export function VerifyForm({ email }: { email: string }) {
         {resendState.error && <Alert tone="danger" title={resendState.error} />}
         {resendState.success && <Alert tone="success" title={resendState.success} />}
         <p className="text-sm text-muted-foreground">
-          Didn&apos;t get it? Check your spam folder, or{" "}
+          Not in your inbox or spam?{" "}
           <button type="submit" disabled={resending} className="cursor-pointer font-medium text-primary hover:underline disabled:opacity-60">
-            {resending ? "sending…" : "send a new code"}
+            {resending ? "Sending…" : "Send a new code"}
           </button>
           .
         </p>
