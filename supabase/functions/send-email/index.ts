@@ -96,7 +96,7 @@ function layout({ preheader, label, heading, body, button, code, codeNote, footn
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>${escape(heading)}</title></head>
 <body style="margin:0;padding:0;background:#eef0f4;font-family:${FONT};color:${INK};-webkit-font-smoothing:antialiased">
-  <div style="display:none;max-height:0;overflow:hidden;opacity:0;mso-hide:all">${escape(preheader)}&#8203;&nbsp;&#8203;&nbsp;&#8203;&nbsp;</div>
+  <div style="display:none;max-height:0;overflow:hidden;mso-hide:all">${escape(preheader)}</div>
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#eef0f4">
     <tr><td align="center" style="padding:32px 14px">
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:560px">
@@ -117,7 +117,7 @@ function layout({ preheader, label, heading, body, button, code, codeNote, footn
             </td></tr>
             <tr><td style="padding:18px 30px;background:${INK};font-size:12px;line-height:1.6;color:#b9bdc9">
               ${escape(footnote)}
-              <div style="margin-top:8px;color:#ffffff;font-weight:700">Lucenta <span style="color:${BLUE}">&middot;</span> <span style="font-weight:500;color:#b9bdc9">free AI website audits, AI detection &amp; writing tools</span></div>
+              <div style="margin-top:8px;color:#ffffff;font-weight:700">Lucenta <span style="color:${BLUE}">&middot;</span> <span style="font-weight:500;color:#b9bdc9">website audits and writing tools</span></div>
             </td></tr>
           </table>
         </td></tr>
@@ -141,7 +141,7 @@ function compose(to: string, subject: string, c: Content): Mail {
     c.code ? `\nYour code: ${c.code}` : "",
     c.button ? `\n${c.button.label}: ${c.button.url}` : "",
     `\n${c.footnote}`,
-    "\nLucenta · free AI website audits, AI detection & writing tools",
+    "\nLucenta · website audits and writing tools",
   ].join("\n");
   return { to, subject, html: layout(c), text };
 }
@@ -155,10 +155,10 @@ function buildEmails({ user, email_data: d }: HookPayload): Mail[] {
   switch (d.email_action_type) {
     case "signup":
       return [compose(user.email, `${d.token} is your Lucenta verification code`, {
-        preheader: `Your code is ${d.token}. Enter it to activate your free Lucenta account.`,
+        preheader: `Your code is ${d.token}. Enter it to finish creating your Lucenta account.`,
         label: "VERIFY EMAIL",
         heading: "Confirm your email",
-        body: hi + p("Welcome to Lucenta! Enter this code on the verification page to activate your free account:"),
+        body: hi + p("Thanks for signing up. Enter this code on the verification page to finish creating your account:"),
         code: d.token,
         codeNote: "The code expires in 1 hour and can only be used once.",
         button: { label: "Confirm with a link instead", url: verifyUrl(d.token_hash, "signup", redirect) },
@@ -185,10 +185,10 @@ function buildEmails({ user, email_data: d }: HookPayload): Mail[] {
       })];
     case "invite":
       return [compose(user.email, "You're invited to Lucenta", {
-        preheader: "Accept your invite and create your free Lucenta account.",
+        preheader: "Accept your invite to create your Lucenta account.",
         label: "INVITE",
         heading: "You're invited",
-        body: hi + p("You've been invited to create a free Lucenta account: website audits, AI detection and writing tools in one place."),
+        body: hi + p("You've been invited to create a Lucenta account for website audits and writing tools."),
         button: { label: "Accept invite", url: verifyUrl(d.token_hash, "invite", redirect) },
         footnote: ignore,
       })];
@@ -263,7 +263,12 @@ Deno.serve(async (req) => {
 
   try {
     for (const mail of buildEmails(data)) {
-      await transport.sendMail({ from: `"Lucenta" <${GMAIL_USER}>`, ...mail });
+      await transport.sendMail({
+        from: { name: "Lucenta", address: GMAIL_USER },
+        replyTo: GMAIL_USER,
+        headers: { "Auto-Submitted": "auto-generated", "X-Auto-Response-Suppress": "All", "X-Entity-Ref-ID": crypto.randomUUID() },
+        ...mail,
+      });
     }
   } catch (error) {
     console.error("send-email failed", error);

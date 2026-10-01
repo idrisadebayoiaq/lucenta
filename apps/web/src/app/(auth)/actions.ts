@@ -88,7 +88,10 @@ export async function signup(_: AuthState, formData: FormData): Promise<AuthStat
     },
   });
 
-  if (error) return { error: error.message, values };
+  if (error) {
+    const busy = error.code === "over_email_send_rate_limit" || error.status === 429;
+    return { error: busy ? "We're sending a lot of emails right now. Please try again in a few minutes." : error.message, values };
+  }
 
   // An existing email comes back as a user with no identities; only record genuinely new accounts.
   if (data.user && (data.user.identities?.length ?? 0) > 0) {
